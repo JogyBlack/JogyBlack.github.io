@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0 Add-ons</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0 Add-ons</H2>
+<BR><BR><BR>
+<P align=left>Borland C++ 5.x has an Add-On interface which allows enhancing the IDE with 
+new functionalities. An example about this interface can be found in 
+\BC5\EXAMPLES\IDE\ADDON\TESTBED.</P>
+
+<TABLE BORDER="1" CELLSPACING="2" CELLPADDING="2" FRAME="box" RULES="all">
+<TR>
+    <TD><B>Name</B></TD>
+    <TD><B>Download</B></TD>
+    <TD><B>Source</B></TD>
+    <TD><B>Description</B></TD>
+</TR>
+<TR>
+    <TD><B>JIdeTool</B></TD>
+    <TD><A HREF="download/JIdeTool.zip">JIdeTool.zip</A></TD>
+    <TD><A HREF="download/JIdeSrc.zip">JIdeSrc.zip</A></TD>
+    <TD>I have written an Add-On for rebuilding Borland C++ projects and 
+	    several other useful tasks. For more information read 
+		<A HREF="download/JIdeTool.txt">JIdeTool.txt</A></TD>
+</TR>
+<TR>
+    <TD><B>Tools55</B></TD>
+    <TD><A HREF="download/Setup55.zip">Setup55.zip</A></TD>
+    <TD>N/A</TD>
+    <TD>Karst Drenth had written an Add-On for using the <A HREF="bcc55.html">free compiler</A> 
+        with BC++ 5.02 IDE. For more information read <A HREF="download/tools55.txt">Tools55.txt</A>. <BR>
+        One of my small example programs, <A HREF="prog.html#WinHelp">WinHelpColors</A>, 
+        uses the combination <A HREF="owlnext.html">OWLNext</A>/BCC5.5/BC5.02.</TD>
+</TR>
+<TR>
+    <TD><B>Ender</B></TD>
+    <TD><A HREF="http://www.endersoftware.com/oldies_goldies/" target="_blank">Ender Add-On page</A></TD>
+    <TD>N/A</TD>
+    <TD>A powerful addon for Borland C++ 5.0.</TD>
+</TR>
+</TABLE>
+
+<br>
+<hr>
+<br>
+
+<strong>Setup CS-RCS as BC5.0x Tool</strong> by David Arnold</p>
+<a href="http://componentsoftware.com/Products/RCS/stddnl.htm" target="_blank">CS-RCS</a> 
+is a freeware revision control system. This is how to be used from BC5.0x IDE:</p>
+Open the Borland IDE and goto "\Options\Tools" and choose "New", and enter the
+following information:</p>
+<ul>
+<li>Name: CS-RCS Checkin<br></li>
+<li>Path: C:\PROGRA~1\COMPON~1\CS-RCS\System\csrcs.exe  (you need to use the short path to the actual location)<br></li>
+<li>Command Line: $SAVE EDIT $NOSWAP $CAP MSG(generic) CheckIn "$EDNAME"<br></li>
+<li>Menu Text: CS-RCS Checkin<br></li>
+<li>Help Hint: Checks In Current Document to CS-RCS<br></li>
+</ul>
+Advanced Options:
+<ul>
+<li>Tool Type: Viewer</li>
+<li>Place on Speed Menu</li>
+<li>Applies To: .cpp;.hpp;.c;.h;.rc;.rh</li>
+</ul>
+</p>
+
+
+
+
+<BR><BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

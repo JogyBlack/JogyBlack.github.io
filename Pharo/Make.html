@@ -1,0 +1,197 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<BASE HREF="http://www.sirma.bg/Jogy/Pharo/">
+
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Helmut Pharo">
+   <meta name="Classification" content="software, programming, language, c, c++, Borland, commandline, tool">
+   <meta name="Description" content="Get started with MAKE">
+   <meta name="KeyWords" content="commandline, tool, Borland, C, C++, free, setup, make">
+   <title>Get started with MAKE</title>
+   <link rel=stylesheet type="text/css" href="bcc55.css">
+</head>
+<body>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbar" href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+<br>
+<a class="navbarnolink" #href="Practice.html">Learning how to use:</a>&nbsp;&nbsp; 
+<a class="navbar" href="VerifySetup.html">Hello World</a> |
+<a class="navbar" href="SimpleGUI.html">A simple GUI program</a> |
+<a class="navbarnolink" #href="Make.html">Get started with MAKE</a>
+</p>
+<h3>Get started with MAKE</h3>
+<div ALIGN=right><table COLS=1 class="box">
+<tr><td>
+<h4>What is a makefile?</h4>
+A makefile is a plain text file.  Essentially it contains a set of <i>rules</i>.
+Generally the rules consists of one <i>target</i>, a set of <i>things the target
+depends on</i> and a set of <i>actions</i> (commands) describing how to make the target. A
+specific target might be <tt>helloGUI.exe</tt>, which depends on <tt>helloGUI.obj</tt>
+and <tt>helloGUI.res</tt> and the action is to invoke the linker. There might
+be generic rules which can be used to make an arbitrary <tt>.obj</tt> from a
+<tt>.cpp</tt> file with the same basename. Got the idea?
+<p>Makefiles are created either manually or by specialized tools
+(see <img src="extern.gif"></img><a href="http://www.objectcentral.com/vide.htm">VIDE</a>).
+<p>Save the following
+
+<br>&nbsp;
+</td></tr></table></div>
+<div ALIGN=right><table COLS=1 class="box">
+<tr><td>
+<div ALIGN=right><table COLS=1 class="source">
+<tr><td><pre>GUISTARTUP=c0w32.obj
+LIBS=import32.lib cw32.lib
+CFLAGS=-c -tW
+LFLAGS=-aa -L$(LIBPATH)
+
+# the first rule will be made by default
+all: helloGUI.exe
+
+helloGUI.obj: helloGUI.c
+        bcc32 $(CFLAGS) helloGUI.c
+
+helloGUI.res: helloGUI.rc
+        brcc32 helloGUI.rc
+
+helloGUI.exe: helloGUI.obj helloGUI.res
+        ilink32 $(LFLAGS) $(GUISTARTUP) helloGUI.obj,helloGUI.exe,,$(LIBS),,helloGUI.res
+</pre>
+</td></tr>
+</table></div>
+</td></tr></table></div>
+<div ALIGN=right><table COLS=1 class="box"><tr><td>
+<br>as plain text in a file named <tt>makefile.</tt> (no extension!). Can you
+see the rules? There is more to makefiles than rules, so have a look at the 
+following info box:
+
+<br>&nbsp
+<div ALIGN=right><table COLS=1 class="infobox">
+<tr><td>
+<ul>
+<li>The <b><tt>=</tt></b> character in <tt>GUISTARTUP=c0w32.obj</tt>
+is an assignment operator. The lefthandside of a <tt>=</tt> is a
+<i>variable</i>.The righthandside is treated as a character string.</li>
+<li><b><tt>$(xxx)</tt></b> means substitute the value of variable
+<tt>xxx</tt>.</li>
+<li>Some variables are predefined. Such is <tt>LIBPATH</tt>.</li>
+<li>The <b><tt>#</tt></b> character starts a single line comment.</li>
+<li>The <b><tt>:</tt></b> character separates a target from the set of 
+things it depends on. It occurs on the first line of a rule. The rule's action
+command is given on the next line and must be indented with whitespaces.</li>
+<li>The directives <b><tt>!include, !if  ...</tt></b> have similar semantics
+like the C/C++ preprocessor directives <tt>#include, #if ...</tt></li>
+</ul>
+</td></tr>
+</table></div>
+
+<br>&nbsp;
+<h4>How do I use a makefile?</h4>
+Each command prompt has a <i>current working directory (cwd)</i>.
+If you invoke <tt>make.exe</tt> from a cwd with a file <tt>makefile</tt> in it, the
+make-tool will interprete it's contents and afterwards try to make the target of
+the first rule. If the target already exists, the creation times of the target and the
+files it depends on are compared. If the target is not newer than the other files,
+it will be regenerated using the rule's command. If some of the files a target depends
+on, are not existing, make is looking for a matching rule to create the missing files first.
+<p>Now it's time to run <tt>make</tt>. Open a command prompt and change the cwd to
+the directory containing <tt>helloGUI.c</tt> (created during the
+<img src="local.gif"></img><a href="SimpleGUI.html">previous step</a>). Enter <tt>make</tt> and you should see:
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><pre style="color:white">>make
+MAKE Version 5.2  Copyright (c) 1987, 2000 Borland
+></pre></td></tr>
+</table></div>
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="troubleshooting">
+<tr>
+<td>
+<h4>
+Troubleshooting</h4>
+Lines touching the left border in the box above <b>must not</b> start whith
+a whitespace in your makefile. The indented lines have to start with whitespaces
+(space or tab).</td>
+</tr>
+</table></div>
+
+<br>The benefits of using make can be seen if rebuilding is needed on
+changed sources: Modify the file <tt>helloGUI.c</tt> by changing
+<tt>"<font color="#000099">Hello World</font>"</tt> to
+<tt>"<font color="#000099">Hello <i>Your Name</i></font>"</tt>.
+To update <tt>helloGUI.exe</tt> (the target) all you need to do is type
+<tt>make</tt>:
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><tt><font color="#FFFFFF">>make</font></tt>
+<br><tt><font color="#FFFFFF">MAKE Version 5.2&nbsp; Copyright (c) 1987,
+2000 Borland</font></tt>
+<br><tt><font color="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bcc32 -c -tW helloGUI.c</font></tt>
+<br><tt><font color="#FFFFFF">Borland C++ 5.5.1 for Win32 Copyright (c) 1993,
+2000 Borland</font></tt>
+<br><tt><font color="#FFFFFF">hellogui.c:</font></tt>
+<br><tt><font color="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ilink32 -aa -L c0w32.obj helloGUI.obj, helloGUI.exe, ,import32.lib cw32.lib,
+,helloGUI.res</font></tt>
+<br><tt><font color="#FFFFFF">Turbo Incremental Link 5.00 Copyright (c)
+1997, 2000 Borland</font></tt>
+<p><tt><font color="#FFFFFF">>start helloGUI</font></tt>
+<p><tt><font color="#FFFFFF">></font></tt></td>
+</tr>
+</table></div>
+
+<br>&nbsp;
+<h4>More please!</h4>
+Not enough to get you started with make? Then you should...
+<ul>
+<li>
+study the sample <tt>makefile</tt> coming with the free commandline tools.
+You will find it in the <tt>Examples\StdLib</tt> folder. It includes <tt>makeincl.inc</tt>
+which demonstrates more advanced techniques giving you more flexibility.</li>
+<br>&nbsp;
+<li>
+refer to the helpfile coming with the free commandline tools.</li>
+</ul>
+
+<br>&nbsp;
+</td></tr>
+</table></div>
+
+<br>&nbsp;
+<table COLS="2" class="linktable" width="98%">
+<tr><td width="80%">
+</td>
+<td><div align=right><img src="next.gif"></img><a href="WhatElse.html">Next</a></div>
+</td></tr>
+</table>
+<p>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbar" href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+<br>
+<a class="navbarnolink" #href="Practice.html">Learning how to use:</a>&nbsp;&nbsp; 
+<a class="navbar" href="VerifySetup.html">Hello World</a> |
+<a class="navbar" href="SimpleGUI.html">A simple GUI program</a> |
+<a class="navbarnolink" #href="Make.html">Get started with MAKE</a>
+</p>
+
+<br>&nbsp;
+<p><i>(c) 2000
+<img src="letter.gif"></img>&nbsp;<a href="mailto:pharo@onlinehome.de">Helmut Pharo</a></i>
+
+</body>
+
+</html>

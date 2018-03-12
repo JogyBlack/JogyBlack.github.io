@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0 RTL fix</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0 RTL fix</H2>
+<BR><BR><BR>
+<P align=left>There is a bug in the heap manager in Borland C++ 5.x, and in C++ Builder up to 4.0.
+It can result in program crashes when allocating and deallocating large chunks of memory.
+There were discussions about the bug in Borland newsgroups, which can be found with 
+<A HREF="http://groups.google.com/groups" TARGET="_blank">Google group search</A> with the keyword 
+<A HREF="http://groups.google.com/groups?q=bts-13191&btnG=Search&meta=site%3Dgroups" TARGET="_blank">bts-13191</A>.
+This bug is fixed in C++ Builder 5.0.</P>
+To apply the fix to Borland C++ 5.0, first copy the run-time library source from the instalation CD. 
+It is located in \BC5\SOURCE\RTL.<BR>
+<I>Note: The version of Borland C++ 5.02 included with Borland C++ Builder does not come with RTL sources.</I></P>
+
+Then two modifications must be made in RTL source in the file MEMORY\COMMON32\HEAP.C:<OL>
+	<LI>In the function _get_more_heap(), line 473, replace the code<BR>
+	<CODE>if (_virt_reserve(MAX(_virt_heap_size, aMinSize), &amp;v, &amp;vsize) == 0)</CODE><BR>
+	with<BR>
+	<CODE>if (_virt_reserve(MAX(_virt_heap_size, aMinSize+PAGESIZE), &v, &vsize) == 0) /* fix for bts-37621 */</CODE>
+	<BR><BR>
+	<LI>In the function _release_heap_at(), line 589, replace the code<BR>
+	<CODE>_virt_decommit(h->sysBlocks[h->numSysBlocks - 1] + newSize, h->cSize - newSize);</CODE><BR>
+	with<BR>
+	<CODE>_virt_decommit(((char *) h) + newSize, h->cSize - newSize); /* fix for bts-13191 */</CODE>
+	<BR><BR>
+</OL>
+<BR>
+In the makefiles for rebuilding the RTL there is a bug which leads to generation of incorrect CW3230.DLL 
+and CW3230MT.DLL. The bug is that the module XX.OBJ is included twice in the command line passed to TLINK32.<BR>
+To fix the problem, edit the file RTL\SOURCE\EXCEPT\COMMON32\MAKEFILE and remove the line containing XX.OBJ.</P>
+
+Note that for full rebuild of the RTL, there must be about 100-150 MB free disk space.<BR>
+You will also need TASM32 to build the .asm files. It can be aquired from Borland C++ Builder 6 for example, 
+and TASM32.EXE can be copied in the BC5\BIN folder.</BR>
+Start MS-DOS prompt, go to \BC5\SOURCE\RTL, and execute the commands<BR>
+<I>(If Borland C++ is install in folder different from C:\BC5, change the commands accordingly)</I>
+<PRE>
+<CODE>SET BCROOT=C:\BC5</CODE>
+<CODE>SET PATH=%PATH%;C:\BC5\SOURCE\RTL\TOOLS</CODE>
+<CODE>BUILD WIN32</CODE>
+</PRE>
+The lines
+<PRE>
+<CODE>Setting LOGFILE to log\win32.log!</CODE>
+<CODE>Building Win32 libraries</CODE>
+</PRE>
+should be reported, and then the build process will go for a while without visible output.</P>
+When finished, examine the file RTL\LOG\WIN32.LOG to see if there are any erros encountered during the build.<BR>
+If there are no problems, copy the files CW3230*.DLL to BC5\BIN and CW*.LIB to BC5\LIB.</P>
+
+If the build failed, and the log file reports Error E2209 C:\BC5\include\stddefs.h 50: Unable to open include file 'cstddef',
+a likely reason is that in the PATH is a path to recent Borland compiler preceeding the BC5 one. To correct this,
+try the command SET PATH=C:\BC5\BIN;%PATH% and retry the build process.</P>
+
+
+<I>Thanks to Clive Bluston for posting the information in the Borland forum, 
+and to Fedder Skovgaard for giving me the link to the newsgroup archive.</I></P> 
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

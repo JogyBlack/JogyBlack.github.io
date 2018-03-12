@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>VRML</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>VRML</H2>
+<BR><BR><BR>
+<P align=left><A HREF="http://www.vrml.org/" TARGET="_blank">VRML</A> 
+stands for Virtual Reality Modeling Language. It can be used for defining 3D objects and scenes.</P>
+One of the best VRML viewers in my opinion is 
+<A HREF="http://www.parallelgraphics.com/products/cortona" TARGET="_blank">Cortona VRML Client</A> by 
+<A HREF="http://www.parallelgraphics.com/" TARGET="_blank">Parallel Graphics</A>.
+They are also offering <A HREF="http://www.parallelgraphics.com/products/sdk" TARGET="_blank">SDK</A>, 
+which allows incorporation of the client in other applications.</P>
+I have learned VRML with the help of 
+<A HREF="http://web3d.vapourtech.com/" TARGET="_blank">Floppy's VRML guide</A>,
+and I have written a module for generating VRML in 
+<A HREF="http://www.engview.com/3dpresenter/" TARGET="_blank">EV 3D Presenter</A>.
+<A HREF="download/pyramid.wrz" TARGET="_blank">Here</A> is an example of generated 3D pyramid. 
+Click on the sides of the pyramid to fold them. Click the button <B>F</B> on the control panel to 
+fold the whole pyramid, <B>U</B> to unfold it, <B>S</B> to make the sides non-transparent and <B>T</B>
+to make the sides transparent. <A HREF="download/box.wrz" TARGET="_blank">Another</A> example shows a two-part box.<BR>
+<I>Note: the panel won't show under Microsoft VRML viewer, because Microsoft do not support
+correctly VRML 2.0 and their viewer can cause <FONT COLOR="Red">General Protection Fault</FONT> when
+showing lines with emmisive color.</I></P>
+
+<BR>
+<A NAME = "VRMLPixelTexture"><B>VRML PixelTexture Converter</B></A></P>
+I have written a simple program, which can convert a bitmap file to a VRML PixelTexture Node.
+It can be downloaded from the <a href="prog.html">Programs</a> page.</P>
+
+<BR>
+<A NAME = "Cortona4Navigation"><B>Cortona VRML Client 4.0 Navigation</B></A></P>
+In Cortona 4.0 the navigation in EXAMINE mode is different than in Cortona 3.x. 
+The center of the rotation is now the center of the bounding box of the scene geometry. 
+This may be not the desired behaviour, especially when there is a 
+<a href="http://web3d.vapourtech.com/workshop/hud/" target="_blank">HUD</a> (Heads Up Display),
+as the objects can easily rotate out of the screen.</P>
+There are two approaches to solve the problem:</P>
+<ol type="1">
+	<li><b>Fix the scene</b><br>
+	The VRML files can be modified to force the rotation center. 
+	An <a href="http://www.parallelgraphics.com/developer/products/cortona/extensions/navigation" target="_blank">example</a> 
+	is found on Parallel Graphics site.<br>
+	The drawback of this example is that it uses Cortona-specific extension, and it may cause problems with 
+	other VRML viewers. To solve this, the following script can be used:
+	
+	<code>
+	<pre>
+    <b>DEF NAVINFO</b> NavigationInfo
+    {
+    }
+
+    <b>DEF SETCORTONACENTER</b> Script
+    {
+      eventOut MFFloat set_avatarSize
+
+      url "javascript:
+        function initialize()
+        {
+          if (Browser.getName() == '<i>Cortona VRML Client</i>')
+          {
+            set_avatarSize[3] = 0.0;
+            set_avatarSize[4] = 0.0;
+            set_avatarSize[5] = 0.0;
+          }
+        }
+      "
+    }
+
+    <b>ROUTE SETCORTONACENTER</b>.set_avatarSize TO <b>NAVINFO</b>.set_avatarSize
+
+	</pre>
+	</code>
+	
+	</P>
+	
+	<li><b>Fix the client</b><br>
+	The Cortona VRML Client 4.0 behaviour can be modified too, by using 
+	<a href="http://www.parallelgraphics.com/developer/products/cortona/skins" target="_blank">skins</a>.
+	A simple way is to modify the CAD-like skin, which comes with the instalation. It is found in<br>
+	<b>\Program Files\Common Files\ParallelGraphics\Cortona\Skins</b><br>
+	on the Windows system drive (usualy <b>C:\</b>).<br>
+	<br>
+	Open the CAD.zip archive, extract the file theme.xml and open it with a text editor. Find the line<br>
+	<b>&lt;style id=&quot;spin&quot; title=&quot;Spin&quot; default=&quot;true&quot; class=&quot;examine&quot;&gt;</b><br>
+	and replace the string &quot;examine&quot; with &quot;examine2&quot;.<br>
+	Then add the modified file back in the archive and set the Cortona Client skin to CAD-like.<br>
+	
+	</P>
+	
+</ol>
+
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

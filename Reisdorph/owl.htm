@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+
+   <TITLE></TITLE>
+   <META NAME="Author" CONTENT="Kent Reisdorph">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (Win95; I) [Netscape]">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</HEAD>
+<BODY background="bstrbk.gif" bgcolor="#FFFFFF" text="#000000" link="#990000" vlink="#336699" alink="#666666"><!--msnavigation--><table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<CENTER><P><B><FONT SIZE=+2>OWL 5.0</FONT></B></P></CENTER>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="WinG"></A><FONT SIZE=+1><B>TDibDC Requires WING.DLL in 5.01<BR>
+</B>Previously TDibDC made use of either WinG (WING.DLL) or DIB.DRV &quot;depending
+on which is available on the user's system.&quot;&nbsp;Since DIB.DRV is
+no longer supported and is not available free, TDibDC was modified to use
+WinG only. If you don't have the WinG DLL&nbsp;you can obtain it free from
+one the Microsoft web page or from any of the usual Microsoft sources on
+the internet.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Converting"></A><FONT SIZE=+1><B>Converting OWL&nbsp;2.5 Apps
+to 5.0 <BR>
+</B>There isn't a lot to converting OWL&nbsp;2.5 apps to 5.0. The main
+thing that you <B>must</B> do is change all BOOL&nbsp;to bool, TRUE to
+true, and FALSE to false. This is because bool is an integral data type
+in 5.01 and not just a typedef'd int. Aside from that there is very little
+needed to convert. </FONT></P>
+
+<P><FONT SIZE=+1>There is also a scoping rule change in the C++&nbsp;draft
+which was implemented in 5.0. You may get 'undefined symbol' errors when
+compiling your apps under 5.0 for the first time. The following code snippet
+is not longer legal:</FONT></P>
+
+<P><TT><FONT SIZE=+1><B>for</B> (<B>int</B> i=0;i&lt;100;i++) { <BR>
+<I><FONT COLOR="#0000FF">&nbsp;&nbsp;// do some stuff <BR>
+</FONT></I>} <BR>
+<B>int</B> index = i;</FONT></TT></P>
+
+<P><FONT SIZE=+1>The new rule states that 'i' has scope limited to the
+for statement. In order to get the above code to compile you would have
+to move the declaration for 'i' above the for statement.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="SplashDocErr"></A><FONT SIZE=+1><B>Documentation Error in TSplashWindow
+<BR>
+</B>This is a problem that goes back to 5.0, actually. The documentation
+for TSplashWindow says,</FONT></P>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<P><I><FONT SIZE=+1>The splash screen does not assume ownership of the
+DIB.</FONT></I></P>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<P><FONT SIZE=+1>This is incorrect. TSplashWindow <B>does</B> take ownership
+of the TDib and deletes it when the splash window closes. Do not attempt
+to delete the TDib passed to TSplashWindow or a GPF will result.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Splash501"></A><FONT SIZE=+1><B>Change in Behavior of TSplashWindow
+in 5.01 <BR>
+</B>In BC++&nbsp;5.0 TSplashWindow closed itself using CloseWindow. This
+meant that the TSplashWindow did not get deleted when the app closed. In
+5.01 TSplashWindow closes itself by sending a WM_CLOSE&nbsp;message. This
+adds the splash window to the TApplication object's condemned list and
+when the app closes the memory is reclaimed. If you had been using IdleAction()
+or some other means of deleting the TSplashWindow in 5.0 you need to remove
+that code so the splash window does not get deleted twice.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><BR>
+<A NAME="DlgBug501"></A><FONT SIZE=+1><B>Dialogs and ToolTips Behave Oddly
+in 5.01 <BR>
+</B>In some cases you may notice that tool tips or dialogs don't work properly
+the first time an app runs. When this happens it is necessary to click
+on the application's title bar or main window to give the main window focus
+before things will work properly. This is actually due to a bug in TControlBar
+that snuck into 5.01. There's no work around at present. Hopefully Borland
+will provide a small patch soon.</FONT> <BR>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="no::Module"></A><FONT SIZE=+1><B>OWL&nbsp;Dialogs in DLL&nbsp;Throw
+Exception, Global Variable ::Module Not Initialized <BR>
+</B><FONT COLOR="#000000">(5.01 only)</FONT>&nbsp;If you provide a DLLEntryPoint()
+for your DLL&nbsp;then ::Module does not get intitialized. In your DLLEntryPoint()
+call OWLInitUserDLL() to make sure the globals get set up properly. In
+LIBMAIN.CPP you'll find this line in DLLEntryPoint():&nbsp;</FONT></P>
+
+<P><FONT SIZE=+1>&nbsp;&nbsp;<TT><B>return</B> OWLInitUserDLL(hInstance,
+<FONT COLOR="#0000FF">0</FONT>) ? <FONT COLOR="#0000FF">1</FONT> : <FONT COLOR="#0000FF">0</FONT>;</TT></FONT></P>
+
+<P><FONT SIZE=+1>Do the same in your DLLEntryPoint and ::Module will be
+initialized.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="BrushCache"></A><FONT SIZE=+1><B>Brush Colors Appear to Change
+at Random</B> <BR>
+If you use a lot of brushes in your application and you keep those brushes
+around for the life of the application you may notice that the colors appear
+to change spontaneously. The reason is that OWL has a mechanism for caching
+brushes (and other GDI objects). The brush cache size is 8 and if OWL has
+to cache more than 8 brushes the oldest brush gets discarded to make room
+for the newest. To prevent this be sure that you are using your brushes
+at local scope where possible and keep the brushes used at the application
+level to an absolute minimum. Note that this only applies to solid color
+brushes. Pattern brushes are not chached.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="TPS::EnableSubclass"></A><FONT SIZE=+1><B>TPropertySheet:&nbsp;Response
+Table Doesn't Function in Derived Classes <BR>
+</B>(5.01 Only)&nbsp;If you derive a class from TPropertySheet and attempt
+to catch messages via the response table you will probably find that it
+doesn't work. This is because OWL&nbsp;is not subclassing the property
+sheet common control. In order to have the response table work as it does
+for other classes you'll have to call EnableSubclass(true); for the property
+sheet prior to SetupWindow().</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="STL&OWL"></A><FONT SIZE=+1><B>Getting OWL&nbsp;and STL&nbsp;to
+Work Together <BR>
+</B>OWL&nbsp;uses the cstring class (string) and STL&nbsp;also has a string
+class. Thus, there is a namespace conflict. Attempting to use STL&nbsp;in
+an OWL&nbsp;app results in compiler errors that are elusive and don't point
+to the real problem. You can use STL&nbsp;and OWL&nbsp;together in a project,
+though. </FONT></P>
+
+<P><FONT SIZE=+1>One method is to not use STL&nbsp;and OWL&nbsp;together
+in the same module. Although this will work, it is not very practical in
+a real-world situation. A more practical solution requires renaming the
+std::string class to std::_string. The following code fragment illustrates:</FONT></P>
+
+<P><B><TT><FONT COLOR="#008000"><FONT SIZE=+1>#include &lt;owl\applicat.h&gt;
+<BR>
+#include &lt;owl\framewin.h&gt; <BR>
+#pragma hdrstop <BR>
+#define string _string <BR>
+#include &lt;vector&gt; <BR>
+#undef string <BR>
+#define string _string <BR>
+#include &lt;string&gt; <BR>
+#undef string</FONT></FONT></TT></B></P>
+
+<P><TT><FONT SIZE=+1><B>using namespace</B> std; <BR>
+<B>typedef</B> vector&lt;_string&gt; array;</FONT></TT></P>
+
+<P><FONT COLOR="#000000"><FONT SIZE=+1>Now all references to std::string
+must be '_string' rather than plain 'string.' Notice in the above code
+the #pragma hdrstop is placed before the STL&nbsp;#includes. If you try
+to include the STL&nbsp;headers in the pre-compiled header you will get
+a warning, &quot;Cannot create pre-compiled header - code in header.&quot;
+Stopping compilation of the .csm prior to including the STL&nbsp;headers
+eliminates the warning and allows use of pre-compiled headers.</FONT></FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="EnableBWCC"></A><FONT SIZE=+1><B>GPF or 'Create Fail for Window'
+When Opening a Dialog <BR>
+</B>Running your program on a different machine or without the IDE and
+getting Create fail for Window or GPFs, when it runs sound as a bell on
+your development machine. A pound to a penny it is because you are not
+correctly loading BWCC.DLL. Simply add EnableBWCC() in your InitMainWindow()
+code - and ensure that BWCC.DLL is installed on any target machine.</FONT></P>
+
+<P><FONT SIZE=+1>We recommend that you don't use BWCC anymore, especially
+now that OWL 5 adds the TGlyphButton class for those great Delphi/BC5 IDE
+bitmap &amp; text buttons.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="GPF on SetClipboardData"></A><FONT SIZE=+1><B>GPF on TClipboard::SetClipboardData
+<BR>
+</B>Using TClipboard causes GPFs (especially on SetClipboardData). This
+is a CodeGuard bug not an OWL bug. Disabling CodeGuard (via the tools |
+CodeGuard Config) will cure the GPF.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="IdleAction Bug"></A><FONT SIZE=+1><B>TDialog::IdleAction()
+Uses 100% CPU <BR>
+</B>There is a bug in TDialog::IdleAction() (which is used for command
+enabling). The workaround is to derive a class from TDialog and override
+IdleAction() as follows:</FONT></P>
+
+<P><TT><FONT SIZE=+1><B>bool</B> MyDialog::IdleAction(<B>long</B> idleCount)
+<BR>
+{ <BR>
+&nbsp;&nbsp;TDialog::IdleAction(idleCount); <BR>
+&nbsp;&nbsp;<B>return false</B>; <BR>
+}</FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><A NAME="TPropertySheet/MDI"></A><FONT SIZE=+1><B>I get
+a GPF&nbsp;trying to use a TPropertySheet with an MDI child. <BR>
+</B>As of right now you can't use a TPropertySheet as the client of a TMDIChild
+window. There is apparently some problem with the underlying Win95 control
+in this regard. Borland is aware of the problem and is reported to be looking
+into a fix. In the mean time (or in either case) you can use <A HREF="http://ourworld.compuserve.com/homepages/steves/">Steve
+Saxon's</A> excellent TPropertyDialog (tabbed dialog class) which you can
+get by clicking <A HREF="http://ourworld.compuserve.com/homepages/steves/propdlg.htm">here</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="TPropertySheet/new controls"></A><FONT SIZE=+1><B>Can I&nbsp;add
+my own controls to a TPropertySheet? <BR>
+</B>The underlying property sheet control is somewhat unforgiving in this
+regard. You can add new controls below the property pages and to the right,
+but not above or to the left. This is because the tab control that manages
+the property pages is anchored to a specific location on the property sheet
+and cannot be easily moved.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="ItemData"></A><FONT SIZE=+1><B>I&nbsp;can't seem to use the
+ItemData in a TTreeWindow <BR>
+</B>The underlying tree view control is a little different. It requires
+you to declare that you will be using the ItemData when the control is
+created and prior to actuall using the ItemData. The following code illustrates:</FONT></P>
+
+<P><TT><FONT SIZE=+1>TTreeNode node(*DirTree, hItem); <BR>
+TTreeItem item; <BR>
+item.SetItemData(0); <BR>
+node.GetItem(&amp;item); <BR>
+item.SetItemData(someValue);</FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="GetText no work"></A><FONT SIZE=+1><B>I&nbsp;can't get the
+text from a TTreeWindow item using TTreeItem::GetText(). <BR>
+</B>In order to get the text from a TTreeWindow item you need to use both
+a TTreeNode and a TTreeItem. Still, once you've taken those steps just
+creating a TTreeItem with the default constructor and then using TTreeItem::GetText()
+will not work. You need to use the TTreeItem::TTreeItem(const char far*,
+int len = 0)&nbsp;form of the constructor.&nbsp;The following code illustrates:</FONT></P>
+
+<P><TT><FONT SIZE=+1>TTreeNode node(*tree, hItem); <BR>
+<B>char</B> buff[<FONT COLOR="#0000FF">50</FONT>]; <BR>
+TTreeItem item(buff, <B>sizeof</B>(buff)); <BR>
+node.GetItem(&amp;item); <BR>
+<I><FONT COLOR="#000080">// 'buff' now contains the item text <BR>
+</FONT></I>MessageBox(buff, &quot;Text in the item&quot;);</FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="SetIconSm"></A><FONT SIZE=+1><B>Why do I always get the OWL&nbsp;icon
+on my title bar rather than the icon I&nbsp;set? <BR>
+</B>In 32-bit apps you have to call SetIconSm()in addition to SetIcon()
+to set both the regular icon and the small icon that Windows uses on the
+title bar and the Win95 task bar.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="TSplash blank"></A><FONT SIZE=+1><B>TSplashWindow bitmap doesn't
+show until after the main window comes up. <BR>
+</B>Set the size of your splash window to be considerably larger than you
+need at startup, and give it a shrinktofit style. The problem occurs when
+the splash window is smaller than the dib. You may also want to call UpdateWindow()
+for the TSplashWindow to force a repaint sooner.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="TGauge::SetLed()"></A><FONT SIZE=+1><B>TGauge doesn't work
+when added to a dialog via Resource Workshop. <BR>
+</B>This appears to be a bug in TGauge. As a workaround, after creating
+the gauge in your dialog's constructor add the line:</FONT></P>
+
+<P><FONT SIZE=+1>gauge-&gt;SetLed(1,1);</FONT></P>
+
+<P><FONT SIZE=+1>The gauge will function after that.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><FONT SIZE=+1><A HREF="bc50faq.htm">BC++&nbsp;5.0 FAQ Page</A> |&nbsp;<A HREF="bc50tips.htm">BC++&nbsp;5.0
+Tips Page</A></FONT></P>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2002, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></BODY>
+
+</HTML>

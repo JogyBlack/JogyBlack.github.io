@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.02 Exceptions</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.02 Exceptions</H2>
+<BR><BR><BR>
+<P align=left>There is a bug in the exception handling routines in Borland C++ 5.02.
+There were discussions about the problem in Borland newsgroups, some of them can be read here:
+<ul>
+<li><a href="http://groups.google.com/groups?hl=en&lr=&ie=UTF-8&oe=utf-8&safe=off&threadm=01bceae9%240bf8de30%24e7031fac%40us0n33&rnum=12&prev=/groups%3Fnum%3D20%26hl%3Den%26lr%3D%26ie%3DUTF-8%26oe%3Dutf-8%26safe%3Doff%26q%3Dborland%2BC%2B%2B%2B5.02%2Bexceptions%26sa%3DN%26tab%3Dwg" target="_blank">Problems with C++ Exception in BC 5.02</a>
+<li><a href="http://groups.google.com/groups?hl=en&lr=&ie=UTF-8&oe=utf-8&safe=off&threadm=34B2988E.7CFAC818%40domain.com&rnum=22&prev=/groups%3Fq%3Dborland%2BC%2B%2B%2B5.02%2Bexceptions%26num%3D20%26hl%3Den%26lr%3D%26ie%3DUTF-8%26oe%3Dutf-8%26safe%3Doff%26start%3D20%26sa%3DN" target="_blank">Exceptions - Is this a know problem?</a>
+<li><a href="http://groups.google.com/groups?hl=en&lr=&ie=UTF-8&oe=utf-8&safe=off&threadm=6b7k8b%246f08%40forums.borland.com&rnum=25&prev=/groups%3Fq%3Dborland%2BC%2B%2B%2B5.02%2Bexceptions%26num%3D20%26hl%3Den%26lr%3D%26ie%3DUTF-8%26oe%3Dutf-8%26safe%3Doff%26start%3D20%26sa%3DN" target="_blank">Problems with Exceptions, BC5.02</a>
+<li><a href="http://groups.google.com/groups?hl=en&lr=&ie=UTF-8&oe=utf-8&safe=off&threadm=8cfug2%24rl9%40bornews.borland.com&rnum=62&prev=/groups%3Fq%3Dborland%2BC%2B%2B%2B5.02%2Bexceptions%26num%3D20%26hl%3Den%26lr%3D%26ie%3DUTF-8%26oe%3Dutf-8%26safe%3Doff%26start%3D60%26sa%3DN" target="_blank">Destructor called twice</a>
+</ul>
+
+Possible solutions to the problem are:
+
+<ol>
+<li>If the program experiences crashes, turn *off* the "Enable destructor cleanup" flag in the project options 
+<li>Downgrade to Borland C++ 5.01, where the exception handling still worked.
+<li>Upgrade to <a href="bcc55.html">Borland C++ 5.5</a>, where the problem should be fixed. 
+    The <a href="addons.html">Add-On</a> Tools55 allows using BCC55 from BC5.02 IDE.
+</ol>
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

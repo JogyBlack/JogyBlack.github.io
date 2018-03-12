@@ -1,0 +1,82 @@
+-**************************************************************
+Symptoms:
+
+After a few years (of asking myself why but not really digging into problem)
+I finally found out why I get
+
+"(1,1) Bad object file record in module xxx near module offset 0xyyyyy."
+
+linker error (rarely encountered). If you ever had the same problem, the
+possible reason is that you used a "using qualified_name;" declaration for a
+_template_
+and have debug information option turned on. It looks like compiler and/or
+linker get confused and generate wrong format debug information in .obj
+file. The linker generates error for the *next* module in the link list.
+
+As BC product is no longer supported by Borland I didn't report the bug to
+Borland. I post it here for your information only.
+
+-**************************************************************
+Workaround:
+1) Don't use "using namespace::name;" for templates in your code  Use "using
+namespace;";
+2) Turn off the  "Generate debug information" in compiler options. Of course
+code can not be debugged than.
+
+
+-**************************************************************
+Steps to reproduce the problem:
+
+1) Create new DOS application project, name it tm_error.exe.Make sure
+"Generate debug information" option is checked in compiler options.
+2) Create new header file, name it "terror.h", and enter code:
+
+---------------------------------------------
+#ifndef terr_h
+ #define terr_h
+
+namespace foo
+  {
+  template<class T>
+   inline T absolute(T number)
+     {
+     if(number < T(0) )  return -number;
+     return number;
+     }
+  }
+
+#endif
+----------------------------------------------
+
+3) Create new cpp file, name it "terror.cpp", and enter code:
+
+----------------------------------------------
+#include "terror.h"
+
+namespace foo2
+  {
+  using foo::absolute;
+
+   int do_test(int i)
+      {  return absolute(i);  }
+  }
+-----------------------------------------------
+
+4) Open "tm_terror.cpp"   and enter code:
+
+-----------------------------------------------
+namespace foo2
+ {  int do_test(int); /* to spare a header, declaration */  }
+
+int main()
+ {
+ return foo2::do_test(0);
+ }
+-----------------------------------------------
+
+5) Make sure "terror.cpp" is before "tm_error.cpp". If it is not, move it up
+by alt+up key.
+
+6) Make.
+
+

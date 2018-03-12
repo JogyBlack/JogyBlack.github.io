@@ -1,0 +1,230 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<BASE HREF="http://www.sirma.bg/Jogy/Pharo/">
+
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Helmut Pharo">
+   <meta name="Classification" content="software, programming, languages, c, c++, Borland, commandline, tool">
+   <meta name="Description" content="Verify your setup with a simple Hello World program">
+   <meta name="KeyWords" content="commandline, tool, Borland, C, C++, free,  introduction, usage, console">
+   <title>Verify the setup: Hello World</title>
+   <link rel=stylesheet type="text/css" href="bcc55.css">
+</head>
+<body>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbar" href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+<br>
+<a class="navbarnolink" #href="Practice.html">Learning how to use:</a>&nbsp;&nbsp; 
+<a class="navbarnolink" #href="VerifySetup.html">Hello World</a> |
+<a class="navbar" href="SimpleGUI.html">A simple GUI program</a> |
+<a class="navbar" href="Make.html">Get started with MAKE</a>
+</p>
+<a NAME="console"></a><h2>Verify the setup: Hello World</h2>
+<div ALIGN=right><table class="box">
+<tr><td>
+Use your editor to save the following code
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="source">
+<tr><td>
+<tt><font color="#006600">#include &lt;stdio.h></font></tt><br>
+<tt>int main() {</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; printf("<font color="#000099">Hello World</font>");</tt><br>
+<tt>&nbsp;&nbsp;&nbsp; return <font color="#000099">0</font>;</tt><br>
+<tt>}</tt>
+</td></tr>
+</table></div>
+<br>as <tt>hello.c</tt>. Open a command prompt and change to the directory
+containing <tt>hello.c</tt>. Enter
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><pre style="color:white">>bcc32 hello.c</pre></td></tr>
+</table></div>
+
+<br>and you should see:
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><pre style="color:white">Borland C++ 5.5.1 for Win32 Copyright (c) 1993, 2000 Borland
+hello.c:
+Turbo Incremental Link 5.00 Copyright (c) 1997, 2000 Borland</pre></td></tr>
+</table></div>
+
+<br>The compiler lists the source code units - our example consists of
+only one file. After successful compilation <tt>bcc32</tt> will drive the
+linker <tt>ilink32</tt> to create a <i>console mode executable</i> named
+like the first compilation unit. For console mode executables the linker
+requires your sources to define a <tt>main</tt> function - which is 
+provided in <tt>hello.c</tt>.
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="troubleshooting" >
+<tr><td>
+<h4>Troubleshooting</h4>
+If your compile shows 5.5 instead of 5.5.1 or higher you need to install 
+the newest
+<a href="http://www.borland.com/devsupport/bcppbuilder/patches/">patches</a> from Borland.
+Make sure you have installed <a href="http://www.borland.com/devsupport/bcppbuilder/patches/bcc55/bcc55sp2.exe">Service Pack 2</a>
+<p>If you receive an error about a <tt>command not found</tt> or similar then
+your <tt>PATH</tt> is not setup correctly [<img src="localr.gif"></img><a href="Setup.html#path">instructions
+to setup path</a>]. If you see lines starting with <tt>Error...</tt> then
+you should read them carefully. If the compiler complains it is <tt>Unable
+to open include file 'stdio.h'</tt> then you either have made a typo in
+<tt>hello.c</tt>
+or something is wrong with the config files (they might be in wrong place,
+their name might be misspelled, they might contain wrong content)
+[<img src="localr.gif"></img><a href="Setup.html#configfiles">instructions to setup config files properly</a>].
+Refer to the same solution if you can see the line Turbo
+<tt>Incremental Link 5.00 Copyright (c) 1997, 2000 Borland</tt>
+followed by something like Fatal: <tt>Unable to open file</tt>
+...
+</td></tr>
+</table></div>
+<br>To run the Hello program enter <tt>Hello</tt>. You should see:
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console" >
+<tr><td><pre style="color:white">>hello
+Hello
+></pre></td></tr>
+</table></div>
+
+<br>&nbsp;
+
+
+<br>As mentioned above the compiler bcc32 drives the linker ilink32
+by default. You can break up this default behaviour by specifying the <b>-c</b>
+option on the compiler's commandline.
+
+<br>&nbsp;
+
+<div ALIGN=right><table COLS=1 class="console" >
+<tr><td><pre style="color:white">>bcc32 <b><font color=yellow>-c</font></b> hello.c</pre></td></tr>
+</table></div>
+
+<br>The output comprises the file <tt>hello.obj</tt> (and some other files). To
+create the final executable file the linker must be invoked separately:
+
+<br>&nbsp;
+
+<div ALIGN=right><table COLS=1 class="console" >
+<tr><td><pre style="color:white">>ilink32 c0x32.obj hello.obj,hello.exe,,import32.lib cw32.lib</pre></td></tr>
+</table></div>
+
+<br><a NAME="ilink32"></a>To understand this have a look at the general schema for
+the ilink32 commandline:
+
+<br>&nbsp;
+
+<div ALIGN=right><table COLS=1 class="infobox" >
+<tr><td>
+<pre>ILINK32 <i>objfiles</i>,<i>exefile</i>,<i>mapfile</i>,<i>libfiles</i>,<i>deffile</i>,<i>resfiles</i></pre>
+<ul>
+<li>
+Linker options must be specified before any <i><tt>objfiles</tt></i>.
+</li>
+<p>
+<li>
+Each of <i><tt>objfiles</tt></i>, <i><tt>libfiles</tt></i> and
+<i><tt>resfiles</tt></i> takes a whitespace separated sequence of filenames.
+</li>
+<p>
+<li>
+The entries for <i><tt>exefile</tt></i>, <i><tt>mapfile</tt></i>,
+<i><tt>deffile</tt></i> and <i><tt>resfiles</tt></i> may be omitted.
+</li>
+<p>
+<li>If no <i><tt>exefile</tt></i> is specified the output will have the 
+same basename as the first in <i><tt>objfiles</tt></i>.
+</li>
+<p>
+<li>
+The first name in <i><tt>objfiles</tt></i> has to denote a startup
+(here the ANSI character version console mode startup <tt>c0x32.obj</tt>).
+Followed by your other .<tt>obj</tt> files.
+</li>
+<p>
+<li>
+The <i><tt>libfiles</tt></i> should contain at least <tt>import32.lib</tt>
+- the import library for most of the Win32 DLLs and a library for the C/C++
+runtime (here the RTL static library <tt>cw32.lib</tt>).
+</li>
+</ul>
+</td></tr>
+</table></div>
+
+<br>Thus the <tt>ilink32</tt> command above instructed the linker to
+create an ANSI character version console mode application linked with the
+static C/C++ RTL into the file <tt>hello.exe</tt>. All our functions are
+defined in <tt>hello.obj</tt> or in the two libraries given.
+<p>You might complain that 52K are kind of huge for a simple hello world
+program, but this is due to the C/C++ RTL wich is made for real programs
+and contains a lot of stuff not really needed here. Of course you could
+figure out how to eliminate exception handling from your code, which can
+be done. A more reasonable approach is to link against the import library
+of the C/C++ RTL DLL. One of the C RTL DLLs is <tt>cw3250.dll</tt> and
+the corresponding import library is <tt>cw32<b>i</b>.lib</tt> - note that
+the i stands for import library.
+<p>What stops us from simply relinking and specifying cw32i.lib instead
+of cw32.lib? The problem is that some special definition (<tt>_RTLDLL</tt>)
+is required to be set during compilation if we intend to link with the
+import library for the C RTL DLL. Luckily we do not need to remeber this
+definition - it suffices to instruct bcc32 to create a console mode application
+linked with the import library for the C RTL DLL, wich is exactly what
+the <tt>-tCR</tt> compile switch does:
+
+<br>&nbsp;
+
+<div ALIGN=right><table COLS=1 class="console" >
+<tr><td>
+<pre style="color:white">>bcc32 <b><font color=yellow>-tCR</font></b> -c hello.c
+...
+>ilink32 c0x32.obj hello.obj,hello.exe,,import32 cw32<b><font color=yellow>i</font></b></pre>
+</td></tr>
+</table></div>
+
+<br>The resulting <tt>hello.exe</tt> should be below 7K. We could have
+accomplished the same with the single <tt>bcc32 -tCR hello.c</tt> command
+- that is the bonus of telling the compiler exactly what we want instead
+of giving some defines.
+
+<br>To learn more about the different C runtime libraries consult the helpfile
+in your installation and lookup the topic "<b>Linking options with the
+C and Pascal runtime libraries</b>". To learn more about the different
+compiler options see topic "<b>Compiler options</b>".
+
+</td></tr>
+</table></div>
+
+
+<br>&nbsp
+<table COLS=2 class="linktable" width="98%">
+<tr><td width="80%">
+</td><td>
+<div align=right><img src="next.gif"></img><a href="SimpleGUI.html">Next</a></div>
+</td></tr>
+</table>
+<p>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbar" href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+<br>
+<a class="navbarnolink" #href="Practice.html">Learning how to use:</a>&nbsp;&nbsp; 
+<a class="navbarnolink" #href="VerifySetup.html">Hello World</a> |
+<a class="navbar" href="SimpleGUI.html">A simple GUI program</a> |
+<a class="navbar" href="Make.html">Get started with MAKE</a>
+</p>
+
+<br>&nbsp;
+<p><i>(c) 2000 
+<img src="letter.gif"></img>&nbsp;<a href="mailto:pharo@onlinehome.de">Helmut Pharo</a></i>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+.source {
+	BORDER-BOTTOM-COLOR: darkblue; BORDER-LEFT: darkblue 2mm solid; WIDTH: 95%; BORDER-TOP-COLOR: darkblue; BACKGROUND-COLOR: #e0ffff; BORDER-RIGHT-COLOR: darkblue; columns: 1
+}
+.console {
+	BORDER-RIGHT: ridge; BORDER-TOP: ridge; BORDER-LEFT: ridge; WIDTH: 95%; COLOR: #ffffff; BORDER-BOTTOM: ridge; FONT-FAMILY: monospace; BACKGROUND-COLOR: #000000; columns: 1
+}
+.troubleshooting {
+	BORDER-BOTTOM-COLOR: #c00000; BORDER-LEFT: #c00000 2mm solid; WIDTH: 95%; COLOR: #502020; BORDER-TOP-COLOR: #c00000; BACKGROUND-COLOR: #ffe0e0; BORDER-RIGHT-COLOR: #c00000; columns: 1; table-width: 80%; align: left
+}
+.infobox {
+	BORDER-BOTTOM-COLOR: #ffff80; BORDER-LEFT: #ffff80 2mm solid; WIDTH: 95%; COLOR: black; BORDER-TOP-COLOR: #ffff80; BACKGROUND-COLOR: #ffffdd; BORDER-RIGHT-COLOR: #ffff80; columns: 1
+}
+.linktable {
+	BORDER-RIGHT: thin; BORDER-TOP: thin; BORDER-LEFT: thin; WIDTH: 98%; BORDER-BOTTOM: thin; columns: 2
+}
+.box {
+	BORDER-BOTTOM-COLOR: #800000; BORDER-LEFT: #800000 2mm solid; WIDTH: 100%; BORDER-TOP-COLOR: #800000; BACKGROUND-COLOR: #ffe0b0; BORDER-RIGHT-COLOR: #800000; columns: 1
+}
+.advanced {
+	BORDER-BOTTOM-COLOR: #008000; BORDER-LEFT: #008000 4mm solid; WIDTH: 95%; BORDER-TOP-COLOR: #008000; BACKGROUND-COLOR: #e0ffe0; BORDER-RIGHT-COLOR: #008000; columns: 1
+}
+.quotebox {
+	BORDER-BOTTOM-COLOR: #808080; BORDER-LEFT: #808080 4mm solid; WIDTH: 95%; BORDER-TOP-COLOR: #808080; BACKGROUND-COLOR: #cccccc; BORDER-RIGHT-COLOR: #808080; columns: 1
+}
+counter {
+	WIDTH: 90%; HEIGHT: 1pt
+}
+.navbar {
+	FONT-SIZE: 90%; COLOR: #800000; FONT-FAMILY: "sans-serif"; BACKGROUND-COLOR: #ffffff
+}
+.navbarnolink {
+	FONT-SIZE: 90%; COLOR: #e0c0c0; FONT-FAMILY: "sans-serif"; BACKGROUND-COLOR: #ffffff
+}

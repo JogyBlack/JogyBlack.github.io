@@ -1,0 +1,61 @@
+          Borland C++ 5.5 Command-line tools
+             Frequently Asked Questions
+
+                maintained by Jogy
+                  www.jogy.net
+                  jogy@sirma.bg
+
+
+Q: What is Borland C++ 5.5 Command-line tools?
+A: It is a set of command-line tools (compiler, linker, resource compiler, librarian, etc.)
+released for free by Borland (www.borland.com)
+
+Q: Where can the command-line tools be downloaded?
+A: The main download is at http://www.borland.com/bcppbuilder/freecompiler/cppc55steps.html
+It requires to go through a simple survey. 
+Separate download is the free Turbo Debugger, which is found at http://www.borland.com/bcppbuilder/turbodebugger/turbodebug55steps.html
+
+
+Q: Can I sell programs, compiled with BCC5.5?
+A: I am not a lawyer, but I think that it is perfectly legal. 
+This question was asked more than once in the forums, and no Borland representative
+replayed that commercial programs cannot be developed with the free compiler.
+
+Q: Is it possible to use BCC5.5 from Borland C++ Builder 1.0/3.0/4.0 IDE?
+A: No. C++ Builder IDE uses the compiler from DLL for better performance, and this DLL cannot be replaced.
+
+Q: Is it possible to use BCC5.5 from Borland C++ 5.02 IDE?
+A: Kind of. Check the Add-On Tools5.5 on www.jogy.net.
+
+Q: Is it possible to use BCC5.5 with Borland C++ 4.x IDE?
+A: No. 
+
+Q: Is it possible to use BCC5.5 with Turbo C++ IDE?
+A: No. TC++ is 16-bit DOS program, and BCC5.5 is 32-bit console application.
+
+Q: Where is the IDE?
+A: The command-line tools do not come with integrated development environment. 
+For a list of third-party free IDE's check http://www.sirma.bg/Jogy/bcc55.html.
+
+Q: What is the latest version of the free command-line tools?
+A: Version 5.5.1 from August 2001.
+
+Q: Can BCC5.5 create DOS applications?
+A: No. It cam create only 32-bit GUI or console applications, but they cannot
+be launched in pure DOS environment. But there is 32-bit DOS extender, which can
+accomplish this. Check http://michael.tippach.bei.t-online.de/wdosx/
+
+Q: Why functions inport()/outport() are not found in BCC5.5?
+A: These functions access ports directly, which is not permitted under 32-bit Windows.
+Use Windows API function for communication with hardware.
+
+Q: I cannot find the header file graphics.h!
+A: This file is used for the BGI (Borland Graphics Interface) functions for graphics under DOS.
+They cannot be used from 32-bit Windows programs, use Windows GDI functions instead.
+There is an emulation for GDI, called WinGDI, but is not tested with BCC 5.5. Check http://www.cs.colorado.edu/~main/bgi/
+
+Q: Why bios.h is not found in BCC5.5?
+A: This file is used in DOS programs for direct access to hardware, which is not permitted for 32-bit Windows applications.
+
+Q: How can I use DirectX 8 with BCC5.5?
+A: You can find libraries made to work with BCC5.5 at this site: http://www.geocities.com/foetsch/borlibs/index.htm

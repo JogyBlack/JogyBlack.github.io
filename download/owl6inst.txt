@@ -1,0 +1,366 @@
+How to install OWL6.10
+
+1. First determine which version of the Borland C++ compiler you
+have. You need the Borland OWL source code because OWL6 is
+distributed as patches to that source. You must have either
+Borland C++ (BC++) version 5.01 or 5.02, or Borland C++ Builder
+(BCB) version 3 or later. These products include slightly
+different revisions of the latest Borland OWL release.
+
+Earlier Borland products have a different version of OWL that
+cannot be upgraded to OWL6. Borland has a set of command line
+tools (a subset of BCB5) that you can download at no charge, but
+they do not include OWL--you need a commercial version of the
+Borland compiler.
+
+Precompiled OWL6 libraries are available. They may be convenient
+if you have difficulty building the libraries yourself. But to
+use them, you still need to follow the instructions below in
+order to get the patched headers you need.
+
+2. Figure out which patches you need to download. The first
+patch you need depends on which version of Borland OWL you have:
+
+	For this version:      Download this patch:
+	BC++5.01               owl641.zip
+	BC++5.02               owl642.zip
+	BC++5.02 (Japanese)    owl642j.zip
+	BCB3                   owl643.zip
+	BCB4                   owl644.zip
+	BCB5                   owl645.zip
+
+You need only one of the above patches. No matter which version
+you start with, the appropriate patch above upgrades your source
+to OWL6.04 . You don't want to use that version directly because
+it dates from January 1999. But you do need it as an intermediate
+step: once everyone has the same version 6.04, later patches can
+be independent of the original Borland OWL version.
+
+You also need the latest patch--currently (2000-10-29)
+owl6_41.zip--which incorporates all the changes since OWL6.04 .
+
+And you need add_fil.zip, which adds headers to support certain
+recently added features.
+
+If you want to build OWL6 with GNU tools, you also need
+owl_lin.zip, which provides replacements for some mingw
+headers. Make sure you get the latest version of this
+file: if you had previously downloaded an old version,
+then you need to replace it.
+
+
+The last required file is owlinst.zip, which contains the
+program that performs the patching. The next few steps describe
+other patches that you might want as well.
+
+3. You can build OWL6 with either GNU, Borland, or Microsoft
+tools. Their object file formats differ, so the file you choose
+in this step should match the tools you plan to use to compile
+OWL6. Download obj32b.zip for any Borland compiler, or
+obj32v.zip for the GNU or Microsoft compiler. [??? I believe
+you no longer need obj*.zip for the GNU toolset, because the
+object files it contains are created automatically by gas, the
+GNU assembler.]
+
+These archives contain pre-assembled code for several files that
+are written in assembly language. They contain routines that
+handle integers longer than 32 bits and perform some low-level
+graphics functions. If you want to use Borland tools and have
+installed their assembler, then you do not need these files
+because you can assemble them yourself.
+
+4. If you plan to use OWL6 with OWL code that you have already
+written (or that others have written) using Borland OWL, then you
+should download one or both of the compatibility patches that
+this section discusses.
+
+OWL6 replaces not just Borland OWL, but also portions of the
+Borland class library. It needs to do this because parts of the
+class library are tightly integrated with OWL. For instance,
+Borland OWL uses the obsolete container classes in the class
+library, but OWL6 uses its own replacements instead. If you have
+to maintain programs that use the old container classes, then
+download bids.zip to get new files that emulate the old container
+classes. You probably will prefer to use STL in new code you
+write.
+
+Borland put its OWL and class library headers in separate
+directories. OWL6 puts all these headers in one directory instead.
+But old programs expect to find class library headers elsewhere.
+To allow old programs to work, OWL6 provides dummy headers that
+reside in a class library directory and simply include the
+appropriate OWL6 header. Download compat.zip to get these dummy
+headers. These headers are helpful for getting old code to work
+quickly. But for applications that you plan to maintain, you
+really should change your source code to reflect the new
+header locations.
+
+5. There are several other optional files that you might like to
+have.
+
+owlhlp.zip has a help file for OWL6 that covers many new classes
+
+owlext30.zip gives you some features that members of the OWLExt
+project added after Borland stopped developing OWL, but before
+OWL6 development began
+
+Many other files are available. It's worth looking at everything
+offered on the download page at the website shown in the next
+step.
+
+6. After selecting the files you need to download, go here
+  http://owlnext.starbase21.com/download.html
+and retrieve them.
+
+Yura's site contains much more than this download page. Have a
+look around. And sign up for the mailing list. I posted several
+questions to the list while I first installed OWL6, and got
+answers to all of them within a few hours.
+
+7. Make a new directory for OWL6. I used c:\owl, but you can
+use anything you want. I suggest you avoid having any names
+on the path that would not be valid under DOS. That means
+limiting names to eight characters with no embedded spaces.
+Substitute the directory you chose wherever I say c:\owl
+in the rest of these notes.
+
+8. This step and the next several that follow are tricky, but
+you should have no problem if you follow these directions
+carefully. I've done this many times, and still I always go
+through this file step by step.
+
+Move all the .zip files you downloaded to c:\owl but don't
+extract them yet. You can extract any of these zip files with
+just about any program that handles that format. I found that a
+1994 version of pkunzip worked fine for everything as long as I
+told it to respect the pathnames that are stored in some of the
+download files.
+
+Go to c:\owl and make a c:\owl\include subdirectory. Extract
+add_fil.zip into the subdirectory you just made, ignoring the
+path information that's saved in the .zip file. You want to
+place the three files (commctrl.h, htmlhelp.h, and richedit.h)
+that this .zip file contains in c:\owl\include. You do not want
+them to be in an add_files subdirectory anywhere, even though
+the .zip file contains an add_files path.
+
+If you are not using compat.zip, then you can skip this
+paragraph. But if you did decide to use it, then move back to
+c:\owl and extract compat.zip, making sure your extracting
+program respects the path information saved in the .zip file.
+This will create a \compatibility subdirectory. Move all the
+files in c:\owl\compatibility\include\owl to c:\owl\include\owl,
+move all the other remaining subdirectories of
+c:\owl\compatibility\include to become subdirectories of
+c:\owl\include, and then delete the compatibility directory.
+
+If you are using bids.zip, then make a directory c:\owl\lib and
+extract the contents of bids.zip into that new directory.
+
+If you are using owlext30.zip, then move back to c:\owl and
+extract its contents there, making sure your extracting
+program respects the path information saved in the .zip file.
+
+If you are using owlhlp.zip, make a directory c:\owl\help
+and extract the .zip file there.
+
+If you are using owl_lin.zip, then extract the .zip files it
+contains. One of them is gcc.zip; you'll need to use that one
+with GNU tools, but the other one, gnu_test.zip, contains
+examples that are optional. You could use the files contained
+in gcc.zip to overwrite the headers in your installation of gcc,
+but I prefer to put them in their own directory and place that
+directory at the beginning of the include path. Here's what I
+do: create subdirectories c:\owl\gcc, c:\owl\gcc\win32api, and
+c:\owl\gcc\win32api\include ; then extract the files contained
+in gcc.zip to that last directory, placing it on the include
+path.
+
+Move back to c:\owl and extract owl64X.zip and owlinst.zip
+there.
+
+9. Run the owlinst program in c:\owl.
+
+A file open dialog pops up with the caption "Select patch file".
+Double click on owl64X.owl, the file that was in owl64X.zip,
+where X is 1, 2, 2j, 3, or 4 as described in step 2.
+
+You see a "Welcome" message box that you can dismiss by
+clicking OK.
+
+Next you see a dialog captioned "Browse for Folder" that prompts
+you to "Select Borland C++ 5.02 root directory" if you're using
+owl642.owl as I am. Other patch files mention a different
+Borland compiler, of course. This dialog lets you specify where
+your original, unmodified Borland source can be found.
+
+It's a very good idea to put your Borland CD into the CD ROM
+drive and use that, because you know it's complete and
+unmodified. Many OWL6 installation difficulties are solved by
+using the CD here instead of a directory on your hard disk.
+
+The directory you want to specify is the one that has \source
+and \include subdirectories. In a default hard-disk installation
+of BC++5.02, that would be c:\bc5, for instance.
+
+Another "Browse for Folder" dialog appears, this time with the
+caption "Select directory for OWL:". Use the c:\owl directory
+you created above.
+
+The patch program should now finish. First it displays "BinPatch
+Licence Information," then it goes through a couple of progress
+dialogs. Finally, it says "Patch complete."
+
+If at any time you see a file open dialog that is not described
+above, that means the patch program couldn't find some file it
+needed. The caption of this dialog tells you the name of the
+file it couldn't find. If this happens, and you are using a hard
+disk installation as your Borland root directory, then switch to
+the Borland CD, which should not have this problem. You should
+not proceed to the other steps until the source has been
+successfully patched.
+
+If you look very closely at the progress dialogs, you may see
+error messages. For instance, I saw the message "owl642.utp is
+not valid archive" flash by, almost too quickly to read it. You
+can safely ignore these error messages.
+
+10. Now that you have installed the patched source for OWL6.04,
+you need to apply another patch to upgrade it to the latest
+version. Move back to c:\owl and extract the latest patch, then
+run program you just extracted. For instance, for version 6.10,
+extract owl6_41.exe from owl6_41.zip, then run owl6_41.exe .
+
+11. Build OWL6 libraries to link with your own code.
+
+First, you need to decide what libraries you want. There are
+many possibilities, even with the unmodified Borland OWL. To see
+which ones you've installed, run this command:
+  dir \bc5\owl*.lib /s /p
+I have nine Borland OWL libraries installed, and there are
+probably others on the CD.
+
+You may not actually be using all the libraries you've installed.
+To see which you need for a particular project, first set
+  Options|Environment|Project View|Show run-time nodes
+in the IDE, then load your project and look at each target node
+for .lib files whose names begin with "owl". For instance, in one
+project, I have some nodes that use owlwfi.lib, and some others
+that use owldwfi.lib . So I need to build both of those.
+
+To interpret those .lib names, break them down this way:
+  OWL [D] W [F|L|T] [I] [U]
+OWL means, well, OWL
+D means debugging is enabled
+W probably means windows
+F means 32-bit flat model
+L means 16-bit large model
+T means ?
+I means import library to accompany a DLL
+U means ?
+
+In c:\owl\source\owlcore there's a make file named makefile and
+batch files gnuowl.bat, bcowl.bat, and mscowl.bat that drive the
+make file. Choose the appropriate batch file for the compiler
+you plan to use, and take a look at its contents. You see many
+different examples to build various libraries. Remove the rem
+comment token from the ones you want, and insert rem before the
+ones you don't want, or make up your own.
+
+For example, here's what I did to build OWLWFI.LIB and its
+accompanying DLL:
+
+c:\bc5\bin\make -c -K DLL=1 WIN32=1 -DOWLROOT=C:\OWL >make.out
+
+I added -K to keep the temporary files created by make (useful
+for tracking down problems), and I redirected make's output
+to a file because I found it too taxing to try to read it as
+it scrolls by on the screen. The options I passed to the make
+file just say that I want to make the source in c:\owl into a
+32-bit DLL. Here are the most important makefile options:
+
+-DOWLROOT=C:\OWL
+
+Always specify the location of your OWL6 source. If you don't,
+you get a default that you probably won't like.
+
+BCROOT=C:\BC5
+
+[Does this do anything?]
+
+-DTARGETDIR=C:\BC5
+
+[Is this actually used?]
+
+DLL=1
+
+Build a DLL instead of a static library. Omit this parameter
+to build a static library.
+
+WIN32=1
+
+Build a 32-bit library. [Does WIN16 work?]
+
+ILINK=1
+
+Use the incremental linker. Omit this parameter for BC++ version
+5.02 or earlier, which have a buggy incremental linker.
+
+DIAGS=2
+
+Diagnostic build enables tracing information
+[Does the value 2 ever matter? Or is it just defined or not defined?]
+
+DEBUG=2
+
+Build library with full debug information. This lets you trace into
+OWL with the debugger, which can be very handy. But it also makes
+the library much larger; for that reason, Borland by default doesn't
+install debug builds, although they put them on the CD.
+[Does the value 2 ever matter? Or is it just defined or not defined?]
+
+CODEGUARD=2
+
+Build library with CodeGuard enabled. Omit this unless you have
+a reason to use CodeGuard on OWL itself. You can use CodeGuard on
+your own code and link it to a non-CodeGuard version of OWL.
+
+-DCOMPILE_ASM
+
+Use this only if you have TASM installed; otherwise, you'll get
+errors. If you don't use this parameter, you need to install the
+precompiled object files in obj32b.zip or obj32v.zip .
+
+-DOWLSECTION
+
+This option is recommended. Many source files are separated into
+sections so that each section can be compiled into a separate .obj
+file. The linker uses only the sections your code needs, so that
+linking can be faster and your .exe can be smaller for static builds.
+There is no drawback to using sectioning.
+
+-D_USE_OWL_CM_EXIT
+
+This is the correct value for BC++5.02. BCB and BC++ have conflicting
+definitions for CM_EXIT. If you are using BCB, instead use
+-D_USE_VCL_CM_EXIT
+
+-DBI_STD_RTL
+
+[Is the purpose of this parameter only to recognize xalloc exceptions?]
+
+-DBI_STD_STRING
+
+This option is not recommended. It forces OWL to use the old non-ANSI
+string class in <cstring.h>. That means you cannot easily use a string
+class that conforms to the standard in your own code. But you may wish
+to use this parameter if your code depends on the old Borland class.
+
+Move back to c:\owl and extract obj32b.zip or obj32v.zip there.
+Put the contents in the applicable directory, e.g. \owlwfi for a
+non-debug version.
+
+Then run the batch file to build OWL6.
+
+If you encounter any problems, please post them to the OWL6 mailing
+list.

@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+
+   <TITLE>Borland C++ 5.0 FAQ Page</TITLE>
+   <META NAME="Author" CONTENT="Kent Reisdorph">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (WinNT; I) [Netscape]">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</HEAD>
+<BODY bgcolor="#FFFFFF" text="#000000" link="#990000" vlink="#336699" alink="#666666"><!--msnavigation--><table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<H1 ALIGN=CENTER>The Borland C++ 5.0 FAQ Page</H1>
+
+<CENTER><P><IMG SRC="bc502.gif" HEIGHT=82 WIDTH=183></P></CENTER>
+
+<CENTER><P><MAP name="banner.map"><AREA shape="rect" coords="0,0,135,40" href="#What's New"><AREA shape="rect" coords="138,0,272,40" href="bc50tips.htm"><AREA shape="rect" coords="275,0,409,40" href="faq3.htm#Patches"><AREA shape="rect" coords="412,0,548,40" href="#Categories"><AREA shape="rect" coords="138,43,272,81" href="#Links"><AREA shape="rect" coords="275,43,409,81" href="http://www.borland.com/borlandcpp/"><AREA shape="rect" coords="412,43,548,81" href="http://www.borland.com"></MAP></P></CENTER>
+
+<CENTER><P><IMG ISMAP USEMAP="#banner.map" SRC="banner5.gif" HEIGHT=84 WIDTH=550>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><FONT SIZE=+1>Compiled by Kent Reisdorph and Ian Spencer,
+Members of Borland's <A HREF="http://www.turbopower.com/~kentr/teamb.htm">TeamB</A>
+</FONT><! Counter here></P></CENTER>
+
+<P><FONT SIZE=+1>This page exists as an attempt to provide quick and easy
+solutions to problems you might encounter while setting up Borland C++&nbsp;5.0
+for the first time. The contents of these pages are static. No new material will
+be added.
+
+<CENTER><P><FONT SIZE=+1><A HREF="#Categories">FAQ
+Categories</A> |&nbsp;<A HREF="faq3.htm#Patches">Patches</A> |&nbsp;<A HREF="bc50tips.htm">BC++&nbsp;5.0
+Tips</A> |&nbsp;<A HREF="#Links">Other Links</A></FONT></P></CENTER>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<CENTER><P><A NAME="What's New"></A><B><FONT SIZE=+2>What's</FONT></B><IMG SRC="New3.gif" HEIGHT=36 WIDTH=61 ALIGN=ABSCENTER></P></CENTER>
+
+<CENTER><B><FONT SIZE=+2>New OWL Books Now Available</FONT></B></CENTER>
+
+<A HREF="http://www.manning.com/Neward/index.html">
+Core OWL 5.0
+</A><BR>
+OWL Internals for Advanced Programmers<BR>
+by Ted Neward<BR>
+Softbound, 500 pages, $47.95<BR>
+Manning ISBN 1884777503<BR>
+Includes CD-ROM
+
+<P><A HREF="http://www.manning.com/Neward2/index.html">
+Advanced OWL 5.0
+</A><BR>
+Power Tools for OWL Programmers<BR>
+by Ted Neward<BR>
+Softbound, 650 pages, $49.95<BR>
+Manning ISBN 1884777465<BR>
+Includes CD-ROM<BR>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<CENTER><P><B><FONT SIZE=+2><A HREF="http://merchant.superlibrary.com:8000/catalog/hg/PRODUCT/PAGE/06723/bud/0672310201.html">C++Builder
+Book Now Available</A></FONT></B></P></CENTER>
+
+<CENTER><P><A HREF="http://merchant.superlibrary.com:8000/catalog/hg/PRODUCT/PAGE/06723/bud/0672310201.html"><IMG SRC="21DayBook.jpg" BORDER=0 HEIGHT=155 WIDTH=125></A></P></CENTER>
+
+<CENTER><P><FONT SIZE=+1>If you are going to be using C++Builder then you
+might want to look into my book. (Yes, this is an unabashed plug, but wouldn't
+you do the same?)</FONT></P></CENTER>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Categories"></A><FONT SIZE=+1><B>Patches <BR>
+</B><A HREF="faq3.htm#501Patch">First Patch for BC++ 5.01 Available - U.S.
+Version Only<BR>
+</A><A HREF="faq3.htm#download patches">Do I Need the Patch? <BR>
+</A><A HREF="faq3.htm#Crash after P1">Dialog Editor Crashes After Applying
+Patch 1 <BR>
+</A><A HREF="faq3.htm#Patch Crashes">Problems with PATCH.EXE 3.20 &amp;&nbsp;Patch
+2 (crashes or hangs) <BR>
+</A><A HREF="faq3.htm#Patches">Grab a Patch<BR>
+</A><A HREF="faq3.htm">BC++&nbsp;5.02 Released</A></FONT></P>
+
+<P><FONT SIZE=+1><B>Installation and General Issues <BR>
+</B><A HREF="faq3.htm#FPBug">Floating Point Problems with Win95/NT&nbsp;4
+<BR>
+</A><A HREF="faq3.htm#NoQS">QuickPoint Software Missing from CD<BR>
+</A><A HREF="faq3.htm#OldLibs">Static Libraries Built with 4.5x Can't be
+Read by 5.0 Programs</A> <BR>
+<A HREF="faq3.htm#Install501">Installing 5.01 <BR>
+</A><A HREF="faq3.htm#Unreg">Update Registry Entries Without Reinstalling</A>
+<BR>
+<A HREF="faq3.htm#CTL3D.PAK in NT">Error Installing CTL3D.PAK on NT <BR>
+</A><A HREF="faq3.htm#InstallErrorDLLCTL3D.PAK">Error Installing DLLCTL3D.PAK
+<BR>
+</A><A HREF="faq3.htm#WINOLDAP">WINOLDAP Doesn't Unload <BR>
+</A><A HREF="faq3.htm#Uninstall">Uninstall Hangs <BR>
+</A><A HREF="faq3.htm#4.5x and 5.0">Using 4.5x and 5.0 on the Same System
+<BR>
+</A><A HREF="faq3.htm#RWAddon">Problem with RWADDON.DLL <BR>
+</A><A HREF="faq3.htm#4.52 CD in Box">Why is there a BC++ 4.52 CD in the
+5.0 box?</A></FONT></P>
+
+<P><FONT SIZE=+1><B>IDE <BR>
+</B><A HREF="faq3.htm#LowHDSpace">Out of Memory Errors During Compile or
+Link - Revisited</A> <BR>
+<A HREF="faq3.htm#bPointCrash">Error Setting Breakpoint:&nbsp;&quot;Invalid
+page fault in module COMP32.DLL&quot;</A> <BR>
+<A HREF="faq3.htm#CTL3D&BWCC">App GPFs on MessageBox() or TDialog::Execute()
+When Run From IDE <BR>
+</A><A HREF="faq3.htm#Autosave">Autosave For Editor Files Does Not Work</A>
+<BR>
+<A HREF="faq3.htm#IDECrashII">IDE&nbsp;Crashes While Editing Files, Part
+II <BR>
+</A><A HREF="faq3.htm#Ctrl-QFix">Fix for Bookmarks in Classic Keyboard
+Mapping <BR>
+</A><A HREF="faq3.htm#Autodepend2">Autodependency Problems -- Nodes Build
+or Make Unpredictably <BR>
+</A><A HREF="faq3.htm#4.x Projects">Using 4.x Project Under 5.0 <BR>
+</A><A HREF="faq3.htm#IDE Crashes">IDE Crashes Frequently <BR>
+</A><A HREF="faq3.htm#Grep">Grep Doesn't Work</A><A HREF="bc50faq.htm#Grep">
+<BR>
+</A><A HREF="faq3.htm#Source Tracking">Source Files Disappear When Double
+Clicking an Item in the Grep Window <BR>
+</A><A HREF="faq3.htm#Multiple files">Adding Multiple Files to Projects
+Under NT <BR>
+</A><A HREF="faq3.htm#PVCS">Long Delay When the Project Menu Item is Clicked
+<BR>
+</A><A HREF="faq3.htm#Nothing on Project Open">Nothing Appears to Happen
+When Project is Opened <BR>
+</A><A HREF="faq3.htm#Nothing on CG Import">Nothing Happens When I&nbsp;Import
+the Code Guard Log <BR>
+</A><A HREF="faq3.htm#Page Faults">Page Faults in the IDE&nbsp;under Win95
+<BR>
+</A><A HREF="faq3.htm#Delete .SPX">Can't Open Project After GPF&nbsp;in
+the IDE <BR>
+</A><A HREF="faq3.htm#noname.cpp">Phantom File, 'noname.cpp' in Project
+(ClassExpert related) <BR>
+</A><A HREF="faq3.htm#Multiple RCs">Linker Error:&nbsp;&quot;Cannot build
+command line to RLINK&quot;</A></FONT></P>
+
+<P><FONT SIZE=+1><B>16-bit Compiler/Linker Issues <BR>
+</B><A HREF="faq1.htm#ax=6">Linker Error: Fatal:(1,1): DOS error, ax =
+6 General error</A> <BR>
+<A HREF="faq1.htm#ResNameError">Resource Compiler Error in 16-bit: Expecting
+resource name or resource type name</A> <BR>
+<A HREF="faq1.htm#Out of Memory">Out of Memory Error During 16-bit Link
+<BR>
+</A><A HREF="faq1.htm#Linker Hangs">Linker Hangs <BR>
+</A><A HREF="faq1.htm#long filenames">Linker Error - &quot;Unable to open
+file 'xxxxxxx.cpp'&quot; <BR>
+</A><A HREF="faq1.htm#Linker general">Linker Error - &quot;Error in Module
+xxx.cpp&quot;</A> <BR>
+<A HREF="faq1.htm#TDW cursor">Double Cursor using TDW in Win95 <BR>
+</A><A HREF="faq1.htm#16-bit VDBT">Errors Linking VDBT in 16-bit Apps <BR>
+</A><A HREF="faq1.htm#Animals">&quot;Animals&quot;&nbsp;Example Works in
+32-bit but Crashes in 16-bit <BR>
+</A><A HREF="faq1.htm#No Map File">No Map File Generated for 16-bit Builds
+<BR>
+</A><A HREF="faq1.htm#STL 16-bit">Problems with STL&nbsp;in 16-bit</A></FONT></P>
+
+<P><FONT SIZE=+1><B>32-bit Compiler/Debugger/Linker <BR>
+</B><A HREF="faq1.htm#Linker Errors, 32-bit">Linker Errors <BR>
+</A><A HREF="faq1.htm#Browser Cache Error">Linker Error - &quot;Fatal:
+Block overflow for block 'BrowserCache' &quot; <BR>
+</A><A HREF="faq1.htm#Phantom Breakpoint">Debugger Stops at Phantom Breakpoint
+<BR>
+</A><A HREF="faq1.htm#Optimized">Watch Window: &quot;Variable X has been
+optimized and is not available&quot;</A></FONT></P>
+
+<P><FONT SIZE=+1><B>Help System <BR>
+</B><A HREF="faq2.htm#OpenHelp">Use OpenHelp in 5.01 to Configure Your
+Help System <BR>
+</A><A HREF="faq2.htm#Empty Help Box">Empty Help Message Box <BR>
+</A><A HREF="faq2.htm#Bad help topics">Incorrect Help Topics for Buildtime
+Messages <BR>
+</A><A HREF="faq2.htm#Openhelp">How do I&nbsp;modify OpenHelp to include
+other help files?</A></FONT></P>
+
+<P><FONT SIZE=+1><B>OWL&nbsp;5.0 <BR>
+</B><A HREF="owl.htm#WinG">TDibDC Requires WING.DLL in 5.01<BR>
+</A><A HREF="owl.htm#Converting">Converting OWL&nbsp;2.5 Apps to 5.0 <BR>
+</A><A HREF="owl.htm#Splash501">Change in Behavior of TSplashWindow in
+5.01 <BR>
+</A><A HREF="owl.htm#DlgBug501">Dialogs and ToolTips Behave Oddly in 5.01
+<BR>
+</A><A HREF="owl.htm#SplashDocErr">Documentation Error in TSplashWindow
+<BR>
+</A><A HREF="owl.htm#no::Module">OWL&nbsp;Dialogs in DLL&nbsp;Throw Exception,
+Global Variable ::Module Not Initialized</A> <BR>
+<A HREF="owl.htm#BrushCache">Brush Colors Appear to Change at Random</A>
+<BR>
+<A HREF="faq2.htm#TabsOnDlgs">Adding OWL&nbsp;Tab Controls (TTabControl/TNoteTab)
+to Dialogs in RW</A> <BR>
+<A HREF="owl.htm#TPS::EnableSubclass">TPropertySheet:&nbsp;Response Table
+Doesn't Function in Derived Classes</A> <BR>
+<A HREF="owl.htm#STL&OWL">Getting OWL&nbsp;and STL&nbsp;to Work Together</A>
+<BR>
+<A HREF="owl.htm#EnableBWCC">GPF or 'Create Fail for Window' When Opening
+a Dialog <BR>
+</A><A HREF="OWL.htm#GPF on SetClipboardData">TClipboard:&nbsp;GPF&nbsp;on
+on SetClipboardData(). <BR>
+</A><A HREF="owl.htm#IdleAction Bug">TDialog::IdleAction() Uses 100% CPU</A>
+<BR>
+<A HREF="owl.htm#TPropertySheet/MDI">TPropertySheet:&nbsp;I get a GPF&nbsp;trying
+to use a TPropertySheet with an MDI child. <BR>
+</A><A HREF="owl.htm#TPropertySheet/new controls">TPropertySheet:&nbsp;Can
+I&nbsp;add my own controls to a TPropertySheet? <BR>
+</A><A HREF="owl.htm#ItemData">TTreeWindow: I&nbsp;can't seem to use the
+ItemData in a TTreeWindow. <BR>
+</A><A HREF="owl.htm#GetText no work">TTreeWindow:&nbsp;I&nbsp;can't get
+the text from a TTreeWindow item using TTreeItem::GetText(). <BR>
+</A><A HREF="owl.htm#TSplash blank">TSplashWindow:&nbsp;Bitmap doesn't
+show until after the main window comes up.</A> <BR>
+<A HREF="owl.htm#SetIconSm">Why do I always get the OWL&nbsp;icon on my
+title bar? <BR>
+</A><A HREF="owl.htm#TGauge::SetLed()">TGauge doesn't work with a gauge
+control added to a dialog via Resource Workshop.</A></FONT></P>
+
+<P><FONT SIZE=+1><B>Resource Workshop <BR>
+</B><A HREF="faq2.htm#RW&TASM">5.01 RW Crashes With TASM&nbsp;5.0 Installed</A>
+<BR>
+<A HREF="faq2.htm#TabsOnDlgs">Adding OWL&nbsp;Tab Controls (TTabControl/TNoteTab)
+to Dialogs <BR>
+</A><A HREF="faq2.htm#SetCreateOrder">Set Creation Order Doesn't Seem To
+Work in the Dialog Editor <BR>
+</A><A HREF="faq2.htm#BadRepaint">Controls on Dialogs not Painting Properly
+in RW</A> <BR>
+<A HREF="faq2.htm#DLLs in RW">Why can't I use custom controll DLL's in
+RW? <BR>
+</A><A HREF="faq2.htm#RC not RH">My resource identifiers go into my project's
+.rc file. Why? <BR>
+</A><A HREF="faq2.htm#String table editor">Where is the string table editor
+in RW? <BR>
+</A><A HREF="faq2.htm#No ICON in RW">I can't place an icon or bitmap on
+my dialog in RW. (Picture Control)</A> </FONT></P>
+
+<P><FONT SIZE=+1><B>Scripts <BR>
+</B><A HREF="scripts.htm#ReturnVal">How do I return a value from an ObjectScript
+function? <BR>
+</A><A HREF="scripts.htm#DLLCrashesIDE">My script's DLL&nbsp;crashes the
+IDE&nbsp;when the IDE&nbsp;closes. <BR>
+</A><A HREF="scripts.htm#newedsiz">Replacement for EDITSIZE.SPP&nbsp;Script
+(demonstrates calling a DLL&nbsp;from a script)</A> <BR>
+<A HREF="scripts.htm#quickscript">Quickie Method to Attatch a Script to
+a Keystroke <BR>
+</A><A HREF="scripts.htm#sound">BC5 Sound Scheme Script <BR>
+</A><A HREF="scripts.htm#Autosave">Autosave Editor Files Prior to Debugger
+Running <BR>
+</A><A HREF="scripts.htm#String/string">String Functions Appear to be Missing
+<BR>
+</A><A HREF="scripts.htm#RemoveMsgs">Removing Messages from the Message
+Window Before a Debug Session. <BR>
+</A><A HREF="scripts.htm#Highlite">Syntax Highlighting for Scripts <BR>
+</A><A HREF="scripts.htm#MyScripts">Running Your Own Scripts on IDE&nbsp;Startup
+<BR>
+</A><A HREF="scripts.htm#WinHelp">Script to Check WINHELP.INI for Errors</A></FONT></P>
+
+<P><FONT SIZE=+1><B>Java <BR>
+</B><A HREF="faq2.htm#NoJavaDebug">Java Debugger Gone in 5.01<BR>
+</A><A HREF="faq2.htm#NoJDK">I've got other Java products installed. I
+get errors trying to use the Java addon in BC5. <BR>
+</A><A HREF="faq2.htm#javacomp">Error:&nbsp;Unable to Find JAVACOMP.DLL</A>
+<BR>
+<A HREF="faq2.htm#NoClass">When I start the debugger, I get a message that
+it can't find the .class file.</A><B> <BR>
+</B><A HREF="faq2.htm#bcwjava.dll error">Problem with bcwjava.dll when
+loading the IDE after applying Patch 2. <BR>
+</A><A HREF="faq2.htm#Sun License">I keep getting Sun's copyright notice
+when running an applet.</A> </FONT></P>
+
+<P><FONT SIZE=+1><B>Standard Template Libraray (STL)</B> <BR>
+<A HREF="faq2.htm#STL&BC++">Using BC++&nbsp;and STL <BR>
+</A><A HREF="faq2.htm#STL&OWL">Getting OWL&nbsp;and STL&nbsp;to Work Together
+</A></FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<CENTER><P><A NAME="501"></A><B><FONT SIZE=+2>BC 5.01 is Shipping</FONT></B></P></CENTER>
+
+<P><FONT SIZE=+1>(August 29, 1996) Version 5.01 is shipping. Several users
+report getting the 5.01 CD. In the US the CD will be shipped automatically
+to registered users of 5.0 and is free of charge. In other countries check
+with your local Borland representative. (In Canada there is a $15 charge
+for shipping and handling, for instance.) 5.01 includes these features:</FONT></P>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>MFC 4.1</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Ability to use VCL&nbsp;(Visual Component Library)&nbsp;in
+both OWL&nbsp;and MFC apps</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Active X container support</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>TTreeView emulated for 16-bit </FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Free copy of Delta Point's QuickSite (web creation software)</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Lots of bug fixes</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<P><FONT SIZE=+1>Be sure to read INSTALL.TXT on the CD or <A HREF="faq3.htm#Install501">click
+here for a summary</A>. </FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="Must Reading"></A><B><FONT SIZE=+2>Important Information (5.0
+Release)</FONT></B></P>
+
+<P><FONT SIZE=+1>There are a couple of issues common to all users that
+need to be emphasized.</FONT></P>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1><A HREF="faq3.htm#4.x Projects">Using 4.x Projects under
+5.0.</A> Read this! </FONT><BR>
+<!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1><A HREF="#Requirements">BC++&nbsp;5.0 Practical System
+Minimums.</A> </FONT><BR>
+<!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1><A HREF="faq3.htm#IDE Crashes">Frequent IDE&nbsp;Crashes.</A>
+</FONT><BR>
+<!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1><A HREF="#Fails">If All Else Fails....</A></FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<P><FONT SIZE=+1>Please do not e-mail us for technical support. For technical
+support use the BCPPLIB&nbsp;and BCPP forums on <A HREF="http://www.compuserve.com">Compuserve</A>,
+call the Borland International <A HREF="http://www.borland.com/techsupport/borlandcpp/">Technical
+Support</A> line, check out the internet <A HREF="http://www.borland.com/feedback/newsgrps.html#ncpp">newsgroups</A>
+or subscribe to the <A HREF="http://www.cs.rpi.edu/~wiseb/owl-list/">OWL
+mailing list</A> (free e-mail list).</FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="Requirements"></A><B><FONT SIZE=+2>BC++&nbsp;5.0 Practical
+Minimum System Requirements</FONT></B></P>
+
+<P><FONT SIZE=+1>The BC++ 5.0 system requirements say that 16MB RAM is
+the minimum. Although 5.0 will run on 16MB&nbsp;it is not optimum by any
+means.</FONT></P>
+
+<P><FONT SIZE=+1>Under Windows95 24MB RAM should be considered a practical
+minimum. Moving from 16MB to 24MB should result in speed performance improvements
+of 4 times or more. Adding more memory will certainly continue to improve
+speed but not as much as the initial move from 16 MB&nbsp;to 24MB.</FONT></P>
+
+<P><FONT SIZE=+1>Under Windows NT you should add 8MB above the requirements
+for Win95. Users report the best performance on NT&nbsp;with 48MB&nbsp;and
+above.</FONT></P>
+
+<P><FONT SIZE=+1>It should be noted that in either case a badly fragmented
+hard drive can increase compile and link times by a fair amount. Clean
+up your hard drive and watch your build times improve.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<CENTER><P><A NAME="Fails"></A><B><FONT SIZE=+2>If All Else Fails...</FONT></B></P></CENTER>
+
+<P><FONT SIZE=+1>If nothing on this page solves your problem then take
+these drastic steps (in order of simplicity):</FONT></P>
+
+<P><FONT SIZE=+1>1. First be sure that you have applied the <A HREF="faq3.htm#Patches">patches</A>.</FONT></P>
+
+<P><FONT SIZE=+1>2. Close the IDE and then delete the .dsw and .csm files
+for your project and the bcwdef.* files in \bc5\bin. Also delete the *.spx
+files in the \bc5\scripts directory. Restart the IDE.</FONT></P>
+
+<P><FONT SIZE=+1>3. Rebuild your project from scratch in the 5.0 IDE.</FONT></P>
+
+<P><FONT SIZE=+1>4. Check your system configuration carefully. Be sure
+you have the latest video drivers installed for your video card.</FONT></P>
+
+<P><FONT SIZE=+1>5. Try to <A HREF="faq3.htm#Unreg">update the registry</A>
+entries.</FONT></P>
+
+<P><FONT SIZE=+1>6. <A HREF="faq3.htm#Uninstall">Uninstall</A> and reinstall
+5.0 and then apply the patches.</FONT></P>
+
+<P><FONT SIZE=+1>7. Uninstall Windows, reinstall Windows and then go to
+step #3.</FONT></P>
+
+<P><FONT SIZE=+1>Although uninstalling and reinstalling Windows is a colossal
+pain it is a good idea from time to time. When you install and uninstall
+programs a number of times things can lurk in the registry, system.ini
+and/or win.ini that can mess up your system.</FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><A NAME="Links"></A><B><FONT SIZE=+2>Other Links</FONT></B></P></CENTER>
+
+<P><FONT SIZE=+1><A HREF="http://www.borland.com">Borland International</A>
+<I>Check out all that Borland has to offer</I> <BR>
+<A HREF="http://www.borland.com/borlandcpp/owl/owl.html">Borland's OWL
+Information Page</A> <I>Info on Borland's Object Windows Library <BR>
+</I><A HREF="http://www.borland.com/techsupport/borlandcpp/bugpage.htm">Borland's
+BC++&nbsp;Bug Page</A><A HREF="http://loki.borland.com/bugs/index.html">
+</A><I>Search the bug database or submit a bug report</I></FONT></P>
+
+<P><FONT SIZE=+1><B>General OWL&nbsp;Stuff: <BR>
+</B><A HREF="http://www.pfdpf.state.oh.us/msawczyn/owl/files/owlfiles.htm" target="_top">OWL
+Shareware</A> <I>Michael Sawczyn's compilation of OWL freeware and shareware
+source and utilities. <BR>
+</I><A HREF="http://www.pfdpf.state.oh.us/msawczyn/owl/files/" target="_top">OWL
+Website</A> <I>Michael Sawczyn's OWL website. <BR>
+</I><B><A HREF="http://www.tenermerx.com/owlhow">OWL&nbsp;FAQ&nbsp;Web
+Site</A></B></FONT><B> </B><I><FONT SIZE=+1>Frequently asked OWL Questions
+and their Answers<BR>
+</FONT></I><FONT SIZE=+1><A HREF="ftp://ftp.netlab.cs.rpi.edu/pub/lists/owl-list-faq/drafts">OWL&nbsp;FAQ
+Help File</A> <I>OWL&nbsp;FAQs in WinHelp format. General OWL&nbsp;FAQ.
+Not related to this page. <BR>
+</I><A HREF="http://classic.physiol.cam.ac.uk/scr/">How to Write Win95
+Screen Savers with OWL</A><I> Check this out for the stuff MS&nbsp;didn't
+tell you. </I></FONT></P>
+
+<P><FONT SIZE=+1><B>Other <BR>
+</B><A HREF="http://www.r2m.com/windev/">Internet Resources for Windows
+Developers Page</A><I> A bunch of links for Windows programmers <BR>
+</I><A HREF="http://ourworld.compuserve.com/homepages/b_w_bush/software.htm#dew">Database
+Engine Wrapper (DEW)&nbsp;3.2</A><I> Brian Bush's newest version of DEW.
+<BR>
+</I><A HREF="http://www.comarch.krakow.pl/~cezar/b-jdk.htm">Java Add-On
+for BC++&nbsp;4.5</A> <I>Written by Cezariusz Marek</I></FONT></P>
+
+<P><FONT SIZE=+1><A HREF="http://home.turbopower.com/~kentr">Kent Reisdorph's
+Home Page</A> <I>Just me.</I> </FONT><BR>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<CENTER><P><A NAME="About"></A><B><FONT SIZE=+2>Your Sponsors</FONT></B></P></CENTER>
+
+<P><FONT SIZE=+1>We have enjoyed putting this page together over the past couple
+of years. We are now retired from updating this site but the site will remain
+online so come back as often as you like.</FONT></P>
+
+<P><FONT SIZE=+1>Kent Reisdorph,<BR>
+<I>Senior Software Engineer at <B><A HREF="http://www.turbopower.com">TurboPower
+Software</A></B>, Author of <A HREF="http://merchant.superlibrary.com:8000/catalog/hg/PRODUCT/PAGE/06723/bud/0672310201.html">&quot;Teach
+Yourself C++Builder in 21 Days&quot;</A>, Keeper of the Page</I></FONT></P>
+
+<P><FONT SIZE=+1>Ian Spencer,
+Honor Oak Systems <BR>
+<I>Author of <A HREF="http://www.mcp.com/105799021144486/cgi-bin/bag?isbn=0-672-30600-X&last=/bookstore">&quot;Teach
+Yourself OWL&nbsp;Programming in 21 Days&quot;</A>, OWL&nbsp;Authority,
+Consultant, Programmer</I> </FONT><BR>
+<BR>
+</P>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2002, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></BODY>
+
+
+
+</HTML>

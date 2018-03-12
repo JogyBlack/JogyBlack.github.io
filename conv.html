@@ -1,0 +1,175 @@
+<HTML>
+
+<HEAD>
+<TITLE>Convert</TITLE>
+
+<SCRIPT>
+<!-- hide script
+
+function convertToLat(text)
+{
+  var text2 = "";
+  var index;
+  var c;
+  
+  for (index = 0; index < text.length; index++)
+  {
+    c = text.substring(index, index + 1);
+	
+	if (c == "À")
+	  c = "A";
+	else if (c == "Á")
+	  c = "B";
+	else if (c == "Â")
+	  c = "W";
+	else if (c == "Ã")
+	  c = "G";
+	else if (c == "Ä")
+	  c = "D";
+	else if (c == "Å")
+	  c = "E";
+	else if (c == "Æ")
+	  c = "V";
+	else if (c == "Ç")
+	  c = "Z";
+	else if (c == "È")
+	  c = "I";
+	else if (c == "É")
+	  c = "J";
+	else if (c == "Ê")
+	  c = "K";
+	else if (c == "Ë")
+	  c = "L";
+	else if (c == "Ì")
+	  c = "M";
+	else if (c == "Í")
+	  c = "N";
+	else if (c == "Î")
+	  c = "O";
+	else if (c == "Ï")
+	  c = "P";
+	else if (c == "Ð")
+	  c = "R";
+	else if (c == "Ñ")
+	  c = "S";
+	else if (c == "Ò")
+	  c = "T";
+	else if (c == "Ó")
+	  c = "U";
+	else if (c == "Ô")
+	  c = "F";
+	else if (c == "Õ")
+	  c = "H";
+	else if (c == "Ö")
+	  c = "C";
+	else if (c == "×")
+	  c = "Ch";
+	else if (c == "Ø")
+	  c = "Sh";
+	else if (c == "Ù")
+	  c = "Sht";
+	else if (c == "Ú")
+	  c = "Y";
+	else if (c == "Ü")
+	  c = "I";
+	else if (c == "Þ")
+	  c = "Iu";
+	else if (c == "ß")
+	  c = "Ia";
+	else if (c == "à")
+	  c = "a";
+	else if (c == "á")
+	  c = "b";
+	else if (c == "â")
+	  c = "w";
+	else if (c == "ã")
+	  c = "g";
+	else if (c == "ä")
+	  c = "d";
+	else if (c == "å")
+	  c = "e";
+	else if (c == "æ")
+	  c = "v";
+	else if (c == "ç")
+	  c = "z";
+	else if (c == "è")
+	  c = "i";
+	else if (c == "é")
+	  c = "j";
+	else if (c == "ê")
+	  c = "k";
+	else if (c == "ë")
+	  c = "l";
+	else if (c == "ì")
+	  c = "m";
+	else if (c == "í")
+	  c = "n";
+	else if (c == "î")
+	  c = "o";
+	else if (c == "ï")
+	  c = "p";
+	else if (c == "ð")
+	  c = "r";
+	else if (c == "ñ")
+	  c = "s";
+	else if (c == "ò")
+	  c = "t";
+	else if (c == "ó")
+	  c = "u";
+	else if (c == "ô")
+	  c = "f";
+	else if (c == "õ")
+	  c = "h";
+	else if (c == "ö")
+	  c = "c";
+	else if (c == "÷")
+	  c = "ch";
+	else if (c == "ø")
+	  c = "sh";
+	else if (c == "ù")
+	  c = "sht";
+	else if (c == "ú")
+	  c = "y";
+	else if (c == "ü")
+	  c = "i";
+	else if (c == "þ")
+	  c = "iu";
+	else if (c == "ÿ")
+	  c = "ia";
+	  
+	text2 = text2 + c;	  
+  }
+  
+  return text2;
+}
+
+function convert(form)
+{
+  var str = form.text.value;
+  
+  form.text.value = convertToLat(str);
+}
+// -->
+
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<FONT COLOR="White">Convert</FONT></H2>
+<BR><BR><BR>
+	This simple JavaScript program converts cyrillic text to latinic letters. 
+	To use it, enter or paste cyrillic text in the form below and click on the <B>Convert</B> button.
+	<FORM ACTION="" ID="form">
+		<TEXTAREA COLS="60" ROWS="8" NAME="text" ID="text" WRAP="off"></TEXTAREA><BR>
+		<INPUT TYPE=BUTTON VALUE="Convert" onclick="convert(this.form)">
+	</FORM>
+	
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+	
+
+</BODY>
+
+</HTML>

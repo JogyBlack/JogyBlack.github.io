@@ -1,0 +1,309 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<BASE HREF="http://www.sirma.bg/Jogy/Pharo/">
+
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Helmut Pharo">
+   <meta name="Classification" content="software, programming, language, c, c++, Borland, commandline, tool, introduction">
+   <meta name="Description" content="Creating a simple GUI program with the free commandline tools">
+   <meta name="KeyWords" content="commandline, tool, Borland, C, C++, free, introduction, GUI">
+   <title>A simple GUI program</title>
+   <link rel=stylesheet type="text/css" href="bcc55.css">
+</head>
+<body>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbar" href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+<br>
+<a class="navbarnolink" #href="Practice.html">Learning how to use:</a>&nbsp;&nbsp; 
+<a class="navbar" href="VerifySetup.html">Hello World</a> |
+<a class="navbarnolink" #href="SimpleGUI.html">A simple GUI program</a> |
+<a class="navbar" href="Make.html">Get started with MAKE</a>
+</p>
+<h3>A simple GUI program</h3>
+<div ALIGN=right><table class="box">
+<tr><td>A GUI program is a program with a Graphical User Interface - using windows,
+dialogs, menus and other graphical resources. Most likely all Win32 GUI
+programs you know do not have a console - even though it is possible to
+use the GUI stuff for console mode programs as well as windowed programs
+might have a console. You might ask if there is a difference anyway. Typically
+console mode programs have a console and no GUI. Such console mode programs
+start in a <tt>main</tt> function.Typical GUI programs have no console
+and start in a function named <tt>WinMain</tt>. Now you will be shown how
+to make a typical GUI program: Use your editor to save the following code
+
+<br>&nbsp;
+
+<div ALIGN=right><table COLS=1 class="source">
+<tr>
+<td><tt><font color="#006600">#include &lt;windows.h></font></tt>
+<br><tt><font color="#006600">#pragma argsused</font></tt>
+<br><tt>WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,&nbsp;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+LPSTR lpCmdLine, int nCmdShow)</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; MessageBox(NULL, "<font color="#000099">Hello
+World</font>", "", MB_OK);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; return <font color="#000099">0</font>;</tt>
+<br><tt>}</tt></td>
+</tr>
+</table></div>
+
+<br>as <tt>helloGUI.c</tt> and open a command prompt in the directory
+where you have saved it. Enter
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><pre style="color:white">>bcc32 <b><font color=yellow>-tW</font></b> helloGUI.c
+...
+>helloGUI</pre></td></tr>
+</table></div>
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="troubleshooting" >
+<tr><td>
+<h4>Troubleshooting</h4>
+If you encounter any errors you should step back to
+<img src="localr.gif"></img><a href="VerifySetup.html">Verify
+the setup</a>.</td>
+</tr>
+</table></div>
+
+<br>You will see a MessageBox displayed - Click the OK button and <tt>helloGUI</tt>
+will terminate.
+<p>Instead of running <tt>helloGUI</tt> from a command prompt you
+could as well click/doubleclick it in an explorer window as you do it with
+other windows applications.
+<p>Did you notice the difference to the sample in
+<img src="local.gif"></img><a href="VerifySetup.html">Verify
+the setup</a>? It is the compiler switch <b><tt>-tW.</tt></b> It was mentioned
+after a successful compilation by default the compiler drives the linker.
+Using compiler switches (<tt>-tW -tC&nbsp; ...</tt>) you can control the
+kind of output to be produced by the linker. Let's resume the <tt>-tXXX</tt>
+switches we have used so far.
+
+<br>&nbsp;
+<div ALIGN=right><table COLS="2" class="infobox" width="95%">
+<tr><td width="8%">
+<i>Switch</i>
+</td><td><i>&nbsp;Output produced by the linker</i></td>
+</tr>
+
+<tr>
+<td><tt>-<b>tC</b></tt></td>
+
+<td>console mode executable linked with the static C RTL (default switch)</td>
+</tr>
+
+<tr>
+<td><tt>-<b>tCR</b></tt></td>
+
+<td>console mode executable linked with the import library for the C RTL
+DLL (<tt>cw3250.dll</tt>)</td>
+</tr>
+
+<tr>
+<td><tt>-<b>tW</b></tt></td>
+
+<td>windowed executable linked with the static C RTL (default switch)</td>
+</tr>
+
+<tr>
+<td><tt>-<b>tWR</b></tt></td>
+
+<td>windowed executable linked with the import library for the C RTL DLL
+(<tt>cw3250.dll</tt>)</td>
+</tr>
+</table></div>
+
+<br>As you can see it it possible to use multiple characters (<tt>C,
+W, R</tt>) in one <tt>-tXXX</tt> switch. It is even possible to specify
+multiple <tt>-tXXX</tt> switches on a single commandline: <tt>-tW -tC</tt>
+which is the same as giving <tt>-tC</tt> alone. You could specify <tt>-tWR
+-tC</tt> instead of <tt>-tCR</tt>.
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="advanced" >
+<tr>
+<td><b>Advanced stuff</b>: The first letter in the <tt>-tXXX</tt> switch
+should be either a <tt>C</tt> for console or a <tt>W</tt> for windowed.
+The linker creates executables by default, but if you specify a <tt>D</tt>
+(as in <tt>-tCD</tt> or <tt>-tW</tt>D) then the linker will produce a dynamic
+link library (DLL). To create multithreaded programs you need to specify
+<tt>M</tt>
+(as in <tt>-tCM</tt> or <tt>-tWM</tt>). Thus you might specify <tt>-tWDR
+-tWM</tt> for a DLL linked with the import library for the multithreading
+enabled verision of the C RTL DLL (<tt>cw3250mt.dll</tt>)
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=2 class="infobox" width="95%">
+<tr><td width="8%"><tt>-<b>tWD</b></tt></td>
+<td>create a DLL</td>
+</tr>
+<tr><td><tt>-<b>tWM</b></tt></td>
+<td>link with multithread support</td>
+</tr>
+</table></div>
+<br>&nbsp;
+</td>
+</tr>
+</table></div>
+
+<br>&nbsp;
+<h4>Resources</h4>
+Dialog boxes, Icons, Bitmaps, Sounds, localized strings, version information
+etc. are often referred to as resources. You specify them using <i>resource
+scripts</i> - files ending with <tt>.RC</tt> - which are plain text files.
+Save the following code
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="source" >
+<tr>
+<td><tt>1 VERSIONINFO&nbsp;</tt>
+<br><tt>FILEVERSION 1, 0, 0, 0</tt>
+<br><tt>PRODUCTVERSION 1, 0, 0, 0</tt>
+<br><tt>FILETYPE VFT_APP</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;BLOCK "StringFileInfo"</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; BLOCK "040904E4"</tt>
+<br><tt>&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp; VALUE "CompanyName", "My Company\000\000"</tt>
+<br><tt>&nbsp;&nbsp; VALUE "FileDescription", "Description from .def file
+here\000"</tt>
+<br><tt>&nbsp;&nbsp; VALUE "FileVersion", "1.00\000\000"</tt>
+<br><tt>&nbsp;&nbsp; VALUE "InternalName", "Application name\000"</tt>
+<br><tt>&nbsp;&nbsp; VALUE "LegalCopyright", "Copyright &copy; My Company
+2000\000\000"</tt>
+<br><tt>&nbsp;&nbsp; VALUE "OriginalFilename", "helloGUI.exe\000"</tt>
+<br><tt>&nbsp; }</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>}</tt></td>
+</tr>
+</table></div>
+
+<br>as <tt>helloGUI.RC</tt> and run <tt>BRCC32</tt>
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><pre style="color:white">>BRCC32 helloGUI.RC
+></pre></td></tr>
+</table></div>
+
+<br>But how do we get the version information into helloGUI.exe? The
+tool <tt>BRC32</tt> claims it can bind .<tt>RES</tt> files to .<tt>EXE</tt>
+files - but it can't! With the current release of the commandline tools
+you are forced to use <tt>ilink32</tt>. A complete building sequence for
+helloGUI is:
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console" >
+<tr><td><pre style="color:white">>bcc32 -c <b><font color=yellow>-tW</font></b> helloGUI.c
+>ilink32 <b><font color=yellow>-aa c0w32</font></b> helloGUI.obj<b>,</b>helloGUI<b>,,</b>import32 cw32<b>,,helloGUI.res</b></pre></td></tr>
+</table></div>
+
+<br>You can't do simpler! Can't remember the
+<img src="local.gif"></img><a href="VerifySetup.html#ilink32">ilink32
+commandline? Revisit</a>!
+<br>Two things are new here:
+<ol>
+<li>
+Linker switch <b>-aa</b> is used to prevent the produced executable from
+opening a console on startup. (Link without -aa and run <tt>helloGui</tt>
+form the explorer or by typing <tt>start helloGui</tt> on the prompt to
+see the difference)</li>
+
+<li>
+Module <b>c0w32.obj</b> is the startup for ANSI char version executables
+starting in WinMain.</li>
+</ol>
+
+<br>Memorize: For windowed applications use the <b>-tW</b>
+compiler switch, the <b>-aa</b> linker switch and <b>c0w32.obj</b>
+for startup.
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="advanced">
+<tr><td>
+<b>Advanced stuff</b>:
+<br>The startup for ANSI char version DLLs is <tt>c0d32.obj</tt>.
+Wide char versions are named the same + "<b>w</b>": <tt>c0d32<b>w</b>.obj</tt>,
+<tt>c0w32<b>w</b>.obj</tt>
+and <tt>c0x32<b>w</b>.obj</tt>.&nbsp; You already know that <tt>cw32.lib</tt>
+is the C RTL and that <tt>cw32<b>i</b>.lib</tt> is the import library for
+the DLL version of the C RTL DLL. The multithread enabled version of the
+C RTL is named <tt>cw32<b>mt</b>.lib</tt> and the import library for the
+corresponding RTL DLL is named <tt>cw32<b>mti</b>.lib</tt>. For example:
+to build a DLL with the import library for the multithread enabled C RTL
+DLL form <tt>dll.c</tt> and resources in <tt>dll.rc</tt>, you would execute:
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="console">
+<tr><td><pre style="color:white">>bcc32 -c -tWD -tWM -tWR dll.c
+>brcc32 dll.rc
+>ilink32 <b><font color=yellow>-Tpd -Gi</font></b> c0d32 dll.obj,dll.dll,,import32 cw32mti,,dll.res</pre></td></tr>
+</table></div>
+
+<br>Again two things are new here:
+<ol>
+<li>
+Linker switch <b><tt>-Tpd</tt></b> is used to generate a DLL target.</li>
+
+<li>
+Linker switch <b><tt>-Gi</tt></b> is used to automatically generate an
+import library for the generated DLL.</li>
+</ol>
+</td>
+</tr>
+</table></div>
+
+<br>This should be enough to get you started with the free commandline
+tools, but you might find it tedious and error prone to type in so many
+options for each invokation of <tt>bcc32</tt> and <tt>ilink32</tt> and
+we have not had a complex example with multiple paths involved for different
+object files. To ease your life you should spent some more time and read
+about makefiles.
+<br>&nbsp;
+</td></tr>
+</table></div>
+
+<br>&nbsp;
+<table COLS=2 class="linktable" width="98%">
+<tr><td width="80%">
+</td>
+<td><div align=right><img src="next.gif"></img><a href="Make.html">Next</a></div>
+</td>
+</tr>
+</table>
+<p>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbar" href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+<br>
+<a class="navbarnolink" #href="Practice.html">Learning how to use:</a>&nbsp;&nbsp; 
+<a class="navbar" href="VerifySetup.html">Hello World</a> |
+<a class="navbarnolink" #href="SimpleGUI.html">A simple GUI program</a> |
+<a class="navbar" href="Make.html">Get started with MAKE</a>
+</p>
+
+<br>&nbsp;
+<p><i>(c) 2000
+<img src="letter.gif"></img>&nbsp;<a href="mailto:pharo@onlinehome.de">Helmut Pharo</a></i>
+
+</body>
+
+</html>
+
+
+
+
+

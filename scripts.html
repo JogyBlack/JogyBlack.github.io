@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0 Scripts</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0 Scripts</H2>
+<BR><BR><BR>
+<P align=left>This is a collection of scripts for enhancing BC++ 5.0 IDE. 
+If you have written an useful script, and want to share it with others, please send it to 
+<A HREF="mailto:jogy@sirma.bg">me</A>.</P>
+
+<B>Here are the scripts by category:</B></P>
+<UL>
+	<LI><A HREF="scripts1.html">Editor enhancement</A></P>
+	<LI><A HREF="scripts2.html">File management</A></P>
+	<LI><A HREF="scripts3.html">Other</A></P>
+</UL>
+Also see the scripts on the <A HREF="http://www.sirma.bg/Jogy/Reisdorph/scripts.htm" TARGET="_blank">Borland C++ 5.0 FAQ</A> site.</P>
+<BR><HR><BR>
+<B>To set up the scripts:</B>
+<OL></P>
+	<LI>Make folder under BC5\SCRIPTS, for example MYSCRIPT</P>
+	<LI>Add the path to the folder to Options\Environment\Scripting\Script Path</P>
+	<LI>Create there a simple shell script called loader.spp, which can look like:</P>
+<PRE>
+<CODE>
+// loader.spp
+
+import scriptEngine;
+
+if (!scriptEngine.IsLoaded(&quot;braces.spp&quot;))
+  scriptEngine.Load(&quot;braces.spp&quot;);
+  
+// Add new scripts here
+</CODE>
+</PRE>
+
+	<LI>Add loader.spp in Options\Environment\Scripting\Startup Scripts</P>
+	
+	<LI>Download new scripts to this folder and add them in loader.spp</P>
+	
+</OL>
+
+<BR><HR><BR>
+
+<A HREF="download/Scripts.zip">Here</A> you can download most of the scripts in a single file, 
+with a Loader.spp which will load all of them.</P>
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

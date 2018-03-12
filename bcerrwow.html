@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 16-bit Problem</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 16-bit applications problem</H2>
+<BR><BR><BR>
+<P align=left>16-bit OWL applications, generated with Borland C++ 4.5x or 5.x, under Windows 2000
+cause Access Violation in WOW32.DLL when the mouse is moved over the 'X' button and a tooltip is about to 
+be displayed.</P>
+One possible <A HREF="http://www.bytemasters.com/knowledge_base/windows_2000_tooltip_bug.htm" TARGET="_blank">solution</A>
+is to turn off tooltips for the caption buttons.</P>
+There is better solution, posted by Regis St-Gelais:
+
+<PRE>
+<CODE>
+<FONT COLOR="AQUA">/*------------------------------------------------------------------------------------------------
+With the invaluable help of James S. Whitehead,
+I was able to resolve the problem of the infamus ToolTip Crash with OWL
+16bits under Windows 2000.
+The key is to trap the hit test only when we hit one of the system menu
+button.
+*/</FONT>
+
+DEFINE_RESPONSE_TABLE1(TDFrameUmt, TDecoratedFrame)
+    EV_WM_NCHITTEST,
+    EV_WM_NCLBUTTONDOWN,
+    EV_WM_NCLBUTTONUP,
+END_RESPONSE_TABLE;
+
+uint TDFrameUmt::EvNCHitTest(TPoint&amp; point)
+    {
+    uint retVal;
+
+    retVal = TDecoratedFrame::EvNCHitTest(point);
+    <B>if</B> (!hitOK)
+        {
+        uLastHit = retVal;
+             <FONT COLOR="AQUA">// uLastHit saves what would have been</FONT>
+             <FONT COLOR="AQUA">// the actual Hit Test return value</FONT>
+        tpSave = point;
+             <FONT COLOR="AQUA">// tpSave is a member of your frame</FONT>
+             <FONT COLOR="AQUA">// (and client) class</FONT>
+             <FONT COLOR="AQUA">// until it would be needed for the user.</FONT>
+
+        <B>if</B> ( (retVal==HTMAXBUTTON) &#124;&#124; (retVal==HTMINBUTTON) &#124;&#124; (retVal==<FONT COLOR="YELLOW">20</FONT>) )
+           {
+           retVal = <FONT COLOR="YELLOW">32</FONT>;
+               <FONT COLOR="AQUA">// 32 is a value that is not normally</FONT>
+               <FONT COLOR="AQUA">// supported by Windows (0-21 are Windows values)</FONT>
+               <FONT COLOR="AQUA">// Using it prevents the Windows tooltips from displaying</FONT>
+           }
+        }
+    <B>return</B> retVal;
+    }
+
+<B>void</B> TDFrameUmt::EvNCLButtonUp(uint hitTest, TPoint&amp; point)
+    {
+    LPARAM lP;
+
+    <B>if</B> (hitTest == <FONT COLOR="YELLOW">32</FONT>) <FONT COLOR="AQUA">// If we hit one of the system menu button</FONT>
+        {
+        <FONT COLOR="AQUA">//  We have been trapping hit test return values,</FONT>
+        <FONT COLOR="AQUA">//  but now we need to activate one of the system menu button</FONT>
+        <FONT COLOR="AQUA">//  So, resend the last sequence of messages with hitOK set to TRUE</FONT>
+        <FONT COLOR="AQUA">//  so the messages are processed normally</FONT>
+        hitOK = TRUE;
+        lP = LPARAM MAKELPARAM(tpSave.x, tpSave.y);
+        SendMessage(WM_NCHITTEST, <FONT COLOR="YELLOW">0</FONT>, lP);
+        SendMessage(WM_NCMOUSEMOVE, uLastHit, lP);
+        PostMessage(WM_NCLBUTTONUP, uLastHit, lP);
+        hitOK = FALSE;
+        }
+    <B>else</B> <FONT COLOR="AQUA">// Process normaly</FONT>
+       TDecoratedFrame::EvNCLButtonUp(hitTest,point);
+     }
+
+<B>void</B> TDFrameUmt::EvNCLButtonDown(uint hitTest, TPoint&amp; point)
+    {
+    LPARAM lP;
+
+    <B>if</B> (hitTest == <FONT COLOR="YELLOW">32</FONT>) <FONT COLOR="AQUA">// If we hit one of the system menu button</FONT>
+        {
+        <FONT COLOR="AQUA">//  We have been trapping hit test return values,</FONT>
+        <FONT COLOR="AQUA">//  but now we need to activate one of the system menu button</FONT>
+        <FONT COLOR="AQUA">//  So, resend the last sequence of messages with hitOK set to TRUE</FONT>
+        <FONT COLOR="AQUA">//  so the messages are processed normally</FONT>
+        hitOK = TRUE;
+        lP = LPARAM MAKELPARAM(tpSave.x, tpSave.y);
+        SendMessage(WM_NCHITTEST, <FONT COLOR="YELLOW">0</FONT>, lP);
+        SendMessage(WM_NCMOUSEMOVE, uLastHit, lP);
+        PostMessage(WM_NCLBUTTONDOWN, uLastHit, lP);
+        hitOK = FALSE;
+        }
+    <B>else</B> <FONT COLOR="AQUA">// Process normaly</FONT>
+        TDecoratedFrame::EvNCLButtonDown(hitTest,point);
+    }
+</CODE>
+</PRE>
+
+
+
+
+
+ 
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

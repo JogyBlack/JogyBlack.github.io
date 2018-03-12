@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Turbo Debugger 32-bit</TITLE>
+	<META NAME="Description" CONTENT="Information about Turbo Debugger 32-bit">
+	<META NAME="Keywords" CONTENT="Jogy, Borland C++, TD32, Turbo Debugger, Windows XP, DLL, Image Base Address, Relocation, Debugging, Breakpoints">
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Turbo Debugger 32-bit</H2>
+<BR><BR><BR>
+<P align=left>
+<B>TD32 and Windows XP Information</B><BR>
+Sometimes the debugger cannot open DLLs, and they don't even 
+show in the Load Module dialog. This probably is related to a changed scheme of relocating DLLs with
+conflicting 
+<a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dndllpro/html/msdn_pagetest.asp" target="_blank">Image Base adresses</a>.</P> 
+The problem  can be solved by manualy changing these addresses for 
+the DLLs that cannot be debugged: In BC++ 5.02 from the Linker Options -> 32-bit Image -> Image base address.
+As alternative to re-linking the DLLs, use a tool like 
+<a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/tools/tools/rebase.asp" target="_blank">Rebase</a>.</P>
+
+Suitable values for the image base addresses can be determined by running the application from a debugging tool
+like <a href="bc5.html">BC++ 5.02 IDE</a> or <a href="http://www.microsoft.com/ddk/debugging/default.asp" target="_blank">WinDbg</a>
+and examining the module loading log. Changing the image base to these adresses will have the effect
+of speeding the application load, because less DLL relocations will happen.</P>
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

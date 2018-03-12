@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Programming examples</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Programmming examples</H2>
+<BR><BR><BR>
+<P align=left>
+
+<UL>Here are some small example snippets of code:</P>
+
+	<LI>Calling <A HREF="examples.html#HTMLHelp">HTMLHelp()</A> from Borland C++</P>
+
+	<LI><A HREF="examples.html#LaunchApp">LaunchApp()</A> with wait</P>
+
+	<LI><A HREF="examples.html#BrowseForFolder">BrowseForFolder()</A> with initial folder</P>
+
+	<LI><A HREF="examples.html#TFileOpenDialog">TFileOpenDialog</A> with multiple selection</P>
+	
+</UL>
+
+<BR>
+<BR>
+<HR>
+<BR>
+<BR>
+
+<DL>
+<HR><BR>
+
+	<DT><A NAME = "HTMLHelp"></A><B>Calling HtmlHelp() from Borland C++</B>
+	<DD>The HTMLHelp.lib file provided by Microsoft cannot directly be used in Borland C++, 
+	but the HTMLHelp control can be dynamicaly loaded and it's functions called.<br>
+	New version of the htmlhelp.h file can be downloaded from OWLNext site:
+	<a href="http://owlnext.sourceforge.net/add_ons/add_fil.zip">http://owlnext.sourceforge.net/add_ons/add_fil.zip</a><br>
+	
+<pre>
+<code>
+typedef HWND WINAPI (*HtmlHelpFunc)( HWND hwndCaller, LPCSTR pszFile,
+UINT uCommand, DWORD dwData );
+
+const char pszHelpOCXCtrl [] = <font color="yellow">&quot;hhctrl.ocx&quot;</font>;
+
+hHelpOCX = ::LoadLibrary(pszHelpOCXCtrl);
+if (!hHelpOCX) {
+   ::MessageBox(hwndCaller, <font color="yellow">&quot;Cannot use the html help!&quot;</font>, <font color="yellow">&quot;Error&quot;</font>, MB_OK);
+  return;
+}
+
+HTMLHelp = (HtmlHelpFunc)::GetProcAddress(hHelpOCX, ATOM_HTMLHELP_API_ANSI);
+
+<font color="aqua">// Now call HTMLHelp functions:</font>
+
+HTMLHelp(hWnd, <font color="yellow">&quot;myhelp.chm&quot;</font>, HH_DISPLAY_TOPIC, <font color="yellow">0</font>);
+HTMLHelp(hWnd, <font color="yellow">&quot;myhelp.chm&quot;</font>, HH_HELP_CONTEXT, id);
+</code>
+</pre>
+
+
+<HR><BR>
+	<DT><A NAME = "LaunchApp"></A><B>LaunchApp()</B>
+	<DD>This is an example how to call external application (like PKZip or a MSDOS batch file) 
+	    and wait till it completes it's execution.
+
+<PRE>
+<CODE>
+<B>void</B> LaunchApp(<B>const</B> <B>char</B> *program, <B>char</B> *cmdline, <B>const</B> <B>char</B> *path)
+{
+  <B>char</B> *buf = <FONT COLOR="YELLOW">0</FONT>;
+  <B>if</B> (cmdline)    <FONT COLOR="AQUA">// The lpCommandLine parameter may be modified by the call to CreateProcess(),</FONT>
+  {               <FONT COLOR="AQUA">// so make a temporary buffer to pass it safely</FONT>
+    buf = <B>new</B> <B>char</B>[strlen(cmdline) + <FONT COLOR="YELLOW">1</FONT>];
+    strcpy(buf, cmdline);
+  }
+
+  STARTUPINFO info;
+  ZeroMemory(&amp;info, <B>sizeof</B>(STARTUPINFO));
+  info.cb = <B>sizeof</B>(STARTUPINFO);
+
+  PROCESS_INFORMATION process_info;
+
+  CreateProcess(program, buf, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, <B>false</B>, CREATE_NEW_CONSOLE, <FONT COLOR="YELLOW">0</FONT>, path, &amp;info, &amp;process_info);
+
+  WaitForSingleObject(process_info.hProcess, INFINITE);
+
+  <B>delete</B> [] buf;
+}
+</CODE>
+</PRE>
+	
+	
+<HR><BR>
+
+	<DT><A NAME = "BrowseForFolder"></A><B>BrowseForFolder()</B>
+	<DD>The Windows API function BrowseForFolder() is used to prompt the user for a folder.
+	This code example demonstrates how to use function, and how to set the initial folder.
+	The code taken from the <A HREF="http://msdn.microsoft.com/library/default.asp" TARGET="_blank">MSDN</A> 
+	<A HREF="http://support.microsoft.com/support/kb/articles/q179/3/78.asp" TARGET="_blank">article</A>, 
+	and modified to use the <A HREF="owl.html">OWL</A>/<A HREF="owlnext.html">OWLNext</A> TShell class.
+	
+<PRE>
+<CODE>
+<FONT COLOR="AQUA"><I>// Callback for the BrowseForFolder, which purpose is to set the initial folder
+</I></FONT>
+<B>int</B> CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM <FONT COLOR="AQUA"><I>/*lParam*/</I></FONT>, LPARAM lpData)
+{
+  <B>switch</B> (uMsg) 
+  {
+    <B>case</B> BFFM_INITIALIZED:
+      ::SendMessage(hwnd, BFFM_SETSELECTION, (WPARAM)TRUE, lpData);
+      <B>break</B>;
+  }
+
+  <B>return</B> <FONT COLOR="YELLOW">0</FONT>;
+}
+
+
+<FONT COLOR="AQUA"><I>// The initial folder, and the result of the function are contained in buf
+</I></FONT>
+<B>bool</B> BrowseForFolder(HWND hWnd, <B>char</B> *buf)
+{
+  <FONT COLOR="AQUA"><I>// Global pointer to the shell's IMalloc interface.
+</I></FONT>
+  LPMALLOC g_pMalloc;
+
+  <FONT COLOR="AQUA"><I>// Get the shell's allocator.
+</I></FONT>
+  <B>if</B> (!SUCCEEDED(TShell::SHGetMalloc(&#38;g_pMalloc)))
+    <B>return</B> <B>false</B>;
+
+  BROWSEINFO     bi;
+  LPITEMIDLIST  pidlMyComputer;  <FONT COLOR="AQUA"><I>// PIDL for MyComputer folder
+</I></FONT>
+  LPITEMIDLIST  pidlBrowse;      <FONT COLOR="AQUA"><I>// PIDL selected by user
+</I></FONT>
+
+  <FONT COLOR="AQUA"><I>// Get the PIDL for the Programs folder.
+</I></FONT>
+  <B>if</B> (!SUCCEEDED(TShell::SHGetSpecialFolderLocation(hWnd, CSIDL_DRIVES, &#38;pidlMyComputer)))
+    <B>return</B> <B>false</B>;
+
+  <FONT COLOR="AQUA"><I>// Fill in the BROWSEINFO structure.
+</I></FONT>
+  bi.hwndOwner = hWnd;
+  bi.pidlRoot = pidlMyComputer;
+  bi.pszDisplayName = buf;
+  bi.lpszTitle = <FONT COLOR="YELLOW">"Select root folder"</FONT>;
+  bi.ulFlags = BIF_RETURNONLYFSDIRS &#124; BIF_RETURNFSANCESTORS;
+  bi.lpfn = BrowseCallbackProc;
+  bi.lParam = (LPARAM)buf;
+
+  <FONT COLOR="AQUA"><I>// Browse for a folder and return its PIDL.
+</I></FONT>
+  pidlBrowse = TShell::SHBrowseForFolder(&#38;bi);
+  <B>bool</B> result = (pidlBrowse != <FONT COLOR="YELLOW">0</FONT>);
+  <B>if</B> (result) 
+  {
+    <B>if</B> (!TShell::SHGetPathFromIDList(pidlBrowse, buf))
+      result = <B>false</B>;
+
+    <FONT COLOR="AQUA"><I>// Free the PIDL returned by SHBrowseForFolder.
+</I></FONT>
+    g_pMalloc-&#62;Free(pidlBrowse);
+  }
+
+  <FONT COLOR="AQUA"><I>// Clean up.
+</I></FONT>
+  g_pMalloc-&#62;Free(pidlMyComputer);
+
+  <B>return</B> result;
+}
+</CODE>
+</PRE>
+
+
+<HR><BR>
+
+	<DT><A NAME = "TFileOpenDialog"></A><B>TFileOpenDialog</B> with multiple files selection
+	<DD>When both the flags <B>OFN_EXPLORER</B> and <B>OFN_ALLOWMULTISELECT</B> are used in FileOpen dialog,
+	and more than one file is selected, the returned result has the following format: The path to the directory, 
+	followed by the filenames of the selected files, using '\0' as delimiters. The last filename is followed by two '\0'.
+	Here is an example how to work with the <A HREF="owl.html">OWL</A> class <B>TFileOpenDialog</B>:
+	
+<PRE>
+<CODE>
+  TOpenSaveDialog::TData FileData;
+  FileData.Flags = OFN_FILEMUSTEXIST &#124; OFN_HIDEREADONLY &#124; OFN_OVERWRITEPROMPT &#124; OFN_EXPLORER &#124; OFN_ALLOWMULTISELECT;
+  FileData.SetFilter(<FONT COLOR="YELLOW">&quot;VRML Files (*.vrml;*.wrl;*.wrz)&#124;*.vrml;*.wrl;*.wrz&#124;All Files (*.*)&#124;*.*&#124;&quot;</FONT>);
+  FileData.DefExt = <FONT COLOR="YELLOW">&quot;wrl&quot;</FONT>;
+
+  <B>if</B> (TFileOpenDialog(<B>this</B>, FileData).Execute() == IDOK)
+  {
+    <B>char</B> buf[_MAX_PATH + <FONT COLOR="YELLOW">1</FONT>];
+
+    <B>char</B> *p = FileData.FileName + strlen(FileData.FileName) + <FONT COLOR="YELLOW">1</FONT>;
+
+    <B>do</B>
+    {
+      strcpy(buf, FileData.FileName);
+      <B>if</B> (*p)   <FONT COLOR="AQUA">// The case of multiple file selection</FONT>
+      {
+        strcat(buf, <FONT COLOR="YELLOW">&quot;\\&quot;</FONT>);
+        strcat(buf, p);
+      }
+
+      <FONT COLOR="AQUA">// Process the file</FONT>
+      MessageBox(buf);
+
+      <FONT COLOR="AQUA">// go to next file name</FONT>
+      <B>if</B> (*p)
+        p = p + strlen(p) + <FONT COLOR="YELLOW">1</FONT>;
+
+    } <B>while</B> (*p);
+  }
+</CODE>
+</PRE>
+	
+</DL>
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

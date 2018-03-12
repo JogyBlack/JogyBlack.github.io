@@ -1,0 +1,577 @@
+<html>
+<head>
+
+   <title></title>
+   <meta name="Author" content="Kent Reisdorph">
+   <meta name="GENERATOR" content="Mozilla/2.01Gold (Win32)">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#990000" vlink="#336699" alink="#666666" background="bstrbk.gif"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<center><p><b><font SIZE=+3>Tips for BC++&nbsp;5.0 </font></b></p></center>
+
+<center><p><font SIZE=+1><a href="bc50faq.htm#What's New">What's<a href="bc50faq.htm#What's New"><img src="New2.gif" hspace=3 border=0 height=16 width=28></a></a>|&nbsp;<a href="#IDE">BC5
+IDE</a> |&nbsp;<a href="#OWL">OWL 5.0</a> |&nbsp;<a href="scripts.htm">Scripts</a>
+|&nbsp;<a href="bc50tips.htm#Classlib">Classlib</a> |&nbsp;<a href="bc50faq.htm">Back
+to FAQ Page</a></font></p></center>
+
+<center><p><b><font SIZE=+3><a href="#Index">Index</a></font></b></p></center>
+
+<p><font SIZE=+1>This page provides some IDE&nbsp;and OWL&nbsp;5.0 tips.
+If you have tips you think should be listed here then please <a href="bc50faq.htm#E-mail us">e-mail
+us</a> with your suggestions. Tips should be concise and in a form that
+can be implemented with a minimum amount of editing.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><font SIZE=+1><b>Installation Tip 
+<br></b>Where you are getting severe problems running BC5, it may be due
+to registry entries being messed up. To correct these, you can try using
+the install program. There is an option on the install screen to select
+an &quot;Only icons/System files/registry&quot; installation. This will
+ensure that the correct registrations are in place, overwriting any faulty
+ones. (It will not remove any superfluous entries though). Worth a try
+before de-installing and re-installing.</font></p>
+
+<center><p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p>
+<br><b><font SIZE=+2>Index</font></b></p></center>
+
+<p><a name="Index"></a><font SIZE=+1><b>IDE Tips 
+<br></b><a href="#SearchMode">Search Mode in the IDE Editor Windows 
+<br></a><a href="#DragDLL">Drag and Drop a DLL&nbsp;Onto the IDE 
+<br></a><a href="#ImportCG">Importing the CodeGuard Log in 16-bit and 32-bit
+Targets 
+<br></a><a href="#WIN32_L&M">Reducing Pre-Compiled Header Sizes in 32-bit
+Apps 
+<br></a><a href="#Ctrl-ToolTips">Undocumented IDE ToolTips 
+<br></a><a href="#AutoDepend">Autodepenency Problems? 
+<br></a><a href="#AlwaysMakesNode">IDE&nbsp;Always Makes a Certain Node
+
+<br></a><a href="#IDE Keystrokes">Save Time by Recording IDE Keystrokes
+
+<br></a><a href="#DLLs in Runtime Window">Referenced Modules Appear in
+Runtime Message Window</a> 
+<br><a href="bc50tips.htm#FasterLoading">Faster App Load Time in the IDE&nbsp;Debugger</a>
+
+<br><a href="bc50tips.htm#BuildNodes">Pick and Choose Building of Nodes</a>
+
+<br><a href="bc50tips.htm#FindingNodes">Searching for Project Nodes 
+<br></a><a href="#IDE:StartupExceptions">Startup Exceptions (TDW &amp;&nbsp;TDW32)
+
+<br></a><a href="#IDE:ResetProcess">Debugger Able to Continue After Exceptions
+Raised</a></font></p>
+
+<p><font SIZE=+1><b>OWL 5.0 Tips 
+<br></b><a href="#TModule::Error">Overriding Default Exception Behaviour
+In OWL 
+<br></a><a href="#SingleInstance">Running only a Single Instance under
+Win32 
+<br></a><a href="#TDockable:parent">Dockable Toolbars - Somewhere to Call
+Home</a> 
+<br><a href="bc50tips.htm#TDockable:location">Dockable Toolbars - Getting
+Location</a> 
+<br><a href="#TNoteTab">TNoteTab - A Better Tab Control</a> 
+<br><a href="#TRegKey">Defining Subkeys with TRegKey</a> 
+<br><a href="bc50tips.htm#TCmdLine">The TCmdLine Class (Undocumented) 
+<br></a><a href="#TSystem">The TSystem Class (Undocumented) 
+<br></a><a href="#TUIMetric">The TUIMetric Class (Undocumented) 
+<br></a><a href="#TTreeWindow:getting text">TTreeWindow - Getting the Text
+From an Item</a> 
+<br><a href="#TModuleProc">TModuleProc Templates Replace LoadLibrary()/GetProcAddress()</a>
+
+<br><a href="#Notify at Control">Grab Notification Messages at the Control
+
+<br>Easy Speed Menus</a></font></p>
+
+<p><font SIZE=+1><b>ObjectScript 
+<br></b><a href="scripts.htm#newedsiz">Replacement for EDITSIZE.SPP&nbsp;Script</a>
+
+<br><a href="scripts.htm#quickscript">Quickie Method to Attatch a Script
+to a Keystroke
+<br></a><a href="scripts.htm#sound">BC5 Sound Scheme Script 
+<br></a><a href="scripts.htm#Autosave">Autosave Editor Files Prior to Debugger
+Running 
+<br></a><a href="scripts.htm#String/string">String Functions Appear to
+be Missing 
+<br></a><a href="scripts.htm#RemoveMsgs">Removing Messages from the Message
+Window Before a Debug Session. 
+<br></a><a href="scripts.htm#Highlite">Syntax Highlighting for Scripts
+
+<br></a><a href="scripts.htm#MyScripts">Running Your Own Scripts on IDE&nbsp;Startup
+
+<br></a><a href="scripts.htm#WinHelp">Script to Check WINHELP.INI for Errors</a></font></p>
+
+<center><p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><a name="IDE"></a><b><font SIZE=+2>IDE Tips</font></b>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p></center>
+
+<p><a name="SearchMode"></a><font SIZE=+1><b>Search Mode in the IDE Editor
+Windows 
+<br></b>In the IDE&nbsp;you can enter Search Mode by typing Ctrl-S. Now
+type a key on the keyboard. The editor highlights the next occurance of
+that key. Type another key and the editor highlights the next occurance
+of the <b><i>combination</i></b> of those two keys. Type another key and
+the editor highlights the next occurance of those three characters, etc.
+The search is case sensitive. If no match is found then the IDE&nbsp;beeps
+to indicate no match. Exit Search Mode by hitting the ESC key or any arrow
+key. </font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="DragDLL"></a><font SIZE=+1><b>Drag and Drop a DLL&nbsp;Onto
+the IDE 
+<br></b>If you drag and drop a DLL&nbsp;containing resources onto the BC++
+5.0 IDE&nbsp;the resource editor will load and the DLL's resources will
+be displayed. You can also drag and drop .ico, .bmp, .rc, .res, .cur, .cgl,
+or any text file.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="ImportCG"></a><font SIZE=+1><b>Importing the CodeGuard Log
+in 16-bit and 32-bit Targets 
+<br></b>When your CodeGuard enabled application encounters an error a log
+file is created that contains information regarding the error. This is
+true whether the program is run from the IDE&nbsp;or outside of the IDE.
+The log file has the same name as the project and has a .cgl extension.
+The log file is simply a text file that contains information about the
+error. You can read the log file as-is but the BC5 IDE&nbsp;has a more
+useful way of dealing with the CodeGuard log file. You can import the log
+file into the message window. You can import the .cgl in one of two ways:</font></p>
+
+<p><font SIZE=+1>- From the project window's speed menu, choose &quot;Import
+CodeGuard Log&quot; 
+<br>- Drag the .cgl file from Explorer or FileManager and drop it on the
+message window</font></p>
+
+<p><font SIZE=+1>Once the log file is imported to the message window the
+CodeGuard information shows up under the Runtime tab. You can then double
+click on a CodeGuard message and the associated line in your source file
+will be displayed in an editor window. Even though 16-bit programs cannot
+be debugged in the IDE&nbsp;debugger, this technique still applies to 16-bit
+programs as well as 32-bit programs.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="WIN32_L&M"></a><font SIZE=+1><b>Reducing Pre-Compiled Header
+Sizes in 32-bit Apps 
+<br></b>If your 32-bit apps do not use OLE&nbsp;you can reduce the pre-compiled
+header sizes by #defining WIN32_LEAN_AND_MEAN for the project. This will
+prevent the OLE&nbsp;headers from being accessed. You can either add a
+#define to your headers, or add the WIN32_LEAN_AND_MEAN define to the Defines
+section for the project (Options |&nbsp;Project |&nbsp;Compiler |&nbsp;Defines).
+This should also reduce the time of your builds.</font></p>
+
+<p><font SIZE=+1><b>Note:&nbsp;</b>If you are building an OWL&nbsp;app
+then you must #include WINDOWS.H and SHELLAPI.H&nbsp;<b>before</b> any
+OWL&nbsp;headers that your project uses.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Ctrl-ToolTips"></a><font SIZE=+1><b>Undocumented IDE&nbsp;ToolTips
+
+<br></b>You know that if you place the mouse cursor over a button on the
+IDE's control bar that you will get a tool tip describing what the button
+does. But there's more to it: If you press and hold the Ctrl key before
+placing the cursor over a button you will get the name of the cScript function
+that corresponds to the button. For example holding Ctrl and placing the
+cursor over the File Open button will yield tool the tool tip text, &quot;IDE.FileOpen();&quot;</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="AutoDepend"></a><font SIZE=+1><b>Autodependencies Problems?
+
+<br></b>If your build dependencies are cured by switching to Dependencies
+| Use instead of Cache, try this cure. Run the tool StripAutodependencies
+against the top node of your project. (Add a tool by selecting Advanced
+| Add To Tools Menu from the Options | Tools... dialog)</font>.</p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="AlwaysMakesNode"></a><font SIZE=+1><b>The IDE Always Makes
+a Certain Node 
+<br></b>If the IDE always makes a node, check the message in the Buildtime
+page of the messages window. This will tell you what file the rebuild is
+due to. Check the spelling carefully. Then expand the [.cpp] node that
+is getting rebuilt. The chances are that the dependency is an [.h] node
+that is no longer used but is still listed under the [.cpp] node and the
+source has also been deleted from the disk. You can safely delete the [.h]
+node.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="IDE Keystrokes"></a><font SIZE=+1><b>Save Time by Recording
+IDE&nbsp;Keystrokes 
+<br></b>Keystroke recording works for the project window. If you want to
+turn on and off CodeGuard or some other option, it is tedious to do this
+for multiple targets. Without even using scripting you can do this by:
+</font></p>
+
+<p><font SIZE=+1>1. Get all the nodes contracted to just show the target
+
+<br>2. Turn on record Ctrl-Shift-R 
+<br>3. Use alt-F10 to open up the speedmenu, use the arrow key to go to
+TargetExpert, press Enter 
+<br>4. Tab/Shift Tab to the option you want to change 
+<br>5. Use space to change the check boxes 
+<br>6. Press enter to close the dialog 
+<br>7. Use &quot;-&quot; to close the target node (which the IDE expands
+for some reason) 
+<br>8. Use a down arrow to move to the next node 
+<br>9. Press Ctrl-Shift-R to turn off record 
+<br>10. Press Ctrl-Shift-P to replay against subsequent nodes. </font></p>
+
+<p><font SIZE=+1>By cunning use of the keyboard, you can use this technique
+for a number of tasks. </font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="DLLs in Runtime Window"></a><font SIZE=+1><b>Referenced Modules
+Appear in Runtime Message Window 
+<br></b>Prior to version 5.0 of BC++&nbsp;if you wanted to know what DLLs
+your program relied on you had to run TDUMP&nbsp;on the final .exe or use
+a similar utility. Now all of the DLLs that your program loads are listed
+in the message window under the Runtime tab.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="FasterLoading"></a><font SIZE=+1><b>Faster App Load Time in
+the IDE&nbsp;Debugger 
+<br></b>Running a program from the IDE can be tedious to kick off because
+the IDE always does a dependency check. There is a simple workaround, add
+another identical target, choose Options | Project | Make and mark the
+target as Never Build. (You don't need to add any source files underneath
+the node). You can then run this node instead and it will pick up the source
+and debug as if you were running the original node.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="BuildNodes"></a><font SIZE=+1><b>Pick and Choose Building of
+Nodes 
+<br></b>Under V5.0, you can select both a DLL node and an EXE node at the
+same time to make or build in one pass. Under 4.0, you could not build
+mixed nodes at the same time. </font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="FindingNodes"></a><font SIZE=+1><b>Searching for Project Nodes
+
+<br></b>If you have a large project, do you sometimes lose your node? The
+project view has an incremental search. With a node highlighted, simply
+type the text you want to find in the project window. If the first match
+is ambiguous, use Ctrl-S to search forward to the next match. Use Esc to
+quit the search. The nodes must be visible. Use * to expand all the branches
+of a project.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="IDE:StartupExceptions"></a><font SIZE=+1><b>Exceptions on Startup
+
+<br></b>Under TD32 or TDW, there is an option to show exceptions when they
+are raised. <b>This is not a GPF! </b>You can continue execution with F9.
+With an AppExpert application with registration enabled, exceptions will
+be raised AND HANDLED under NT 3.51 as not all the standard keys aliased
+in TRegKey are present. You can safely ignore these exceptions. You can
+use Options | Exceptions and set both settings to None and you will not
+get the exception raised notification. As a general point, exceptions and
+GPFs during startup are caused by static (or global) constructors being
+called.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="IDE:ResetProcess"></a><font SIZE=+1><b>Debugger Able to Continue
+After Exceptions Raised 
+<br></b>In the IDE&nbsp;debugger when an exception is raised you will get
+an &quot;Access Violation&quot;&nbsp;dialog box. At this point you may
+reset the process (Debug | Reset this process) and the debugee will restart.
+You don't have to use &quot;Terminate Process&quot; to kill the debugee.</font></p>
+
+<center><p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><a name="OWL"></a><b><font SIZE=+2>OWL&nbsp;Tips</font></b>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p></center>
+
+<p><a name="TModule::Error"></a><font SIZE=+1><b>Overriding Default Exception
+Behaviour In OWL</b> 
+<br>When an exception gets thrown in OWL, it gets caught in the main message
+loop. The default processing, which is defined in TModule::Error() is to
+notify the user, displaying the message from an xmsg derived exception,
+offering the user a chance to quit or continue. By overriding TModule::Error
+in your application, you can display your own message or force close down
+by returning false as a result. However, it is best to handle exceptions
+locally in the message they have occurred and only use Error as a last
+resort.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="SingleInstance"></a><font SIZE=+1><b>Running only a Single
+Instance under Win32</b> 
+<br>This technique for preventing multiple instances of a program uses
+a mutex which are truely global under Win32. Win32 cleans up mutexes when
+an app ends, so this technique is safe, even after your app crashes. </font></p>
+
+<p><tt><font SIZE=+1><b>int</b> OwlMain(<b>int</b>, <b>char</b>*[]) 
+<br>{ 
+<br>&nbsp;&nbsp;TMutex m(<font COLOR="#0000FF">&quot;UniqueApplicationNameWhichMustNotClashWithAnythingElse&quot;</font>);
+
+<br>&nbsp;&nbsp;<b>if</b> (GetLastError() == ERROR_ALREADY_EXISTS) { 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i><font COLOR="#000080">// Optionally use
+FindWindow technique to bring 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;// existing window to top</font></i> 
+<br>&nbsp;&nbsp;} 
+<br>&nbsp;&nbsp;<b>else return</b> MyApp.Run(); 
+<br>}</font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TDockable:parent"></a><font SIZE=+1><b>Dockable Toolbars -
+Somewhere to Call Home 
+<br></b>You may have a toolbar that you set up but do not immediately display.
+When used this way dockable toolbars should always be created with the
+THarbor as parent, even if not required initially. You need to use Create()
+if dynamically added after InitMainWindow(). </font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TDockable:location"></a><font SIZE=+1><b>Dockable Toolbars
+- Getting Location 
+<br></b>You can find out where your TDockableControlBar is on the screen
+(for example for storing when hiding for reshowing later) by using: </font></p>
+
+<p><tt><font SIZE=+1>TAbsLocation tbLoc; 
+<br>TEdgeSlip *edgeSlip = dynamic_cast&lt;TEdgeSlip *&gt;(tb-&gt;Parent);
+
+<br>if (edgeSlip) tbLoc = edgeSlip-&gt;GetLocation() 
+<br>else tbLoc = alNone; </font></tt></p>
+
+<p><font SIZE=+1>You can find out where a floating docakble toolbar is
+like this: </font></p>
+
+<p><tt><font SIZE=+1>if (tbLoc == alNone) { 
+<br>&nbsp;&nbsp; TRect rect; 
+<br>&nbsp;&nbsp;&nbsp;TFloatingSlip* fs = dynamic_cast&lt;TFloatingSlip*&gt;(previousSlip);
+
+<br>&nbsp;&nbsp;&nbsp;if (fs) { &nbsp;&nbsp;&nbsp;<i>// Could be just nowhere
+in the harbor</i> 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs-&gt;GetRect(rect); 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where = rect.TopLeft(); 
+<br>&nbsp;&nbsp;&nbsp;} 
+<br>} </font></tt></p>
+
+<p><font SIZE=+1>(alNone means it is a floating slip or nowhere). </font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TNoteTab"></a><font SIZE=+1><b>TNoteTab - A Better Tab Control
+
+<br></b>The TTabControl based on the common control only seems to allow
+tabs across the top of the screen. By using the TNoteTab you can get a
+notebook control that functions and looks like the tab used in the IDE
+message window. It is not limited to 32 bit either. 
+<br>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p>
+<br><a name="TUIMetric"></a><b>The TUIMetric Class (Undocumented) 
+<br></b>This undocumented class 'encapsulates' the system metrics information
+you would normally obtain via the API function GetSystemMetrics(). The
+class consists only of several static members. For example, to get the
+width of the screen (in pixels)&nbsp;you would use:</font></p>
+
+<p><tt><font SIZE=+1>int sWidth = TUIMetric::CxScreen;</font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TSystem"></a><font SIZE=+1><b>The TSystem Class (Undocumented)
+
+<br></b>This is a very useful class for finding out about the system you
+are running on. It isn't documented but OWL uses it, and you'll find the
+headers in \bc5\include\winsys\system.h and the body in \bc5\source\classlib\system.cpp.
+Usage: </font></p>
+
+<p><tt><font SIZE=+1>if (TSystem::IsWin95()) 
+<br>&nbsp;&nbsp;&nbsp;<i><font COLOR="#000080">// Do some Win95 specific
+thing</font></i></font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TCmdLine"></a><font SIZE=+1><b>The TCmdLine Class (Undocumented)
+
+<br></b>You can easily process command lines passed to your app with TCmdLine.
+This simple helper class is not documented, but the header file in \bc5\include\classlib\cmdline.h
+explains it all. Here is a code sample from AppExpert (note the string
+comparison): </font></p>
+
+<p><tt><font SIZE=+1>TCmdLine cmd(CmdLine); 
+<br>while (cmd.Kind != TCmdLine::Done) { 
+<br>&nbsp;&nbsp;if (cmd.Kind == TCmdLine::Option) { 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if (strnicmp(cmd.Token, &quot;unregister&quot;,
+cmd.TokenLen) == 0) { &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnRegisterInfo();
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return; 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;} 
+<br>&nbsp;&nbsp;} 
+<br>&nbsp;&nbsp;cmd.NextToken(); 
+<br>}</font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TRegKey"></a><font SIZE=+1><b>Defining Subkeys with TRegKey
+
+<br></b>When defining subkeys with TRegKey, do not use a leading &quot;\&quot;.
+This will work under Win95, but will fail under WinNT 3.51, e.g. </font></p>
+
+<p><tt><font SIZE=+1>TRegKey key(TRegKey::CurrentUser, 
+<br><font COLOR="#0000FF">&nbsp;&nbsp;&quot;\\Software\\Honor Oak Systems\\RegisterApp&quot;</font>);
+<i><font COLOR="#000080">// fails</font></i> 
+<br>TRegKey key(TRegKey::CurrentUser, 
+<br><font COLOR="#0000FF">&nbsp;&nbsp;&quot;Software\\Honor Oak Systems\\RegisterApp&quot;</font>);
+<i><font COLOR="#000080">// Succeeds</font></i></font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TTreeWindow:getting text"></a><font SIZE=+1><b>Getting the
+text from an item in a TTreeWindow 
+<br></b>In order to get the text from a TTreeWindow item you need to use
+both a TTreeNode and a TTreeItem. Still, once you've taken those steps
+just creating a TTreeItem with the default constructor and then using TTreeItem::GetText()
+will not work. You need to use the TTreeItem::TTreeItem(const char far*,
+int len = 0)&nbsp;form of the constructor.&nbsp;The following code illustrates:</font></p>
+
+<p><tt><font SIZE=+1>TTreeNode node(*tree, hItem); 
+<br><b>char</b> buff[<font COLOR="#0000FF">50</font>]; 
+<br>TTreeItem item(buff, <b>sizeof</b>(buff)); 
+<br>node.GetItem(&amp;item); 
+<br><i><font COLOR="#000080">// 'buff' now contains the item text 
+<br></font></i>MessageBox(buff, &quot;Text in the item&quot;);</font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TModuleProc"></a><font SIZE=+1><b>TModuleProc Templates Replace
+LoadLibrary()/GetProcAddress()</b> 
+<br>TModuleProc&lt;&gt; templates are an excellent way of replacing LoadLibrary()/GetProcAddress()
+code sequences. Use them to create type safe function calls into dynamically
+loaded DLLs. e.g. </font></p>
+
+<p><tt><font SIZE=+1><b>class</b> MyModule : <b>public</b> TModule { 
+<br>&nbsp;&nbsp;MyModule(<b>const</b> <b>char</b>* name, <b>bool</b> shouldLoad,
+<b>bool</b> mustLoad) 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;: TModule(name, shouldLoad, mustLoad) , 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;SomeFunction(&quot;SomeFunctionNameInTheDLL&quot;)
+<i><font COLOR="#000080">// Initialise proc</font></i> 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;{} 
+<br>&nbsp;&nbsp;TModuleProc2&lt;<b>bool</b>, <b>const char</b>*, <b>long</b>&gt;
+SomeFunction; 
+<br>}; 
+<br>
+<br><i><font COLOR="#000080">// Load the lib using new TModule constructor
+
+<br></font></i><b>try</b> { 
+<br>&nbsp;&nbsp;MyModule lib(<font COLOR="#0000FF">&quot;MYLIB.DLL&quot;</font>,<b>true</b>,<b>true</b>);
+
+<br>&nbsp;&nbsp;if (lib.SomeFunction(<font COLOR="#0000FF">&quot;String&quot;</font>,<font COLOR="#0000FF">0L</font>))
+<i><font COLOR="#000080">// Do something</font></i> 
+<br>} 
+<br><b>catch</b> (TXOwl&amp; x) { 
+<br>&nbsp;&nbsp;MessageBox(x.why().c_str(),<font COLOR="#0000FF">&quot;Failed
+to load DLL or Find Proc Error&quot;</font>); 
+<br>}</font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Notify at Control"></a><font SIZE=+1><b>Grab Notification Messages
+at the Control 
+<br></b>You can handle notification messages sent as WM_NOTIFY (e.g. those
+sent by the common controls) at the child control by using the same event
+handling macros as the parent would use. Instead of putting the control
+id in the macro, use UINT_MAX as the control id, e.g. </font></p>
+
+<p><tt><font SIZE=+1>EV_LVN_COLUMNCLICK(UINT_MAX, LvnColumnClick),</font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="AssignContextMenu"></a><font SIZE=+1><b>Easy Speed Menus 
+<br></b>You can have context menus automatically handled for you by using
+the TWindow function AssignContextMenu(TPopupMenu*) to set a menu for any
+window. </font></p>
+
+<p><font SIZE=+1>Under 16 bit Windows you can get this functionality by
+adding: </font></p>
+
+<p><tt><font SIZE=+1><i><font COLOR="#000080">// Untested code follows</font></i>
+
+<br><font COLOR="#008000">#if defined (BI_PLAT_WIN16)</font> 
+<br>&nbsp;&nbsp;<b>void</b> MyWindow::EvRButtonUp(uint modKeys, TPoint&amp;
+point) 
+<br>&nbsp;&nbsp;{ 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;ClientToScreen(point); &nbsp;&nbsp;&nbsp;&nbsp;
+
+<br>&nbsp;&nbsp;&nbsp;&nbsp;SendMessage(WM_CONTEXTMENU,GetHandle(), 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAKELPARAM((WORD)point.x,(WORD)point.y));
+
+<br>&nbsp;&nbsp;} 
+<br><font COLOR="#008000">#endif</font> </font></tt></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<center><p><a name="Classlib"></a><b><font SIZE=+2>Classlib</font></b></p></center>
+
+<p><font SIZE=+1><b>Persistent Streams and seekg()/seekp() 
+<br></b>Don't try and reposition in a persistant stream with seekg/seekp.
+These clear the object database, leading to peculiar mismatches on streamed
+objects. If you need to reposition during object reading code, use </font></p>
+
+<p><font SIZE=+1><tt>is.rdbuf()-&gt;seekoff( size, ios::cur, ios::in );</tt>
+</font></p>
+
+<p><font SIZE=+1>which gets the stream buffer and accesses the seeking
+without disturbing the object database.</font></p>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2000, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></body>
+
+
+</html>

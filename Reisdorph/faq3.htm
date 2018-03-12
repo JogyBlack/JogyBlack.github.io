@@ -1,0 +1,669 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+
+   <TITLE></TITLE>
+   <META NAME="Author" CONTENT="Kent Reisdorph">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (WinNT; I) [Netscape]">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</HEAD>
+<BODY background="bstrbk.gif" bgcolor="#FFFFFF" text="#000000" link="#990000" vlink="#336699" alink="#666666"><!--msnavigation--><table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<CENTER><P><A NAME="Patches"></A><B><FONT SIZE=+2>Patches/Updates</FONT></B></P></CENTER>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="502"></A><FONT SIZE=+1><B>BC++&nbsp;5.02 Available<BR>
+</B><A HREF="http://www.borland.com/borlandcpp/">BC++&nbsp;5.02</A> is
+now available. Check with Borland customer service or your local Borland
+representative for details. This release is primarily designed to make
+BC++ and C++Builder compatible. Numerous bugs were fixed as well as a few
+IDE&nbsp;enhancements. The big news is that BC++&nbsp;now includes an incremental
+linker (ILINK&nbsp;for short). ILINK&nbsp;takes a little longer on the
+first build and after a Build All, but after that the links are lightning
+fast. On the downside the ILINK&nbsp;files can be quite large. Be sure
+to delete any *.il?&nbsp;files for old projects you are no longer using
+regularly. Also, be sure to build your application without ILINK&nbsp;for
+any final builds.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><FONT SIZE=+1><B>5.01 Note:</B> There is no patch to go from 5.0B to
+5.01. Call Borland Customer Service if you don't have the 5.01 update CD.</FONT></P>
+
+<P><FONT SIZE=+1>Borland appears to be implementing an agressive patch
+policy with the release of 5.0. To date two patches have been released.
+You should apply all patches as they are made available. Patches are to
+be applied sequentially (patch 1 followed by patch 2, etc.). Patch 2 requires
+PATCH.EXE version 3.2 which is not on the CD. You can use Patch 3.2 for
+all of the patches.</FONT></P>
+
+<P><FONT SIZE=+1>If you are using Win95 you may also want to apply any
+patches available for Win95. You can find them at the <A HREF="http://www.microsoft.com">Microsoft</A>
+web site.</FONT></P>
+
+<P><FONT SIZE=+1><B>NOTE:</B> PATCH 3.20 may fail if it encounters any
+read-only files. Before running Patch.exe you should check your BC5 files
+for any having the read-only attribute set. In addition, any DLLs loaded
+into memory will not be able to be patched. We highly recommend a clean
+boot before applying patches.</FONT></P>
+
+<P><A NAME="download patches"></A><FONT SIZE=+1><B>Available Patches for
+BC++&nbsp;5.0<BR>
+</B><A HREF="ftp://ftp.borland.com/pub/techinfo/techdocs/language/cpp/bcpp/patch/bc501p1.zip">Download
+BC++&nbsp;5.01 Patch #1 (1 MB) (NOTE:&nbsp;For 5.01, US&nbsp;Version)<BR>
+</A><A HREF="ftp://ftp.borland.com/pub/techinfo/techdocs/language/cpp/bcpp/patch/bc50p1.zip">Download
+BC++&nbsp;5.0 Patch #1 (1.5 MB) <BR>
+</A><A HREF="ftp://ftp.borland.com/pub/techinfo/techdocs/language/cpp/bcpp/patch/bc50p2.zip">Download
+BC++&nbsp;5.0 Patch #2 (1.0 MB) <BR>
+</A><A HREF="ftp://ftp.borland.com/pub/techinfo/techdocs/language/cpp/bcpp/patch/owlex.zip">Download
+BC++&nbsp;5.0 OWLEX.ZIP (Patch.exe not required, 61K) <BR>
+</A><A HREF="bcerrmsg.zip">Download BC++ 5.0 BCERRMSG.ZIP&nbsp;(Patch.exe
+not required, 238K) <BR>
+</A><A HREF="ftp://ftp.borland.com/pub/techinfo/techdocs/language/cpp/bcpp/patch/dllmixex.zip">Download
+DLLMIXEX.ZIP&nbsp;</A></FONT><I>(Allow exception handling to work on BC++&nbsp;DLLs
+called from non-BC++&nbsp;apps) <BR>
+</I><FONT SIZE=+1><A HREF="http://www.fineart.com.tw/~casperyu/bc50dbcs.zip">Dowload
+BC50DBCS.ZIP</A> </FONT><I>(Allows double-byte character support for RW)</I></P>
+
+<P><FONT SIZE=+1><A HREF="ptch_utl.zip">Download PTCH_UTL.ZIP (Patch v.
+3.20, PatchNT, Patchw32.DLL, 133K)</A></FONT> <BR>
+</P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="501Patch"></A><FONT SIZE=+1><B>First Patch for BC++&nbsp;5.01
+Available<BR>
+</B>This patch has two parts--the actual patch and a second zip file containing
+some new VDBT dlls. Most of what the patch addresses are Resource Workshop
+fixes and enhancements. This patch is only for the U.S. version of BC++&nbsp;5.01.
+<A HREF="ftp://ftp.borland.com/pub/techinfo/techdocs/language/cpp/bcpp/patch/bc501p1.zip">Download
+now (1 MB)</A>.</FONT><BR>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Need Patch?"></A><FONT SIZE=+1><B>Do I&nbsp;Need the Patch?
+<BR>
+</B>You may or may not need a particular patch depending on when you purchased
+5.0. To determine whether or not you need to apply the patch look at the
+version number in the About dialog. It will show one of the following:</FONT></P>
+
+<P><FONT SIZE=+1>Version 5.0 - No patches have been applied. Apply patches
+1 and 2. <BR>
+Version 5.0A - Patch 1 has been applied. Apply patch 2 <BR>
+Version 5.0B - Patches 1 and 2 have been applied. Get the 5.01 update CD.</FONT></P>
+
+<P><FONT SIZE=+1>Version 5.01 - Apply BC501P1.RPT (Patch 1 for version
+5.01)<BR>
+Version 5.01A - No patches required.</FONT></P>
+
+<P><FONT SIZE=+1>Patches must be applied in order.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Crash after P1"></A><FONT SIZE=+1><B>Dialog Editor Crashes
+After Applying Patch 1 <BR>
+</B>This is uncommon but has occurred on a couple of occasions that I am
+aware of. The only fix that I know of is <A HREF="#Uninstall">uninstalling</A>
+5.0 completely, and then reinstalling and immediately applying the patches.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Patch Crashes"></A><FONT SIZE=+1><B>Problems with PATCH.EXE
+3.20 (crashes or hangs) <BR>
+</B>Try the following suggestions:</FONT></P>
+
+<P><FONT SIZE=+1>1. Before running the patch you should check your BC5
+files for any having the read-only attribute set. The patch may file if
+it encounters read-only files. Before running patch clear the read-only
+attribute from all files by typing the following from a DOS&nbsp;prompt
+in your \bc5 directory:&nbsp;</FONT></P>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<P><B><TT><FONT SIZE=+1>attrib *.* -r /s</FONT></TT></B></P>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<P><FONT SIZE=+1>2. Win95 users should try PATCH_NT.EXE (<A HREF="#download patches">available
+here</A>) under Win95. </FONT></P>
+
+<P><FONT SIZE=+1>3. We&nbsp;suggest that you only run the patch from the
+\bc5 directory. Copy both patch.exe and the patch file to that directory
+and run it from there. In some cases it may be necessary to reboot and
+run the patch from DOS&nbsp;mode. Running PATCH_NT should make running
+the patch in DOS&nbsp;mode unneccessary.</FONT></P>
+
+<P><FONT SIZE=+1>4. Carefully watch the two prompts which ask for your
+\windows\system directory. In some cases the second prompt incorrectly
+identifies your system directory. Be sure you enter the correct information
+for each prompt.</FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><B><FONT SIZE=+2>Installation and General Issues</FONT></B>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="FPBug"></A><FONT SIZE=+1><B>Floating Point Problems with Win95/NT&nbsp;4<BR>
+</B>There have been various reports that strange floating point errors
+occur under Win95. For whatever reason, some Win95 and MS add-in software
+affects the floating point unit (FPU) leaving it in a different state.
+It may not be obvious what the cause is and it affects both 16 &amp; 32
+bit programs. For example, simply using the common dialog for opening files
+may be sufficient to trigger the problem (even when cancelling out). If
+you have such an error you can work around it by calling _fpreset() (using
+#include &lt;float.h&gt;) [or] after a known access to a problem, before
+attempting floating point calculation. This may apply to NT 4 - any reports
+appreciated.</FONT></P>
+
+<P><FONT SIZE=+1>Note: this is in addition to the original SAGE.DLL FP
+problem that was fixed with <A HREF="http://computermedic.com/95up.htm">Win95
+Service Pack 1</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="NoQS"></A><FONT SIZE=+1><B>QuickSite Software Missing from
+5.01 CD<BR>
+</B>Some 5.01 CD were accidentally shipped without the QuickSite Software.
+If you do not have a QuickSite directory on your 5.01 CD call Borland Customer
+Service for a replacement CD.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="OldLibs"></A><FONT SIZE=+1><B>Static Libraries Built in 4.5x
+Can't be Read in 5.0 Programs <BR>
+</B>This is documented in the README.TXT file. The bottom line is that
+name mangling has changed to include the calling convention. From the readme
+file, &quot;You need to recompile the old code with the new compiler, or
+use the -VC backward compatibility switch to inhibit the new mangling.&quot;</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Install501"></A><FONT SIZE=+1><B>Installing 5.01 <BR>
+</B>In general read the INSTALL.TXT and README.TXT files. Here are the
+high points of INSTALL.TXT:</FONT></P>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Do not install Borland C++ 5.01 over previously installed
+Borland C++ directories.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>We recommend that you do not install Borland C++ to a
+path that contains spaces or long filenames. </FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>To avoid potential conflicts when Setup installs system
+files, we recommend that you close down all other running applications
+before installing Borland C++. </FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>To update from Version 4.5 or earlier, you need to delete
+the old version of Borland C++ from your system before installing Version
+5.01. See INSTALL.TXT for more info.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>To update from Version 5.0, copy the latest uninstall
+program, BC5RMV.EXE, from the CD located in the \WINNT or \WIN95 directory
+to your current WINDOWS directory. Then uninstall Borland C++ 5.0 before
+installing Borland C++ 5.01.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<P><FONT SIZE=+1>After running the uninstall program you will likely have
+part of the \BC5 directory tree remaining. This is the time to take a look
+through the \BC5 directories and move any files you want to a safe place
+(scripts, project files, etc.). Now delete the remaining \BC5 directories.
+As a safety precaution I&nbsp;recommend searching your registry by running
+REGEDIT -v. Search for &quot;\BC5&quot; and delete any keys that reference
+\BC5 (other than possibly the Help keys or any MRU keys). This is purely
+precautionary if you have followed the steps outline above but I&nbsp;always
+feel better having done it. Now you are ready to install 5.01.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Unreg"></A><FONT SIZE=+1><B>Update Registry Entries Without
+Reinstalling <BR>
+</B>You can remove the registry entries by running &quot;\bc5\unreg -d&quot;
+from a DOS&nbsp;box. (This may take several minutes). Following that you
+need to run the setup.exe found on the CD. However when it asks you what
+kind of installation you would like to do choose &quot;Icons\System Files\Registry&quot;.
+Then just finish the installation as directed. </FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="CTL3D.PAK in NT"></A><B><FONT SIZE=+1>Error Installing CTL3D.PAK
+on NT</FONT></B> <BR>
+<FONT SIZE=+1>Under NT, the install program does not correctly handle the
+CTL3D.PAK installation, it fails with a Retry/Abort message box. NT will
+not let you delete the file, however it will let you move it(!). When the
+message box appears, switch to file manager, move CTL3D32.DLL to somewhere
+you can find it later for deletion and then retry. The installation can
+continue. After logging off and on again (no need to reboot) you can delete
+the old CTL3D32.DLL. (With thanks to <A HREF="http://www.pfdpf.state.oh.us/msawczyn/files/">Michael
+Sawczyn</A>). </FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="InstallErrorDLLCTL3D.PAK"></A><FONT SIZE=+1><B>Error Installing
+DLLCTL3D.PAK <BR>
+</B>The BC++ installation requires that NO other software be running when
+you install BC++&nbsp;5.0. This includes sneaky 'apps' like the MS&nbsp;Office
+Toolbar. Be sure to terminate all running apps and try the installation
+again. </FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><BR>
+<A NAME="WINOLDAP"></A><FONT SIZE=+1><B>WINOLDAP Doesn't Unload (Win95)
+<BR>
+</B>When you try to shut down Win95 you may get a warning stating that
+WINOLDAP is still running. This is because WINOLDAP is not being automatically
+closed when it finishes. In order to remedy this you need to modify the
+DOS&nbsp;box properties for CONAGENT.EXE, CONAGENT.PIF, or _DEFAULT.PIF
+(probably in \windows).</FONT></P>
+
+<P><FONT SIZE=+1>1. Start Explorer. <BR>
+2. Locate one of the above files in the \windows\system directory. <BR>
+3. When over the file click the right mouse button. <BR>
+4. Choose 'Properties' from the speed menu. <BR>
+5. Choose the 'Program' tab. <BR>
+6. Turn on the 'Close on exit' option.</FONT></P>
+
+<P><FONT SIZE=+1>You may not have all of the above files. If not, modify
+whatever files you can find just to be safe.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Uninstall"></A><FONT SIZE=+1><B>Uninstall Hangs <BR>
+</B>The uninstall program appears to hang when it is removing the registry
+entries. This can take from 10 to 30 minutes. During this phase the uninstall
+dialog box will not repaint properly and the task list (Ctrl-Alt-Del) will
+show that the uninstall is not responding. Just be patient and it will
+eventually finish. After the uninstall process is done a portion of the
+BC5 directory tree will remain on your hard drive. Go to Explorer or File
+Manager and delete the remaining directories to complete the uninstall.
+If you are obsessive about such things you could also go through the registry
+(run REGEDIT /v) and remove all references to Borland and BC5. Now you
+can reinstall 5.0.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="4.5x and 5.0"></A><FONT SIZE=+1><B>Using 4.5x and 5.0 on the
+Same System <BR>
+</B>Both versions of Borland C++&nbsp;can co-exist on the same system.
+In fact, I&nbsp;have had both versions running at the same time although
+I&nbsp;don't think I'd attempt any serious work that way. Users report
+different methods of installing the two versions. I&nbsp;can only report
+what worked for me and the steps I&nbsp;took:</FONT></P>
+
+<P><FONT SIZE=+1>1. Completely remove all hints of BC++&nbsp;from your
+system. This includes editing the registry with REGEDIT /v and removing
+all references to 'Borland' and 'BC'. <BR>
+2. Install BC++&nbsp;4.52. <BR>
+3. Immediately install BC++ 5.0 and apply all <A HREF="#Patches">patches</A>.</FONT></P>
+
+<P><FONT SIZE=+1>Those are the step I&nbsp;took to install both versions
+on Win95 and it worked for me.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="RWAddon"></A><FONT SIZE=+1><B>Problem w/ RWADDON.DLL <BR>
+</B>The registry entries were not properly set up by the install program.
+You can remove the registry entries by running &quot;\bc5\bin\unreg -d&quot;
+from a DOS&nbsp;box. (This may take several minutes). Following that you
+need to run the setup.exe found on the CD. However when it asks you what
+kind of installation you would like to do choose &quot;Icons\Program Files
+\Registry&quot;. Then just finish the installation as directed.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="4.52 CD in Box"></A><FONT SIZE=+1><B>Why is there a BC++ 4.52
+CD in the 5.0 box? <BR>
+</B>The 4.52 CD is provided as a courtesy to users who are upgrading from
+versions of BC++&nbsp;prior to 4.52. You don't need the 4.52 CD&nbsp;to
+perform the 5.0 install. If you are going to be doing heavy 16-bit development
+and need the IDE&nbsp;debugger you may want to use BC++ 4.52 rather than
+5.0 (the 5.0 IDE&nbsp;debugger is 32-bit only). Another solution is to
+develop in 32-bits using 5.0 and the IDE&nbsp;debugger and then do an occaisional
+build in 16-bits (using either 5.0 or 4.52) to check your progress.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<CENTER><P><B><FONT SIZE=+2>The BC++&nbsp;5.0 IDE</FONT></B></P></CENTER>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="LowHDSpace"></A><FONT SIZE=+1><B>Out of Memory Errors During
+Compile or Link - Revisited <BR>
+</B>If you are getting &quot;Out of Memory&quot;&nbsp;errors in 32-bit
+projects during compiling or linking then be sure to check your hard disk
+space on the drive where BC5 resides. This is true even if the project
+being compiled resides on a different drive with plenty of hard disk space.
+If you get below 10MB&nbsp;free on the hard drive then you may start getting
+this message. If your project and BC5 reside on the same drive then anything
+below 20MB&nbsp;free could cause problems. The quickest way to free up
+hard disk space is to search the drive for *.csm ,*.obj, and *.exe and
+get rid of matching files for any projects you are not currently working
+on. Obviously, take care when deleting .obj and .exe files.</FONT></P>
+
+<P><FONT SIZE=+1><A HREF="faq1.htm#Out of Memory">Click here for info on
+&quot;Out of Memory&quot; errors in 16-bit projects.</A></FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="bPointCrash"></A><FONT SIZE=+1><B>Error Setting Breakpoint:&nbsp;&quot;Invalid
+page fault in module COMP32.DLL&quot; <BR>
+</B>When setting a breakpoint you see the following:</FONT></P>
+
+<P><B>&quot;This program has performed an illegal operation and will be
+shut down. If the problem persists, contact the program vendor.&quot; <BR>
+details -&gt; BCW caused an invalid page fault in module COMP32.DLL at
+0137:019138fc....&quot;</B></P>
+
+<P><FONT SIZE=+1>Something has gone wrong with the installation. You will
+need to <A HREF="#Uninstall">uninstall</A> and reinstall. To maximize chances
+of success you may want to copy the Setup folder from the CD to your hard
+drive. Then reboot in Safe Mode and reinstall from your hard drive rather
+than the CD. Immediately apply both patches (still in Safe Mode).</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="CTL3D&BWCC"></A><FONT SIZE=+1><B>App GPFs on MessageBox( )
+When Run From IDE <BR>
+</B>This problem shows up under NT&nbsp;3.51 when both CTL3D and BWCC are
+enabled and the app is run from the IDE. Usually the symptom is a GPF on
+a call to MessageBox( ) or on executing a dialog. Removing the EnableBWCC(&nbsp;)&nbsp;call
+should take care of it. As we have said in other parts of this page we
+recommend against using BWCC. The combination of CTL3D and new OWL&nbsp;classes
+like TGlyphButton make BWCC unneccesary.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Autosave"></A><FONT SIZE=+1><B>Autosave Does Not Work for Editor
+Files <BR>
+</B>The Autosave feature is not functional for editor files. If you want
+your editor files to be saved just before you run the debugger then use
+the following script:</FONT></P>
+
+<P><TT><FONT SIZE=+1><B>import</B> IDE; <BR>
+<B>import</B> debugger; </FONT></TT></P>
+
+<P><TT><FONT SIZE=+1><B>on</B> debugger:&gt;DebugeeAboutToRun() { <BR>
+&nbsp;&nbsp;IDE.FileSaveAll(); <BR>
+&nbsp;&nbsp;pass(); <BR>
+}</FONT></TT></P>
+
+<P><FONT SIZE=+1>You can <A HREF="scripts.htm#MyScripts">add this script
+to your startup scripts</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="IDECrashII"></A><FONT SIZE=+1><B>IDE&nbsp;Crashes While Editing
+Source Files, Part II <BR>
+</B>This problem has now been diagnosed in all but a few unique cases.
+The problem involves a combination of a large editor file and a lot of
+messages in the message window. If you have a lot of warning messages in
+the message window you should delete them before editing. You can delete
+the messages by pressing Ctrl-A while in the message window, or Delete
+All from the speed menu. You can also specify the number of warning messages
+that the IDE&nbsp;will allow under Project |&nbsp;Options |&nbsp;Messages.
+Also, if you find that you are getting one warning repeated several times
+you can turn that particular warning off by customizing the warnings the
+compiler&nbsp;reports. It is my opinion, however, that warnings should
+be treated as errors and eliminated.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Ctrl-QFix"></A><FONT SIZE=+1><B>Fix for Bookmarks in Classic
+Keyboard Mapping <BR>
+</B>If you are using classic keyboard mapping you may have noticed that
+Ctrl-Q-# does not go to a bookmark but rather sets a new bookmark. There
+is a problem with the CLASSIC.KBD&nbsp;file that is easily fixed. Starting
+on line 225 (might change with different versions) you will find 10 lines
+starting with the following:</FONT></P>
+
+<P><FONT SIZE=+1><TT>&lt;Ctrl-q&gt;&lt;0&gt; |:|editor.SetBookmark(0);
+|:| |:|Sets bookmark 0</TT> </FONT></P>
+
+<P><FONT SIZE=+1>Change this line to:</FONT></P>
+
+<P><TT><FONT SIZE=+1>&lt;Ctrl-q&gt;&lt;0&gt; |:|editor.GotoBookmark(0);
+|:| |:|Go to bookmark 0</FONT></TT></P>
+
+<P><FONT SIZE=+1>Do the same for the remaining 9 lines of code in that
+section. (Thanks to Jim Mischel of TeamB)</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Autodepend2"></A><FONT SIZE=+1><B>Autodependency Problems --
+Nodes Build or Make Unpredictably <BR>
+</B>If your build dependencies are cured by switching to Dependencies |
+Use instead of Cache, try this cure: Run the tool StripAutodependencies
+against the top node of your project (add a tool by selecting Advanced
+| Add To Tools Menu from the Options | Tools... dialog).</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="4.x Projects"></A><FONT SIZE=+1><B>Using 4.x Projects Under
+5.0 <BR>
+</B>Before you attempt to use any of your old project files under 5.0 you
+must first delete all .csm and .dsw files from your hard drive. Don't worry,
+they will be recreated for you the next time you build the project. To
+be safe you might also want to delete all .obj and .res files. If you forget
+and load a 4.x project file in 5.0 you will get a warning that an invalid
+.dsw file was found. At this point I recommend the following steps.</FONT></P>
+
+<P><FONT SIZE=+1>1. Immediately close the project and the IDE. <BR>
+2. Delete the above mentioned files from the project directory. <BR>
+3. Delete the BCWDEF.*&nbsp;and *.bcw files from the \bc5\bin directory.
+<BR>
+4. Restart the IDE and load the project file. <BR>
+5. Build the project.</FONT></P>
+
+<P><FONT SIZE=+1>If you encounter frequent crashes when using a 4.x project
+under 5.0 then the IDE&nbsp;file is likely corrupted. In almost all cases
+rebuilding the project file as a fresh 5.0 project will alleviate the problems.</FONT></P>
+
+<P><FONT SIZE=+1>It is recommended that you rebuild your projects from
+scratch in 5.0 to avoid possible problems.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="IDE Crashes"></A><FONT SIZE=+1><B>IDE Crashes Frequently <BR>
+</B>If the BC++&nbsp;5.0 IDE&nbsp;crashes on you more than very infrequently
+(particularly outside the Resource Workshop) then you are experiencing
+something that is NOT the norm. Unfortunately it can be difficult to track
+down the culprit. Some of the following have been known to cause problems.</FONT></P>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Win95 problems--download <A HREF="http://computermedic.com/95up.htm">Service
+Pack 1 (English Language Version)</A> from <A HREF="http://www.microsoft.com">Microsoft</A>.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Bad video drivers</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Certain CD-ROM&nbsp;drives (Mitsumi ?)</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Memory management sofware (QEMM or EMM386.SYS)&nbsp;with
+improper settings</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Other 3rd Party TSRs</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Old .obj files in your projects (forgotten by you for
+one reason or another)</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13" alt="bullet"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Corrupt .dsw and/or .ide file for the project.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<P><FONT SIZE=+1>After checking out some of these suggestions you might
+consider <A HREF="faq3.htm#Uninstall">uninstalling</A> and then reinstalling
+BC++ 5.0. Before you uninstall you might try the following. </FONT></P>
+
+<P><FONT SIZE=+1>There is an option on the install screen to select an
+&quot;Only icons/System files/registry&quot; installation. This will ensure
+that the correct registrations are in place, overwriting any faulty ones.
+(It will not remove any superfluous entries though). Worth a try before
+de-installing and re-installing.</FONT></P>
+
+<P><FONT SIZE=+1>You can <A HREF="bc50faq.htm#Help">help us</A> by reporting
+any symptoms you have observed.</FONT></P>
+
+<P><FONT SIZE=+1><A HREF="bc50faq.htm#Fails">If all else fails... </A></FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Grep"></A><FONT SIZE=+1><B>Grep Doesn't Work <BR>
+</B>It could be that Grep is working and that you just don't know it. The
+Grep results are displayed in the 'Grep' tab of the message window. After
+running Grep move to the message window and click on the Grep tab to see
+the search results.</FONT></P>
+
+<P><FONT SIZE=+1>If you are sure Grep is not working then it could be because
+you haven't installed it. If you elected not to install the command line
+tools then GREP.COM was not installed. To remedy this just copy GREP.COM&nbsp;from
+the BC++&nbsp;CD to your \bc5\bin directory. Other useful files that are
+part of the comand line tools are TDSTRIP, TDSTRP32, and TDUMP.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Source Tracking"></A><FONT SIZE=+1><B>Source Files Disappear
+When Double Clicking an Item in the GrepWwindow <BR>
+</B>There is an IDE&nbsp;option called Source Tracking which determines
+whether new files will be opened in the currently active editor window
+or in a new editor window. When source tracking is set to 'Current Window'
+(the default)&nbsp;then when you double click an entry in the Grep window
+the file represented by the line in the Grep window replaces the current
+file in the active editor window. The old file is still in the buffer list
+(check by doing Edit |&nbsp;Buffer List) but it appears as though it has
+been replaced. To avoid this set source tracking to 'New Window' (under
+Options |&nbsp;Environment |&nbsp;Preferences).</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Multiple files"></A><FONT SIZE=+1><B>Adding Multiple Files
+to Projects Under Windows NT <BR>
+</B>For whatever reason Win95 and NT&nbsp;handle multiple file selections
+differently. Under Win95 you can select multiple files to add to a project
+just as you did in previous versions of BC++. Under NT it is necessary
+to either add the files one at a time, or select the multiple files in
+File Manager and drag and drop them onto the BC++ 5.0 project window. Multiple
+file selection may work with NT 4.0.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="PVCS"></A><FONT SIZE=+1><B>Long Delay When the Project menu
+item is clicked. <BR>
+</B>This is due to PVCS being loaded. If you aren't using PVCS then uninstall
+it and the Project menu item will function as normal. This should improve
+IDE&nbsp;load times as well.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Nothing on Project Open"></A><FONT SIZE=+1><B>Nothing Appears
+to Happen When Project is Opened <BR>
+</B>If you open a project and nothing happens, the chances are that there
+was either no valid .DSW file or the project view is off screen. Use View
+| Project to bring up the project window. To highlight a project opening,
+change your desktop toolbar (via Options | Environment | SpeedBar | Customize)
+to add the View Project and View Message buttons. These will enable when
+there is a project open.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Nothing on CG Import"></A><FONT SIZE=+1><B>Nothing Happens
+When I&nbsp;Import the Code Guard Log <BR>
+</B>If you open a .CGL file with the default viewer nothing seems to happen.
+In fact the default viewer for .CGL files is the Runtime Messages window.
+This is not brought to the forground when the CGL file is open so you may
+not realise that the file has been opened. It does not seem to get populated
+when you have a GPF report, so in this case change the viewer from default
+to Text Edit on opening the file.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Page Faults"></A><FONT SIZE=+1><B>Page Faults in the IDE&nbsp;under
+Win95 <BR>
+</B>This might be caused by bugs in Win95. Download and apply Service Pack
+1 from <A HREF="http://www.microsoft.com">Microsoft</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Delete .SPX"></A><FONT SIZE=+1><B>Can't Open Project After
+GPF&nbsp;in the IDE <BR>
+</B>If the IDE has crashed and you cannot re-open a project, exit the IDE&nbsp;and
+then delete the .SPX files in the BC5\SCRIPTS directory. Next delete the
+*.def and *.bcw files in the \BC5\BIN&nbsp;directory. This should cure
+the problem. The files will be recreated the next time the IDE&nbsp;loads.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="noname.cpp"></A><FONT SIZE=+1><B>Phantom File, 'noname.cpp'
+in Project (ClassExpert) <BR>
+</B>Sometimes when doing a build or when doing a 'Save All' you will see
+the IDE&nbsp;complain about a file called 'noname.cpp.' This is generally
+happens only happens after opening ClassExpert. To get rid of this file
+edit the buffer list (Edit |&nbsp;Buffer List on the menu) and delete noname.cpp
+from the buffer list.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Multiple RCs"></A><FONT SIZE=+1><B>Linker Error:&nbsp;&quot;Cannot
+build command line to RLINK&quot; <BR>
+</B>If you have several .rc files in your project you may run into this
+error. If you do, try using just one .rc file in the project and putting
+#includes to the other .rc files in that single .rc file.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><FONT SIZE=+1><A HREF="default.htm">BC++&nbsp;5.0 FAQ Page</A> |&nbsp;<A HREF="bc50tips.htm">BC++&nbsp;5.0
+Tips Page</A></FONT></P>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2002, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></BODY>
+
+</HTML>

@@ -1,0 +1,680 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>TrapScreen</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>TrapScreen</H2>
+<BR><BR><BR>
+<P align=left>TRAPSCR is an Assembler program, which I wrote many years ago.</P>
+It demonstrates the two undocumented methods for calling DOS functions from 
+TSR (Terminate and Stay Resident) programs.</P>
+The needed files are contained in <A HREF="download/TRAPSCR.ZIP">TRAPSCR.ZIP</A>.</P>
+The program intercepts interrupts 5, 28h and 2Fh.<BR>
+Interrupt 5 (PrintScreen key) triggers the resident part.<BR>
+The Busy flag is checked and if it is turned on, that means
+the program is currently saving a file, and the keypress is ignored.<BR>
+If the program is not busy, then the DOS reentrancy flag is checked.<BR>
+If it is off (meaning DOS function can be safely used), then the procedure 
+for saving the screen to file is called.<BR>
+If it is on, then the Request flag is turned on, and the program waits for 
+interrupt 28h.<BR>
+When the program receives interrupt 28h and the Request flag is turned on,
+then it calls the procedure for saving the screen to file.<BR>
+More information about DOS interrupts can be found at 
+<A HREF="http://www-2.cs.cmu.edu/afs/cs/user/ralf/pub/www/ralf-home.html" TARGET="_blank">Ralf Brown</A>'s 
+<A HREF="http://www-2.cs.cmu.edu/~ralf/files.html" TARGET="_blank">Interrupt List</A>, or try to find a copy of 
+the Technical Reference Manual by Dan Rollins.
+
+
+<PRE>
+<CODE>
+
+; file JASM.MAC - useful macros
+
+; get the interrupt vector
+@get_vec MACRO	vec
+	MOV	AH,35h
+	MOV	AL,vec
+	INT	21h
+	ENDM
+
+; set the interrupt vector
+@set_vec MACRO	vec
+	MOV	AH,25h
+	MOV	AL,vec
+	INT	21h
+	ENDM
+
+; print string to screen
+@print	MACRO	str
+	LOCAL	around,msg
+	PUSH	AX
+	PUSH	DX
+	MOV	AH,9
+	MOV	DX,OFFSET msg
+	INT	21h
+	POP	DX
+	POP	AX
+	JMP	SHORT around
+
+msg	DB	str,0Dh,0Ah,'$'
+around:
+	ENDM
+
+; print string to screen	
+@print_r MACRO	addr
+	PUSH	DX
+	MOV	DX,addr
+	MOV	AH,9
+	INT	21h
+	POP	DX
+	ENDM
+
+; quit the program with a given exit code
+@exit	MACRO	ret_code
+	MOV	AH,4Ch
+	MOV	AL,ret_code
+	INT	21h
+	ENDM
+	
+; end of file JASM.MAC
+
+--------------------------
+
+; file TRAPSCR.ASM
+
+prog_id EQU	0
+prog_ver_hi EQU 2
+prog_ver_lo EQU 6
+prog_name EQU	&quot;TRAPSCR v2.63&quot;
+
+	INCLUDE jasm.mac
+
+attr	EQU	0Fh
+
+len	EQU	40
+
+escape	EQU	1
+bkspace EQU	14
+retrn	EQU	28
+
+video	SEGMENT AT 0B800h
+video	ENDS
+
+code	SEGMENT
+	ASSUME	CS:code,DS:code
+
+	ORG	2Ch
+env	LABEL	WORD
+
+	ORG	5Ch
+data	LABEL	BYTE
+psp	DW	?
+old_5	DD	?		
+old_28	DD	?
+old_2f	DD	?
+reentr	DD	?
+request DB	0
+busy	DB	0
+s_curs	DB	0
+string	DB	'File name: '
+fname	DB	len DUP(0)
+enddata LABEL	BYTE
+buf	DB	len*2 DUP(?)
+
+	ORG	80h
+argc	DB	?
+argv	LABEL	BYTE
+
+	ORG	100h
+start:
+	JMP	main
+; data
+id	DB	0C0h
+p_name	DB	prog_name,0
+
+;***************************************************************
+; Interrupt communication
+;***************************************************************
+
+int_5:
+	CLI
+	PUSH	DS
+	PUSH	ES
+	PUSH	AX
+	PUSH	BX
+	PUSH	CX
+	PUSH	DX
+	TEST	BYTE PTR CS:[busy],1
+	JNZ	int5_ret
+	MOV	BYTE PTR CS:[request],0
+	MOV	BX,WORD PTR CS:[reentr+2]
+	MOV	ES,BX
+	MOV	BX,WORD PTR CS:[reentr]
+	MOV	AL,BYTE PTR ES:[BX]
+	OR	AL,AL
+	JNZ	set_request
+	CALL	save
+	JMP	SHORT int5_ret
+set_request:
+	MOV	BYTE PTR CS:[request],1
+int5_ret:
+	POP	DX
+	POP	CX
+	POP	BX
+	POP	AX
+	POP	ES
+	POP	DS
+	STI
+	IRET
+
+int_28:
+	STI
+	TEST	BYTE PTR CS:[request],1
+	JZ	old_int28
+	TEST	BYTE PTR CS:[busy],1
+	JNZ	old_int28
+	CALL	save
+old_int28:
+	JMP	CS:[old_28]
+
+int_2f:
+	STI
+	CMP	AH,CS:[id]
+	JNZ	old_int2f
+	CMP	DL,'J'
+	JNZ	old_int2f
+	CMP	DH,prog_id
+	JNZ	old_int2f
+	CMP	AL,1
+	JZ	uninstall
+	CMP	AL,2
+	JE	curs
+	CMP	AL,3
+	JE	ret_curs
+	MOV	AH,1
+	MOV	DH,DL
+	MOV	DL,'j'
+	PUSH	CS
+	POP	ES
+	ASSUME	ES:code
+	LEA	BX,p_name
+	MOV	CH,prog_ver_hi
+	MOV	CL,prog_ver_lo
+	IRET
+old_int2f:
+	JMP	CS:[old_2f]
+
+curs:
+	MOV	AH,CS:[s_curs]
+	XOR	AH,1
+	MOV	CS:[s_curs],AH
+	IRET
+ret_curs:
+	MOV	AH,CS:[s_curs]
+	IRET
+
+uninstall:
+	PUSH	ES
+	@get_vec 2Fh
+	MOV	AX,CS
+	MOV	BX,ES
+	CMP	AX,BX
+	JNE	cannot_unload
+	@get_vec 28h
+	MOV	AX,CS
+	MOV	BX,ES
+	CMP	AX,BX
+	JNE	cannot_unload
+	@get_vec 05h
+	MOV	AX,CS
+	MOV	BX,ES
+	CMP	AX,BX
+	JNE	cannot_unload
+	POP	ES
+	PUSH	DS
+	MOV	DS,WORD PTR CS:[old_2f+2]
+	MOV	DX,WORD PTR CS:[old_2f]
+	CLI
+	@set_vec 2Fh
+	MOV	DS,WORD PTR CS:[old_28+2]
+	MOV	DX,WORD PTR CS:[old_28]
+	@set_vec 28h
+	MOV	DS,WORD PTR CS:[old_5+2]
+	MOV	DX,WORD PTR CS:[old_5]
+	@set_vec 05h
+	MOV	AX,WORD PTR CS:[psp]
+	MOV	ES,AX
+	MOV	AH,49h
+	INT	21h
+	POP	DS
+	MOV	AH,1
+	STI
+	IRET
+cannot_unload:
+	POP	ES
+	XOR	AH,AH
+	IRET
+
+
+;***************************************************************
+; Screen saving
+;***************************************************************
+
+save	PROC	NEAR
+	PUSH	AX
+	PUSH	BX
+	PUSH	CX
+	PUSH	DX
+	PUSH	DS
+	PUSH	ES
+	MOV	BYTE PTR CS:[request],0
+	MOV	BYTE PTR CS:[busy],1
+	MOV	AX,CS
+	MOV	DS,AX
+	MOV	ES,AX
+	ASSUME	DS:code,ES:code
+	LEA	DX,fname
+	CALL	getname
+	MOV	AH,3Ch
+	LEA	DX,fname
+	XOR	CX,CX
+	INT	21h		; open file
+	JC	error
+	MOV	BX,AX
+	MOV	AX,video
+	MOV	DS,AX
+	ASSUME	DS:video
+	XOR	DX,DX
+	MOV	AH,40h
+	MOV	CX,4000
+	INT	21h		; write screen
+	JC	error
+	MOV	AH,CS:[s_curs]
+	CMP	AH,1
+	JNE	no_save_cursor
+	PUSH	BX
+	MOV	AH,03h
+	MOV	BH,0
+	INT	10h		; get cursor position and size
+	PUSH	CS
+	POP	DS
+	ASSUME	DS:code
+	MOV	DS:[buf],DH
+	MOV	DS:[buf+1],DL
+	MOV	DS:[buf+2],CH
+	MOV	DS:[buf+3],CL
+	MOV	DX,OFFSET buf
+	POP	BX
+	MOV	AH,40h
+	MOV	CX,4
+	INT	21h		; save cursor position and size
+	JC	error
+no_save_cursor:
+	MOV	AH,3Eh
+	INT	21h		; close file
+error:
+	MOV	BYTE PTR CS:[busy],0
+	POP	ES
+	POP	DS
+	POP	DX
+	POP	CX
+	POP	BX
+	POP	AX
+	RET
+save	ENDP
+
+getname PROC	NEAR
+	PUSH	SI
+	PUSH	DI
+	PUSH	DX
+	LEA	DI,buf
+	MOV	CX,len
+	CALL	getline
+	MOV	CX,len
+	CALL	clrline
+	POP	DI
+	MOV	CX,len
+	CALL	getstr
+	MOV	CX,len
+	LEA	SI,buf
+	CALL	putline
+	POP	DI
+	POP	SI
+	RET
+getname ENDP
+
+clrline PROC  NEAR
+	PUSH	DI
+	PUSH	ES
+	MOV	AX,video
+	MOV	ES,AX
+	ASSUME	ES:video
+	XOR	AX,AX
+	XOR	DI,DI
+	REP	STOSW
+	POP	ES
+	POP	DI
+	RET
+clrline ENDP
+
+getline PROC	NEAR
+	PUSH	SI
+	PUSH	DI
+	PUSH	DS
+	MOV	AX,video
+	MOV	DS,AX
+	XOR	SI,SI
+	ASSUME	DS:video
+	REP	MOVSW
+	POP	DS
+	POP	DI
+	POP	SI
+	RET
+getline ENDP
+
+putline PROC	NEAR
+	PUSH	SI
+	PUSH	DI
+	PUSH	ES
+	MOV	AX,video
+	MOV	ES,AX
+	XOR	DI,DI
+	ASSUME	ES:video
+	REP	MOVSW
+	POP	DS
+	POP	DI
+	POP	SI
+	RET
+putline ENDP
+
+getstr	PROC	NEAR
+	PUSH	SI
+	PUSH	DI
+	PUSH	DS
+	PUSH	ES
+	POP	DS
+	MOV	SI,DI
+	MOV	BH,attr
+	XOR	AL,AL
+	PUSH	CX
+	REPNE	SCASB
+	DEC	DI
+	POP	CX
+next_key:
+	CALL	printstr
+	STI
+	XOR	AX,AX
+	INT	16h
+	CLI
+	CMP	AH,escape
+	JE	esc_key
+	CMP	AH,bkspace
+	JE	bk_char
+	CMP	AH,retrn
+	JE	return
+	OR	CX,CX
+	JZ	next_key
+	STOSB
+	DEC	CX
+	JMP	next_key
+esc_key:
+	MOV	BYTE PTR ES:[SI],0
+	JMP	SHORT return
+bk_char:
+	CMP	DI,SI
+	JE	next_key
+	DEC	DI
+	MOV	BYTE PTR ES:[DI],0
+	INC	CX
+	JMP	next_key
+return:
+	MOV	BYTE PTR ES:[DI],0
+	POP	DS
+	POP	DI
+	POP	SI
+	RET
+getstr	ENDP
+
+printstr PROC	NEAR
+	PUSH	SI
+	PUSH	DI
+	PUSH	ES
+	MOV	AX,video
+	MOV	ES,AX
+	ASSUME	ES:video
+	XOR	DI,DI
+	LEA	SI,string
+	MOV	AH,BH
+next_char:
+	LODSB
+	STOSW
+	OR	AL,AL
+	JNZ	next_char
+	DEC	DI
+	DEC	DI
+	MOV	AL,'_'
+	MOV	AH,10001111b
+	STOSW
+	XOR	AX,AX
+	STOSW
+	POP	ES
+	POP	DI
+	POP	SI
+	RET
+printstr ENDP
+
+;***************************************************************
+; Instalation
+;***************************************************************
+
+main:
+	@print_r &#60;OFFSET jstr&#62;
+
+; Check parameters
+	MOV	CL,CS:[argc]
+	OR	CL,CL
+	JZ	nopar
+	XOR	CH,CH
+	LEA	SI,argv
+next:
+	LODSB
+	CMP	AL,'?'
+	JE	help
+	CMP	AL,'h'
+	JE	help
+	CMP	AL,'t'
+	JE	inst_test
+	CMP	AL,'u'
+	JE	jmp_unload
+	CMP	AL,'c'
+	JE	s_cursor
+	CMP	AL,0Dh
+	JE	nopar
+	CMP	AL,0Ah
+	JE	nopar
+	OR	CX,CX
+	JZ	nopar
+	JMP	next
+nopar:
+	JMP	begin
+jmp_unload:
+	JMP	unload
+help:
+	@print_r &#60;OFFSET helpmsg&#62;
+	@exit	0
+
+inst_test:
+	CALL	checkinst
+	MOV	AL,AH
+	MOV	AH,4Ch
+	INT	21h
+
+s_cursor:
+	CALL	checkinst
+	CMP	AH,1
+	JE	c_installed
+	MOV	AH,1
+	MOV	CS:[_s_curs],AH
+	@print_r &#60;OFFSET cursonmsg&#62;
+	JMP	next
+c_installed:
+	MOV	AH,CS:[id]
+	MOV	AL,2
+	MOV	DH,prog_id
+	MOV	DL,'J'
+	INT	2Fh
+	CMP	AH,1
+	JE	curs_on
+	@print_r &#60;OFFSET cursoffmsg&#62;
+	@exit	0
+curs_on:
+	@print_r &#60;OFFSET cursonmsg&#62;
+	@exit	0
+
+unload:
+	CALL	checkinst
+	CMP	AH,1
+	JNE	not_installed
+	MOV	AH,CS:[id]
+	MOV	AL,1
+	MOV	DH,prog_id
+	MOV	DL,'J'
+	INT	2Fh
+	CMP	AH,1
+	JE	success
+	@print	&quot;Cannot unload program.&quot;
+	@exit	2
+success:
+	@print	&quot;Program unloaded.&quot;
+	@exit	0
+not_installed:
+	@print	&quot;Program is not loaded in memory.&quot;
+	@exit	1
+
+installed:
+	@print	&quot;Already loaded in memory. Use /u to unload.&quot;
+	MOV	AH,CS:[id]
+	MOV	AL,3
+	MOV	DH,prog_id
+	MOV	DL,'J'
+	INT	2Fh
+	CMP	AH,1
+	JNE	curs_off
+	@print_r &#60;OFFSET cursonmsg&#62;
+	@exit	1
+curs_off:
+	@print_r &#60;OFFSET cursoffmsg&#62;
+	@exit	1
+begin:
+	CALL	checkinst
+	CMP	AH,1
+	JE	installed
+	PUSH	CS
+	POP	ES
+	ASSUME	ES:code
+	LEA	SI,_data
+	LEA	DI,data
+	MOV	CX,(OFFSET _enddata - OFFSET _data + 1) / 2
+	REP	MOVSW
+	MOV	CS:[psp],CS
+	MOV	AX,CS:[env]
+	MOV	ES,AX
+	MOV	AH,49h
+	INT	21h
+
+	MOV	AH,34h
+	INT	21h
+	MOV	CS:WORD PTR [reentr],BX
+	MOV	CS:WORD PTR [reentr+2],ES
+
+	@get_vec 2Fh
+	MOV	CS:WORD PTR [old_2f+2],ES
+	MOV	CS:WORD PTR [old_2f],BX
+	LEA	DX,int_2f
+	CLI
+	@set_vec 2Fh
+	STI
+	@get_vec 28h
+	MOV	CS:WORD PTR [old_28+2],ES
+	MOV	CS:WORD PTR [old_28],BX
+	LEA	DX,int_28
+	CLI
+	@set_vec 28h
+	STI
+	@get_vec 05h
+	MOV	CS:WORD PTR [old_5+2],ES
+	MOV	CS:WORD PTR [old_5],BX
+	LEA	DX,int_5
+	CLI
+	@set_vec 05h
+	STI
+	@print	&quot;Loaded in memory.&quot;
+	MOV	AX,OFFSET main + 1
+	MOV	CL,4
+	SHR	AX,CL
+	INC	AX
+	MOV	DX,AX
+	MOV	AX,3100h
+	INT	21h
+
+
+checkinst PROC	NEAR
+	MOV	AH,CS:[id]
+	XOR	AL,AL
+	MOV	DH,prog_id
+	MOV	DL,'J'
+	INT	2Fh
+	CMP	AH,1
+	JNE	not_inst
+	CMP	DL,'j'
+	JNE	not_inst
+	RET
+not_inst:
+	XOR	AH,AH
+	RET
+checkinst ENDP
+
+jstr	DB	0Dh,0Ah,prog_name, &quot;  Copyright (c) 1992-1993 by Jogy.&quot;,0Dh,0Ah,0Dh,0Ah,'$'
+helpmsg DB	&quot;Options:&quot;,0Dh,0Ah
+	DB	&quot;  /h - this help.&quot;,0Dh, 0Ah
+	DB	&quot;  /c - enable/disable cursor saving&quot;,0Dh,0Ah
+	DB	&quot;  /t - errorlevel 1 if installed in memory, 0 otherwise&quot;,0Dh,0Ah
+	DB	&quot;  /u - unload from memory.&quot;,0Dh,0Ah,'$'
+cursonmsg DB	&quot;Cursor saving on.&quot;,0Dh,0Ah,'$'
+cursoffmsg DB	&quot;Cursor saving off.&quot;,0Dh,0Ah,'$'
+
+_data	DW	?
+	DD	?
+	DD	?
+	DD	?
+	DD	?
+	DB	0
+	DB	0
+_s_curs DB	0
+	DB	'File name: '
+	DB	len DUP(0)
+_enddata LABEL	BYTE
+
+	.ERRNZ (OFFSET _enddata - OFFSET _data) - (OFFSET enddata - OFFSET data)
+
+code	ENDS
+	END	start
+
+; end of file TRAPSCR.ASM
+
+</CODE>
+</PRE>
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+
+</BODY>
+</HTML>

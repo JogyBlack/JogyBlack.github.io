@@ -1,0 +1,251 @@
+<html>
+<head>
+
+   <title></title>
+   <meta name="Author" content="Kent Reisdorph">
+   <meta name="GENERATOR" content="Mozilla/2.01Gold (Win32)">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#990000" vlink="#336699" alink="#666666" background="bstrbk.gif"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<center><p><b><font SIZE=+2>16-bit Compiler and Linker Issues</font></b>
+
+<br>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p></center>
+
+<p><a name="ax=6"></a><font SIZE=+1><b>Linker Error: Fatal:(1,1): DOS error,
+ax = 6 General error 
+<br></b>This won't be terribly useful but here it is nonetheless:&nbsp;The
+only time I&nbsp;have seen this error is when I&nbsp;had a multi-target
+project. The main target was a 32-bit Windows GUI&nbsp;app. The other target
+was, by accident, a small model 16-bit DOS&nbsp;program. When I&nbsp;removed
+the mismatched target, the app was able to link normally.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="ResNameError"></a><font SIZE=+1><b>Resource Compiler Error
+in 16-bit: &quot;Expecting resource name or resource type name&quot; 
+<br></b>Double click on the error message to open your .rc file as text
+and locate the offending line. The line will be a CONTROL&nbsp;statement
+for a control on a dialog. At the end of the line you will see four numbers
+representing the x, y, width, and height of the control. Following that
+you will see &quot;, 0&quot;. Remove the comma and trailing 0 and the resource
+will compile in either 16 or 32-bits.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Out of Memory"></a><font SIZE=+1><b>Out of Memory Error During
+16-bit Link 
+<br></b>If you receive an &quot;Out of Memory&quot; error during a 16-bit
+link...</font></p>
+
+<p><font SIZE=+1><b>Win95:</b>&nbsp;You need to modify the DOS&nbsp;property
+memory settings for CONAGENT.EXE, CONAGENT.PIF&nbsp;(found in \windows\system)
+and/or _DEFAULT.PIF (\windows). Follow these steps:</font></p>
+
+<p><font SIZE=+1>1. Start Explorer. 
+<br>2. Locate one of the above files in the \windows\system directory.
+
+<br>3. When over the file click the right mouse button. 
+<br>4. Choose 'Properties' from the speed menu. 
+<br>5. Choose the 'Memory' tab. 
+<br>6. Make sure all memory settings (four of them)&nbsp;are set to 'Auto.'</font></p>
+
+<p><font SIZE=+1>You may not have all of the above files. If not, modify
+whatever files you can find just to be safe.</font></p>
+
+<p><font SIZE=+1><b>WinNT:&nbsp;</b>You may be able to get by by just setting
+the memory settings for _default.pif to -1. If that doesn't work then try
+this...</font></p>
+
+<p><font SIZE=+1>1. Run PIFEDIT.EXE 
+<br>2. Fill in the following fields: 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Filename: CAPDOS32.EXE 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Window Title: capdos32 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Memory Requirements: (min) -1 (preferred)
+-1 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EMS: (req) 0 (limit) 4096 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XMS: (req) 0 (limit) 4096 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Close window on exit: TRUE 
+<br>3. Save this as CAPDOS32.PIF in your x:\bc5\bin directory. 
+<br>4. Reboot NT (if you have run BC 5.0 at all since last reboot)</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Linker Hangs"></a><font SIZE=+1><b>Linker Hangs on NT 
+<br></b>This appears to be a bug related to the Priority Boost setting.
+The boost can be set via the slider on the compiling status dialog or via
+Options |&nbsp;Environment |&nbsp;Process Control. Leave the Proiority
+Boost at 0 and the linker should function normally.</font></p>
+
+<p><font SIZE=+1>In other cases the linker hanging can be as a result of
+inadequate system resources and/or inadequate hard disk space. Free up
+some hard disk space and try again.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="long filenames"></a><font SIZE=+1><b>Linker Error - &quot;Unable
+to open file xxxxxxx.cpp&quot; 
+<br></b>The 16-bit linker cannot handle long pathnames and filenames. You
+will have to use the 8.3 filename conventions.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Linker general"></a><font SIZE=+1><b>Linker Error - &quot;Error
+in Module xxx.cpp&quot; 
+<br></b>This is a general error which could be due to many different problems.
+In most cases it has nothing to do with 5.0 directly. Some users report
+oddities in their source files which caused the error. Another possible
+problem is the inclusion of too much debug info. Try turing debug info
+off for that particular module.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="TDW cursor"></a><font SIZE=+1><b>Double Cursor using TDW in
+Win95 
+<br></b>The double cursor that shows up when you run TDW under Win95 is
+due to an anomoly in Win95. This can be resolved by switching video configurations
+using TDWINI.EXE (TD Video Configuration). The default is to use TDWGUI.DLL.
+Switch this to SVGA.DLL (full screen) to get rid of the ghost cursor. This
+problem does not exist in NT.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="16-bit VDBT"></a><font SIZE=+1><b>Errors Linking VDBT in 16-bit
+Apps 
+<br></b>You need to include the proper .lib files. If building a 16-bit
+static project then include the following libraries: </font></p>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font SIZE=+1>bdtawrl.lib</font><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font SIZE=+1>bdtc.lib</font><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font SIZE=+1>bdto.lib. </font><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<p><font SIZE=+1>If building a 16-bit dynamic project then include the
+following libaries: </font></p>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font SIZE=+1>bdtawrli.lib </font><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font SIZE=+1>bdtci.lib </font><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu1.gif" width="15" height="15" hspace="13"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><font SIZE=+1>bdtoi.lib </font><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<p><font SIZE=+1>First you will need to make the bdtawrli library. Make
+bc5\source\vdbt\bdtawr\makefile to build the above library. You will need
+to set BCROOT and VHOME to your bc5 location (you can set them from the
+command line before running make; set BCROOT=c:\bc5).</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Animals"></a><font SIZE=+1><b>&quot;Animals&quot;&nbsp;Example
+Works in 32-bit But Crashes in 16-bit 
+<br></b>This is probably because the 16-bit IDAPI&nbsp;has not been installed.
+You need to specifically install it. On the CD you will find the installation
+program in Setup/Idapi16/setup.exe. Run that to install the 16-bit IDAPI.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="No Map File"></a><font SIZE=+1><b>No Map File Generated for
+16-bit Builds 
+<br></b>Turn on name mangling for the map file (Project |&nbsp;Options
+|&nbsp;Linker |&nbsp;Map File) and it will appear. If you want an unmangled
+map, edit the .r$p file and set the appropriate switches. Then run TLINK
+from DOS. Next time you rebuild in the IDE, the .r$p file will be overwitten.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="STL 16-bit"></a><font SIZE=+1><b>Problems with STL&nbsp;in
+16-bit 
+<br></b>The Rouge Wave STL&nbsp;that ships with BC++&nbsp;5.0 is designed
+for 32-bit. If you plan on doing heavy 16-bit development using STL&nbsp;then
+you should get the public domain STL which you can get by clicking <a href="ftp://butler.hpl.hp.com/">here</a>.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<center><p><b><font SIZE=+2>32-bit IDE/Debugger</font></b></p></center>
+
+<p><a name="Linker Errors, 32-bit"></a><font SIZE=+1><b>Linker Errors 
+<br></b>General linker errors can be caused by a lot of different things.
+For one, 32 bit import libraries created with 4.5x are not compatible with
+5.0 and vice versa. If you have import libraries created with 4.x you should
+rebuild them in 5.0 before attempting to use them under 5.0. More will
+be added to this section as information is gathered.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Browser Cache Error"></a><font SIZE=+1><b>Linker Error - &quot;Fatal:
+Block overflow for block 'BrowserCache' &quot; 
+<br></b>In your project's directory you should find a file called TLINK32.INI.
+In this file there is an entry _BROWSERCACHESIZE in the DebugTableSizes
+section. Increase the value for this item from 0x200 to 0x4000.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Phantom Breakpoint"></a><font SIZE=+1><b>Debugger Stops at
+Phantom Breakpoint 
+<br></b>This is a bug that snuck in with Patch 1. It has been fixed in
+Patch 2. When running under the debugger the app would stop at a breakpoint
+before the app became visible. This only happened with Async compiling
+off and after applying Patch 1. The solution is to turn Async compiling
+on or apply Patch 2.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><a name="Optimized"></a><font SIZE=+1><b>Watch Window: &quot;Variable
+X has been optimized and is not available&quot; 
+<br></b>This is not a bug but should still be mentioned here. The BC++&nbsp;compiler
+optimizes variables that are no longer needed. This is a Good Thing(tm)
+but the side effect is that you may not be able to inspect certain variables.
+If you have variables that you need to inspect for debugging purposes then
+make them static and the debugger won't optimize them. You will want to
+remove the static modifier after debugging that section of code. You can
+also set 'Register Variables' to 'none' under Options | Project |&nbsp;Compiler
+|&nbsp;Code Generation.</font></p>
+
+<p>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></p>
+
+<p><font SIZE=+1><a href="bc50faq.htm">BC++&nbsp;5.0 FAQ Page</a> |&nbsp;<a href="bc50tips.htm">BC++&nbsp;5.0
+Tips Page</a></font></p>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2000, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></body>
+
+</html>

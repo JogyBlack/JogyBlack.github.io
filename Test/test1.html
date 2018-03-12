@@ -1,0 +1,411 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="Generator" content="MS Exchange Server version 14.02.5004.000">
+  <title>test</title>
+  <script>
+    function scrubNode(a) {
+      var b = a.getElementsByTagName("span");
+
+      if (b == null)
+        return;
+
+      for (var c = b.length - 1; c >= 0; c--) {
+        if (b[c].name == "X1_BOOKMARK_ID") {
+          var d = b[c].innerHTML;
+          var e = document.createTextNode(d);
+          var f = b[c].parentNode;
+
+          f.replaceChild(e, b[c])
+        }
+      }
+    }
+
+    function ResetHighlighting() {
+      scrubNode(document.body);
+      document.body.normalize();
+
+      bookmarks = new Array;
+      numBookmarks = 0;
+      curBookmark = 0;
+      terms = new Array
+    }
+
+    function IsWhiteSpace(a) {
+      if (a == " " || a == ThousandSeparator)
+        return true;
+      else
+        return false
+    }
+
+    function PointToNextWord(a, b) {
+      while (b < a.length && !IsWhiteSpace(a.charAt(b)))
+        b++;
+      while (b < a.length && IsWhiteSpace(a.charAt(b)))
+        b++;
+      return b
+    }
+
+    function ResetTermPositions(a) {
+      for (var b = 0; b < a.SubTerms.length; b++) {
+        a.SubTerms[b].posCurrent = -1;
+        a.SubTerms[b].posLookingFor = 0;
+        a.SubTerms[b].posTermLength = -1;
+        a.SubTerms[b].posProximity = -1
+      }
+    }
+
+    function BackOutPositions(a, b) {
+      if (b >= a.length)
+        a.length = 0;
+      else
+        a.length = a.length - b
+    }
+
+    function CheckPreviousLetterForAlphaNumeric(a, b) {
+      if (b == 0)
+        return false;
+      else {
+        var c = a.charAt(b - 1).toLowerCase();
+        return IsLetterOrDigit(c)
+      }
+    }
+    function FindNextPosition(a, b) {
+      var c = 0;
+      b.posTermLength = 0;
+      var d = false;
+      var e = b.posLookingFor;
+      var f = 0;
+      var g = f;
+      while (true) {
+        var h = e;
+        if (e < a.length && a.charAt(e) == " ") {
+          if (d == false) {
+            d = true; c++
+          }
+        }
+        else
+          d = false;
+        while (true) {
+          if (f == b.term.length) {
+            b.posTermLength += b.term.length;
+            b.posCurrent = h;
+            return c
+          }
+          if (e == a.length) {
+            b.posTermLength = 0;
+            b.posCurrent = -1;
+            return c
+          }
+          if (a.charAt(e) == ThousandSeparator) {
+            e++;
+            b.posTermLength--
+          }
+          if (b.term.charAt(f) == ThousandSeparator) {
+            f++; b.posTermLength--
+          }
+          if (a.charAt(e) != b.term.charAt(f)) {
+            e = h + 1;
+            f = g;
+            b.posTermLength = 0;
+            break
+          }
+          e++;
+          f++
+        }
+      }
+    }
+
+    function IsLetterOrDigit(a) {
+      a = a.toLowerCase();
+      if (a >= "a" && a <= "z" || a >= "0" && a <= "9")
+        return true;
+      else
+        return false
+    }
+
+    function MaybeAddPosition(a, b, c, d, e, f, g, h, i, j) {
+      var k = c + d >= b.length ? false : IsLetterOrDigit(b.charAt(c + d));
+      var l = !(a.SubTerms[g].exact || g != h && g != i) || !k;
+      if (l)
+        j[j.length] = {
+          start: c, length: d, firstSubTerm: e, lastSubTerm: f
+        };
+      return l
+    }
+
+    function ResetTermPosToCurrentTermPos(a, b, c) {
+      b.posLookingFor = c.posCurrent;
+      b.posProximity = -1;
+      b.posLookingFor = PointToNextWord(a, b.posLookingFor)
+    }
+
+    function FindPositionsContaining(a, b) {
+      results = new Array;
+      if (b == "" || a.PhraseSearchTermCount == 0)
+        return results;
+      var c = 0;
+      var d = 1;
+      ResetTermPositions(a);
+      while (true) {
+        var e = a.SubTerms[c];
+        if (c == 0 || c < d || e.posCurrent == -1 || e.posLookingFor > e.posCurrent) {
+          proximityWithin = -1;
+          while (true) {
+            if (e.posCurrent != -1 && e.posLookingFor <= e.posCurrent) {
+              e.posLookingFor = e.posCurrent;
+              e.posLookingFor = PointToNextWord(b, e.posLookingFor)
+            }
+            var f = FindNextPosition(b, e);
+            if (e.posCurrent == -1) {
+              BackOutPositions(results, c);
+              return results
+            }
+            proximityWithin += f + 1;
+            var g = CheckPreviousLetterForAlphaNumeric(b, e.posCurrent);
+            if (e.posCurrent == 0 || !g)
+              break
+          }
+          e.posProximity += proximityWithin + 1;
+          if (c + 1 < a.PhraseSearchTermCount)
+            a.SubTerms[c + 1].posProximity -= proximityWithin + 1
+        }
+        d = c;
+        if ((c == 0 || e.posProximity <= e.within) && MaybeAddPosition(a, b, e.posCurrent, e.posTermLength, c == 0 || c == a.first2, c == a.last1 || c == a.last2, c, a.last1, a.last2, results)) {
+          if (c + 1 < a.PhraseSearchTermCount) {
+            var h = a.SubTerms[c + 1];
+            if (h.posProximity < 0) {
+              if (c + 2 < a.PhraseSearchTermCount)
+                a.SubTerms[c + 2].posProximity += h.posProximity + 1;
+              ResetTermPosToCurrentTermPos(b, h, e)
+            }
+          }
+          else {
+            c = -1;
+            for (var i = 0; i < a.PhraseSearchTermCount; i++)
+              ResetTermPosToCurrentTermPos(b, a.SubTerms[i], e)
+          }
+        }
+        else {
+          if (a.PhraseSearchTermPartition >= 0 && c > a.PhraseSearchTermPartition) {
+            BackOutPositions(results, c - a.PhraseSearchTermPartition);
+            c = a.PhraseSearchTermPartition - 1
+          }
+          else {
+            BackOutPositions(results, c);
+            c = -1
+          }
+        }
+        c++
+      }
+    }
+
+    function scrollToFirstBookmark() {
+      if (numBookmarks > 0) {
+        if (curBookmark > 0 && curBookmark < numBookmarks)
+          bookmarks[curBookmark].style.fontWeight = "normal";
+
+        curBookmark = 0;
+        bookmarks[curBookmark].style.fontWeight = "bold";
+        bookmarks[curBookmark].scrollIntoView(true);
+      }
+    }
+
+    function isElementVisible(el) {
+      var eap,
+          rect = el.getBoundingClientRect(),
+          docEl = document.documentElement,
+          efp = function (x, y) { return document.elementFromPoint(x, y) },
+          contains = "contains" in el ? "contains" : "compareDocumentPosition",
+          has = contains == "contains" ? 1 : 0x10;
+
+      var myWidth = 0, myHeight = 0;
+      if (typeof (window.innerWidth) == 'number') { //Chrome
+        myWidth = window.innerWidth;
+        myHeight = window.innerHeight;
+      } else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+        myWidth = document.documentElement.clientWidth;
+        myHeight = document.documentElement.clientHeight;
+      } else if (document.body && (document.body.clientWidth || document.body.clientHeight)) { //IE9
+        myWidth = document.body.clientWidth;
+        myHeight = document.body.clientHeight;
+      }
+
+      // Return false if it's not in the viewport
+      if (rect.right < 0 || rect.bottom < 0
+              || rect.left > myWidth || rect.top > myHeight)
+        return false;
+
+      // Return true if any of its four corners are visible
+      return (
+            (eap = efp(rect.left, rect.top)) == el || el[contains](eap) == has
+        || (eap = efp(rect.right, rect.top)) == el || el[contains](eap) == has
+        || (eap = efp(rect.right, rect.bottom)) == el || el[contains](eap) == has
+        || (eap = efp(rect.left, rect.bottom)) == el || el[contains](eap) == has
+      );
+    }
+
+    function scrollToNextBookmark() {
+      if (numBookmarks > 0 && (curBookmark + 1 < numBookmarks)) {
+        if (curBookmark >= 0)
+          bookmarks[curBookmark].style.fontWeight = "normal";
+
+        curBookmark++;
+        bookmarks[curBookmark].style.fontWeight = "bold";
+
+        if (!isElementVisible(bookmarks[curBookmark]))
+          bookmarks[curBookmark].scrollIntoView(false);
+      }
+    }
+
+    function scrollToPrevBookmark() {
+      if (numBookmarks > 0 && curBookmark > 0) {
+        bookmarks[curBookmark].style.fontWeight = "normal";
+
+        curBookmark--;
+        bookmarks[curBookmark].style.fontWeight = "bold";
+        if (!isElementVisible(bookmarks[curBookmark]))
+          bookmarks[curBookmark].scrollIntoView(true);
+      }
+    }
+    function AddHighlight(a, b) {
+      var c = 0;
+      for (c = 0; c < a.length; c++)
+        if (a[c].offset > b.offset)
+          break;
+      if (c > 0) {
+        var d = a[c - 1];
+        if (d.offset == b.offset) {
+          if (b.length > d.length)
+            a[c - 1] = b;
+          return
+        }
+        if (d.offset + d.length > b.offset) {
+          var e = d.offset + d.length - b.offset;
+          d.length -= e
+        }
+      }
+      if (c == a.length)
+        a.push(b);
+      else
+        a.splice(c, 0, b)
+    }
+
+    function DoHighlighting(a, b) {
+      function e(a) {
+        if (a.nodeType == 3) {
+          var f = a.data.toLowerCase();
+          if (b == 1)
+            f = c(f);
+          var g = new Array;
+          for (var h = 0; h < terms.length; h++) {
+            var i = FindPositionsContaining(terms[h], f);
+            if (i.length == 0)
+              continue;
+            var j = 0;
+            for (var k = 0; k < i.length; k++) {
+              var l = i[k];
+              if (l.firstSubTerm)
+                j = l.start;
+              if (l.lastSubTerm) {
+                var m = { offset: j, length: l.start + l.length - j, color: terms[h].color };
+                AddHighlight(g, m)
+              }
+            }
+          }
+          g.reverse();
+          var n = new Array;
+          for (var k = 0; k < g.length; k++) {
+            var m = g[k];
+            var o = document.createElement("span");
+            o.name = "X1_BOOKMARK_ID";
+            o.style.backgroundColor = m.color;
+            var p = a.splitText(m.offset);
+            var q = p.splitText(m.length);
+            var r = p.cloneNode(true);
+            o.appendChild(r);
+            p.parentNode.replaceChild(o, p);
+            n[k] = o;
+            d += 2
+          }
+          if (g.length > 0) {
+            n.reverse();
+            numBookmarks += g.length;
+            bookmarks = bookmarks.concat(n)
+          }
+        } else if (a.nodeType == 1 && a.childNodes && !/(script|style)/i.test(a.tagName)) {
+          for (var k = 0; k < a.childNodes.length; ++k) {
+            k += e(a.childNodes[k]); d = 0
+          }
+        } return d
+      }
+
+      function c(a) {
+        var b = "";
+        for (pos = 0; pos < a.length; pos++) {
+          var c = a.charCodeAt(pos);
+          if (c < 160 || c > 255)
+            b += a.charAt(pos);
+          else
+            b += String.fromCharCode(charMap.charCodeAt(c - 160))
+        }
+        return b
+      }
+      var d = 0;
+
+      e(document.body);
+      if (a == 1)
+        scrollToFirstBookmark()
+    }
+
+    function AddSubTerm(a, b, c) {
+      var d = {
+        term: a.toLowerCase(), exact: b, within: c, posCurrent: -1, posLookingFor: 0, posTermLength: -1, posProximity: -1
+      };
+      terms[terms.length - 1].SubTerms.push(d)
+    }
+
+    function AddTerm(a, b, c, d, e, f) {
+      var g = {
+        PhraseSearchTermCount: a, first2: b, last1: c, last2: d, PhraseSearchTermPartition: e, color: f
+      };
+      g.SubTerms = new Array;
+      terms.push(g)
+    }
+
+    var proximityWithin;
+    var ThousandSeparator = ",";
+    var terms = new Array;
+    var bookmarks = new Array;
+    var numBookmarks = 0;
+    var curBookmark = 0;
+    var charMap = ' !$$$$|���a"�-��^+23�u�.�1�"///?aaaaaaaceeeeiiiitnoooooxouuuuytsaaaaaaaceeeeiiiitnooooo/ouuuuyty'
+
+    function ButtonClick() {
+	  document.write('test');
+	
+      AddTerm(2, 0, 1, 1, -1, 16750899);
+
+      AddSubTerm("won", 1, 0);
+      AddSubTerm("t", 0, 0);
+      AddSubTerm("", 0, 0);
+
+      DoHighlighting(0, 0);
+    }
+
+  </script>
+</head>
+<body>
+  <!-- Converted from text/plain format -->
+
+  <p>
+      won't<br>
+      can't<br>
+      don't won't<br>
+  </p>
+
+  <button onclick="ButtonClick()">test</button>
+
+</body>
+</html>

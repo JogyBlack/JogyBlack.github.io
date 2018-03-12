@@ -1,0 +1,766 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0 Scripts</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0 Scripts</H2>
+<BR><BR><BR>
+<P align=left>
+<UL>File scripts:</P>
+
+<LI><A HREF="scripts2.html#ShowHCpp">List all opened .cpp or .h files</A><BR>
+Author: Chavdar Dimitrov<BR><BR>
+
+<LI><A HREF="scripts2.html#SaveOnCompile">Save editor files on build and make</A><BR>
+Author: Jogy<BR><BR>
+
+<LI><A HREF="scripts2.html#MyEdSize">Auto arrange editor windows</A><BR>
+Author: Kent Reisdorph &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Modified by Chavdar Dimitrov<BR><BR>
+
+<LI><A HREF="scripts2.html#CppHToggle">Toggle between source and header files</A><BR>
+Author: Elias Fotinis<BR><BR>
+	
+</UL>
+
+<DL>
+<DT><A NAME = "ShowHCpp"></A><B>List all opened .cpp or .h files</B>
+<DD>
+<BR>
+This script assigns shortcut which show list of all currently opened .h or .cpp files.
+When selecting an item from this list, it will bring the corresponding window to the top.</P>
+
+<PRE>
+<CODE>
+<B>import</B> IDE;
+<B>import</B> editor;
+
+<B>declare</B> kbd = IDE.KeyboardManager.GetKeyboard(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>);
+
+<FONT COLOR="AQUA">// Choose a key combination</FONT>
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Alt-F11&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;get_h();&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Alt-F12&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;get_cpp();&quot;</FONT>);
+
+ChooseFile(ext)
+{
+  <B>declare</B> buffersArray = <B>new</B> array [];
+  <B>declare</B> i = <FONT COLOR="YELLOW">0</FONT>;
+  <B>declare</B> firstBuffer = editor.TopBuffer;
+  <B>if</B>( firstBuffer == NULL &#124;&#124; !initialized(firstBuffer) ){
+    print <FONT COLOR="YELLOW">&quot;First Buffer invalid&quot;</FONT>;
+    <B>return</B>;
+    }
+  <B>declare</B> current = firstBuffer;
+  <B>do</B> {
+    <B>if</B>( current.TopView != NULL){
+      <B>declare</B> currExt = <B>new</B> String(current.Extension);
+      currExt.Upper();
+      <B>if</B>( currExt.Text == ext.Text ){
+        buffersArray[i] = current.FullName;
+        i++;
+        }
+      }
+    current = current.NextBuffer(<B>false</B>);
+  } <B>while</B>( firstBuffer.FullName != current.FullName );
+
+  <B>if</B>( i == <FONT COLOR="YELLOW">0</FONT> ){
+    print <FONT COLOR="YELLOW">&quot;No modules&quot;</FONT>;
+    <B>return</B>;
+  }
+
+  <B>declare</B> popup = <B>new</B> PopupMenu(<FONT COLOR="YELLOW">200</FONT>, <FONT COLOR="YELLOW">100</FONT>, buffersArray);
+  <B>declare</B> res = popup.Track();
+  <B>if</B>( res == <FONT COLOR="YELLOW">&quot;&quot;</FONT> ) <B>return</B>;
+
+  current = firstBuffer;
+  <B>for</B>( <B>declare</B> j=<FONT COLOR="YELLOW">0</FONT> ; ; current = current.NextBuffer(<B>false</B>),j++ ){
+    <B>if</B>( current.FullName == res ){
+      current.TopView.Window.IsHidden = <B>false</B>;
+      current.TopView.Window.Activate();
+      <B>break</B>;
+      }
+    }
+}
+
+get_cpp()
+{
+  <B>declare</B> ext = <B>new</B> String(<FONT COLOR="YELLOW">&quot;.CPP&quot;</FONT>);
+  ChooseFile(ext);
+}
+
+get_h()
+{
+  <B>declare</B> ext = <B>new</B> String(<FONT COLOR="YELLOW">&quot;.H&quot;</FONT>);
+  ChooseFile(ext);
+}
+
+
+</CODE>
+</PRE>
+
+<A HREF="http://www.sirma.bg/knowledgebase/bcc55/download/ShowHCpp.zip">Download ShowHCpp.zip</A></P>
+<BR><HR><BR>
+
+
+<DT><A NAME = "SaveOnCompile"></A><B>Save editor files on build and make</B>
+<DD>This script performs saving of all editor files when build or make is started. 
+It's purpose is to prevent loss of unsaved files if the IDE crashes during compilation.<BR>
+<BR>
+
+<PRE>
+<CODE>
+print (<FONT COLOR="YELLOW">&quot;SaveOnCompile.spp&quot;</FONT>);
+
+<B>import</B> IDE;
+<B>import</B> debugger;
+
+<B>on</B> IDE:&#62;BuildStarted()
+{
+  print (<FONT COLOR="YELLOW">&quot;Saving all...&quot;</FONT>);
+  IDE.FileSaveAll();
+  pass();
+}
+
+<B>on</B> IDE:&#62;MakeStarted()
+{
+  print (<FONT COLOR="YELLOW">&quot;Saving all...&quot;</FONT>);
+  IDE.FileSaveAll();
+  pass();
+}
+
+<B>on</B> debugger:&#62;DebugeeAboutToRun() 
+{
+  print (<FONT COLOR="YELLOW">&quot;Saving all...&quot;</FONT>);
+  IDE.FileSaveAll();
+  pass();
+}
+</CODE>
+</PRE>
+
+<A HREF="download/SaveOnCompile.zip">Download SaveOnCompile.zip</A></P>
+<BR><HR><BR>
+
+
+
+<DT><A NAME = "MyEdSize"></A><B>Auto arrange editor windows</B>
+<DD>This script arranges editor windows by placing newly opened source or header file to 
+previously opened header or source with the same name and the corresponding type 
+(e.g. .h with .cpp, .rh with .rc and .hxx with .cxx).<BR>
+It is modification done by Chavdar Dimitrov of Kent Reisdorph's example, which can be found at
+<A HREF="http://www.reisdorph.com/bcpp/scripts.htm#newedsiz">http://www.reisdorph.com/bcpp/scripts.htm#newedsiz</A><BR>
+<BR>
+To use it, myedsize.cpp must be build to a 32-bit multithread DLL, and placed in the BC5\BIN folder.
+<BR>
+
+<B>myedsize.spp</B>
+
+
+<PRE>
+<CODE>
+print(<FONT COLOR="YELLOW">&quot;myedsize.spp&quot;</FONT>);
+
+<B>import</B> editor;
+
+<FONT COLOR="AQUA">// import the DLL function</FONT>
+<B>import</B> <FONT COLOR="YELLOW">&quot;myedsize.dll&quot;</FONT> {
+  <B>void</B> PositionWindow(<B>char</B>*, <B>int</B>, <B>int</B>, <B>bool</B>);
+}
+
+<FONT COLOR="AQUA">// I like 600 pixels by 350 for my edit windows</FONT>
+<B>declare</B> width = <FONT COLOR="YELLOW">800</FONT>;
+<B>declare</B> height = <FONT COLOR="YELLOW">500</FONT>;
+<B>declare</B> ViewID;
+
+<B>on</B> editor:&#62;ViewCreated(newView)
+{
+  ViewID = newView.Identifier;
+  pass(newView);
+}
+
+<FONT COLOR="AQUA">// if a view was activated and it was not</FONT>
+<FONT COLOR="AQUA">// an existing window then call the DLL</FONT>
+<FONT COLOR="AQUA">// function to move it</FONT>
+<B>on</B> editor:&#62;ViewActivated(view)
+{
+  <B>if</B> (ViewID == view.Identifier) {
+    pass(view);
+    <B>declare</B> newViewTitle = editor.TopView.Window.Title;
+    PositionWindow(newViewTitle, width, height, <B>false</B>);
+    ViewID = NULL;
+  }
+  pass(view);
+}
+
+///////////////////////////////////////////////////////////////
+</CODE>
+</PRE>
+
+<B>myedsize.cpp</B>
+
+<PRE>
+<CODE>
+<FONT COLOR="SILVER"><B>#define WIN32_LEAN_AND_MEAN</B></FONT>
+<FONT COLOR="SILVER"><B>#define STRICT</B></FONT>
+<FONT COLOR="SILVER"><B>#include &#60;windows.h&#62;</B></FONT>
+<FONT COLOR="SILVER"><B>#include &#60;cstring.h&#62;</B></FONT>
+<FONT COLOR="SILVER"><B>#include &#60;dir.h&#62;</B></FONT>
+<FONT COLOR="SILVER"><B>#include &#60;stdio.h&#62;</B></FONT>
+
+<B>int</B> xPos;
+<B>int</B> yPos;
+HWND hWndNew;
+HWND hWndExisting;
+HWND hWndMDI;
+
+<B>enum</B> FileGroup {
+  Header,
+  Source,
+  Other
+};
+
+<FONT COLOR="SILVER"><B>#define PAIRS_NUM 3</B></FONT>
+
+<B>static</B> <B>const</B> <B>char</B>* HeaderSourcePairsExt [][PAIRS_NUM] = {
+  {<FONT COLOR="YELLOW">&quot;.h&quot;</FONT>, <FONT COLOR="YELLOW">&quot;.cpp&quot;</FONT>},
+  {<FONT COLOR="YELLOW">&quot;.hxx&quot;</FONT>, <FONT COLOR="YELLOW">&quot;.cxx&quot;</FONT>},
+  {<FONT COLOR="YELLOW">&quot;.rh&quot;</FONT>,<FONT COLOR="YELLOW">&quot;.rc&quot;</FONT>},
+};
+
+FileGroup GetFileGroup(<B>const</B> <B>char</B>* pszExt)
+{
+  <B>for</B> (<B>int</B> i = <FONT COLOR="YELLOW">0</FONT>; i &#60; PAIRS_NUM; i++)
+    <B>if</B> (!strcmpi(pszExt, HeaderSourcePairsExt[i][Header]))
+      <B>return</B> Header;
+    <B>else</B>
+      <B>if</B> (!strcmpi(pszExt, HeaderSourcePairsExt[i][Source]))
+        <B>return</B> Source;
+
+  <B>return</B> Other;
+}
+
+<B>const</B> <B>char</B>* GetCorrespondingExt(FileGroup fileGroup, <B>const</B> <B>char</B>* pszExt)
+{
+  <B>for</B> (<B>int</B> i = <FONT COLOR="YELLOW">0</FONT>; i&#60;PAIRS_NUM; i++)
+    <B>if</B> (!strcmpi(pszExt,HeaderSourcePairsExt[i][fileGroup]))
+      <B>return</B> HeaderSourcePairsExt[i][(fileGroup+<FONT COLOR="YELLOW">1</FONT>)%<FONT COLOR="YELLOW">2</FONT>];
+
+  <B>return</B> <FONT COLOR="YELLOW">0</FONT>;
+}
+
+<B>int</B> GetOffset()
+{
+  <B>return</B> GetSystemMetrics(SM_CYCAPTION) +(GetSystemMetrics(SM_CYFRAME) * <FONT COLOR="YELLOW">2</FONT>);
+}
+
+
+string GetPath(<B>const</B> <B>char</B>* pszWndCaption)
+{
+  string sCaption(pszWndCaption);
+  <B>int</B> nPos = sCaption.find_last_of(string(<FONT COLOR="YELLOW">&quot;:&quot;</FONT>));
+  <B>if</B> (nPos != NPOS &amp;&amp; nPos != <FONT COLOR="YELLOW">1</FONT>)<FONT COLOR="AQUA">//C:\.....</FONT>
+    sCaption.remove(nPos);
+
+  nPos = sCaption.find_first_of(string(<FONT COLOR="YELLOW">&quot; &quot;</FONT>));
+  <B>if</B> (nPos != NPOS)
+    sCaption.remove(nPos);
+
+  <B>return</B> sCaption;
+}
+
+string GetNameExt(<B>const</B> <B>char</B>* pszWndTitle, <B>char</B>* pszName, <B>char</B>* pszExt)
+{
+  string sPath = GetPath(pszWndTitle);
+  fnsplit(sPath.c_str(),<FONT COLOR="YELLOW">0</FONT>,<FONT COLOR="YELLOW">0</FONT>,pszName,pszExt);
+  <B>return</B> string(pszName) + pszExt;
+}
+
+string GetNameExt(<B>const</B> <B>char</B>* pszWndTitle)
+{
+  <B>char</B> pszName[MAXFILE];
+  <B>char</B> pszExt[MAXEXT];
+  <B>return</B> GetNameExt(pszWndTitle,pszName,pszExt);
+}
+
+BOOL CALLBACK FindExistingWindow(HWND hwnd, LPARAM pszNameExt)
+{
+  <B>const</B> <B>int</B> size = <FONT COLOR="YELLOW">20</FONT>;
+  <B>char</B> className[size];
+
+  GetClassName(hwnd, className, size);
+
+  <B>if</B> (hwnd == hWndNew &#124;&#124; strcmp(className, <FONT COLOR="YELLOW">&quot;BCW5Editor&quot;</FONT>))
+    <B>return</B> TRUE;
+
+  <B>if</B> (IsIconic(hwnd))
+    <B>return</B> TRUE;
+
+  <B>const</B> <B>int</B> nCurrWndTitleLen = MAXPATH + <FONT COLOR="YELLOW">3</FONT>;<FONT COLOR="AQUA">//title:2</FONT>
+  <B>char</B> pszCurrWndTitle[nCurrWndTitleLen];
+  GetWindowText(hwnd,pszCurrWndTitle,nCurrWndTitleLen);
+  string sCurrNameExt = GetNameExt(pszCurrWndTitle);
+
+  <B>if</B> (sCurrNameExt == (<B>char</B>*)pszNameExt) {
+    hWndExisting = hwnd;
+    <B>return</B> FALSE;
+  }
+  
+  <B>return</B> TRUE;
+}
+
+<FONT COLOR="AQUA">// callback function called to enumerate</FONT>
+<FONT COLOR="AQUA">// the child windows</FONT>
+BOOL CALLBACK EnumProc(HWND hwnd, LPARAM lParam)
+{
+  <B>const</B> <B>int</B> size = <FONT COLOR="YELLOW">20</FONT>;
+  <B>char</B> className[size];
+
+  GetClassName(hwnd, className, size);
+
+  <B>if</B> (hwnd == hWndNew &#124;&#124; strcmp(className, <FONT COLOR="YELLOW">&quot;BCW5Editor&quot;</FONT>)) <B>return</B> TRUE;
+
+  <B>if</B> (IsIconic(hwnd))
+    <B>return</B> TRUE;
+
+  RECT rect;
+  POINT point;
+
+  <B>int</B> offset = GetOffset();
+
+  GetWindowRect(hwnd, &amp;rect);
+  point.x = rect.left;
+  point.y = rect.top;
+
+  ScreenToClient((HWND)lParam, &amp;point);
+
+  <B>if</B> (point.y &#62;= yPos)
+    yPos = point.y + offset;
+
+  <B>return</B> TRUE;
+}
+
+<B>extern</B> <FONT COLOR="YELLOW">&quot;C&quot;</FONT>
+<B>void</B> PASCAL <B>_export</B>
+PositionWindow(<B>char</B>* title, <B>int</B> width, <B>int</B> height, <B>bool</B> bSourceInLeft = <B>true</B>)
+{
+  <FONT COLOR="AQUA">// reset x and y pos before each run</FONT>
+  xPos = yPos = <FONT COLOR="YELLOW">0</FONT>;
+  hWndExisting = <FONT COLOR="YELLOW">0</FONT>;
+  string::set_case_sensitive(<FONT COLOR="YELLOW">0</FONT>);
+
+  <FONT COLOR="AQUA">// find the IDE window</FONT>
+  HWND hWndIDE = FindWindow(<FONT COLOR="YELLOW">&quot;CPPFRAME&quot;</FONT>, NULL);
+
+  <FONT COLOR="AQUA">// find the MDI client which is the client</FONT>
+  <FONT COLOR="AQUA">// window of the IDE</FONT>
+  hWndMDI = FindWindowEx(hWndIDE, NULL, <FONT COLOR="YELLOW">&quot;MDIClient&quot;</FONT>, NULL);
+
+  <FONT COLOR="AQUA">// get a handle to the newly-created editor</FONT>
+  hWndNew = FindWindowEx(hWndMDI, NULL, <FONT COLOR="YELLOW">&quot;BCW5Editor&quot;</FONT>, title);
+
+
+  <B>char</B> pszName[MAXFILE];
+  <B>char</B> pszExt[MAXEXT];
+  GetNameExt(title,pszName,pszExt);
+
+  FileGroup fileGroup = GetFileGroup(pszExt);
+
+  <B>if</B> (fileGroup != Other) {
+    RECT rect;
+    <B>if</B>(fileGroup == (bSourceInLeft ? Source : Header)) {
+      GetClientRect(hWndMDI, &amp;rect);
+      xPos = rect.right - width;
+    }
+    strcpy(pszExt,GetCorrespondingExt(fileGroup,pszExt));
+    <B>char</B> pszNameExt[MAXFILE + MAXEXT + <FONT COLOR="YELLOW">1</FONT>];
+    sprintf(pszNameExt,<FONT COLOR="YELLOW">&quot;%s%s&quot;</FONT>,pszName,pszExt);
+    EnumChildWindows(hWndMDI, FindExistingWindow, (LPARAM)pszNameExt);
+    <B>if</B> (hWndExisting) {
+      POINT point;
+      GetWindowRect(hWndExisting, &amp;rect);
+      point.x = rect.left;
+      point.y = rect.top;
+      ScreenToClient(hWndMDI, &amp;point);
+      yPos = point.y;
+    }
+    <B>else</B>
+      EnumChildWindows(hWndMDI, EnumProc, (LPARAM)hWndMDI);
+  }
+  <B>else</B>
+    EnumChildWindows(hWndMDI, EnumProc, (LPARAM)hWndMDI);
+
+  <B>if</B> (hWndNew)
+    SetWindowPos(hWndNew, <FONT COLOR="YELLOW">0</FONT>, xPos, yPos, width, height, SWP_NOZORDER);
+}
+
+</CODE>
+</PRE>
+<A HREF="download/MyEdSize.zip">Download MyEdSize.zip</A></P>
+<BR><HR><BR>
+
+
+<DT><A NAME = "CppHToggle"></A><B>Toggle between source and header files</B>
+<DD>When editing a source file, this script will bring up the corresponding header file, 
+and vice versa. Supports these extensions: cpp c h hpp rc rh. Can be extended by editing 
+a single array ('map'). First searches in the same directory, then does a little heuristics 
+by replacing parts of the path like '\source\' and '\include\', in order to find files located 
+in different paths (like Owl files), as suggested by Jogy.
+If you too store your headers separately from your source, you can customize another array ('dirMap')
+to suit your needs. Currently assigned to &#60;Ctrl-h&#62; (this can be modified)..<BR>
+<BR>
+
+<PRE>
+<CODE>
+
+<B>import</B> IDE;
+<B>import</B> editor;
+
+<B>declare</B> keyCut = <FONT COLOR="YELLOW">&quot;&#60;Ctrl-h&#62;&quot;</FONT>;   <FONT COLOR="AQUA">// set a keycut you like</FONT>
+<B>declare</B> kbd = IDE.KeyboardManager.GetKeyboard(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>);
+
+kbd.Assign(keyCut, <FONT COLOR="YELLOW">&quot;CppH_Tog_Launch();&quot;</FONT>);
+print(<FONT COLOR="YELLOW">&quot;Show Header assigned to &quot;</FONT> + keyCut);
+
+
+CppH_Tog_Launch()
+{
+  <FONT COLOR="AQUA">// just create an object to do the job</FONT>
+  <B>new</B> CppH_Tog_Worker();
+}
+
+
+<B>class</B> CppH_Tog_Worker
+{
+  <B>declare</B> topBuf = editor.TopBuffer;
+
+  <FONT COLOR="AQUA">// validate current buffer</FONT>
+  <B>if</B> (!topBuf) {
+    IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: Invalid top buffer&quot;</FONT>;
+    <B>return</B>;
+  }
+
+  <FONT COLOR="AQUA">// You can customize this mapping to better suit your needs.</FONT>
+  <FONT COLOR="AQUA">// It's simply an array of entries, which are themselves</FONT>
+  <FONT COLOR="AQUA">// an array of 2 elements:</FONT>
+  <FONT COLOR="AQUA">// 1. the source extension (of the currently edited file)</FONT>
+  <FONT COLOR="AQUA">// 2. a list (another array) of corresponding extensions, which</FONT>
+  <FONT COLOR="AQUA">//    are checked in order of appearance</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <FONT COLOR="AQUA">// Note that I've mapped &quot;cpp&quot; first to &quot;h&quot; and then to &quot;hpp&quot;.</FONT>
+  <FONT COLOR="AQUA">// That's because I only use .h headers for .cpp files.</FONT>
+  <FONT COLOR="AQUA">// If you're using .hpp headers they will be opened nicely,</FONT>
+  <FONT COLOR="AQUA">// unless you also have a .h with the same name in the directory</FONT>
+  <FONT COLOR="AQUA">// (for interfacing with C programs).</FONT>
+  <FONT COLOR="AQUA">// In that case, just put &quot;hpp&quot; before &quot;h&quot;.</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <B>declare</B> map = {
+                  { <FONT COLOR="YELLOW">&quot;cpp&quot;</FONT>, {<FONT COLOR="YELLOW">&quot;h&quot;</FONT>,   <FONT COLOR="YELLOW">&quot;hpp&quot;</FONT>} },
+                  { <FONT COLOR="YELLOW">&quot;h&quot;</FONT>,   {<FONT COLOR="YELLOW">&quot;cpp&quot;</FONT>, <FONT COLOR="YELLOW">&quot;c&quot;</FONT>  } },
+                  { <FONT COLOR="YELLOW">&quot;c&quot;</FONT>,   {<FONT COLOR="YELLOW">&quot;h&quot;</FONT>         } },
+                  { <FONT COLOR="YELLOW">&quot;hpp&quot;</FONT>, {<FONT COLOR="YELLOW">&quot;cpp&quot;</FONT>       } },
+                  { <FONT COLOR="YELLOW">&quot;rc&quot;</FONT>,  {<FONT COLOR="YELLOW">&quot;rh&quot;</FONT>        } },
+                  { <FONT COLOR="YELLOW">&quot;rh&quot;</FONT>,  {<FONT COLOR="YELLOW">&quot;rc&quot;</FONT>        } }
+                };
+
+  <FONT COLOR="AQUA">// The next array provides mappings for the directory part</FONT>
+  <FONT COLOR="AQUA">// of the filename.</FONT>
+  <FONT COLOR="AQUA">// It's very useful for toggling between Owl source and</FONT>
+  <FONT COLOR="AQUA">// headers, which are in different paths, e.g.</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <FONT COLOR="AQUA">//  Owl5</FONT>
+  <FONT COLOR="AQUA">//    C:\BC5\SOURCE\OWL\window.cpp</FONT>
+  <FONT COLOR="AQUA">//    C:\BC5\INCLUDE\OWL\window.h</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <FONT COLOR="AQUA">//  OwlNext</FONT>
+  <FONT COLOR="AQUA">//    C:\Owl\source\owlcore\window.cpp</FONT>
+  <FONT COLOR="AQUA">//    C:\Owl\include\owl\window.h</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <FONT COLOR="AQUA">// This array contains string pairs. After scanning the directory</FONT>
+  <FONT COLOR="AQUA">// for an open/existing file, we'll start replacing parts of it</FONT>
+  <FONT COLOR="AQUA">// using the 'dirMap' table. The order of the two strings in each pair</FONT>
+  <FONT COLOR="AQUA">// is not significant, since we'll check for both of them and</FONT>
+  <FONT COLOR="AQUA">// replace whichever we find with the other.</FONT>
+  <FONT COLOR="AQUA">// Each modification will be applied to the original path.</FONT>
+  <FONT COLOR="AQUA">// Note that these 'tokens' are delimited by '\' characters</FONT>
+  <FONT COLOR="AQUA">// to avoid partial replacement of directory names.</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <FONT COLOR="AQUA">// The predefined pairs are mainly targeted to:</FONT>
+  <FONT COLOR="AQUA">// 1. searching in the same directory;</FONT>
+  <FONT COLOR="AQUA">//    a single NULL causes the path to remain unchanged</FONT>
+  <FONT COLOR="AQUA">// 2. Owl5 files.</FONT>
+  <FONT COLOR="AQUA">// 3. OwlNext files.</FONT>
+  <FONT COLOR="AQUA">// 4. Other cases.</FONT>
+  <FONT COLOR="AQUA">// You can add more pairs, and rearrange their order.</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <B>declare</B> dirMap = {
+                     NULL,
+                      {<FONT COLOR="YELLOW">&quot;\\include\\&quot;</FONT>,       <FONT COLOR="YELLOW">&quot;\\source\\&quot;</FONT>},
+                      {<FONT COLOR="YELLOW">&quot;\\include\\owl\\&quot;</FONT>, <FONT COLOR="YELLOW">&quot;\\source\\owlcore\\&quot;</FONT>},
+                      {<FONT COLOR="YELLOW">&quot;\\inc\\&quot;</FONT>,           <FONT COLOR="YELLOW">&quot;\\src\\&quot;</FONT>}
+                   };
+
+
+  <FONT COLOR="AQUA">// get the parts of the buffer's filename</FONT>
+  <B>declare</B> drive = topBuf.Drive;
+  <B>declare</B> path  = topBuf.Directory;
+  <B>declare</B> fname = topBuf.FileName;
+  <B>declare</B> ext   = topBuf.Extension;
+
+  <FONT COLOR="AQUA">// get a list of mapped extensions</FONT>
+  <B>declare</B> mapExt = GetMappedExtensions(ext);
+
+  <FONT COLOR="AQUA">// check for unsupported extensions</FONT>
+  <B>if</B> (!mapExt) {
+    IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: Unsupported extension (&quot;</FONT> + ext + <FONT COLOR="YELLOW">&quot;)&quot;</FONT>;
+    <B>return</B>;
+  }
+
+  <FONT COLOR="AQUA">//======================================</FONT>
+  <FONT COLOR="AQUA">// STEP 1. Check for an existing buffer</FONT>
+  <FONT COLOR="AQUA">//======================================</FONT>
+  <B>declare</B> exBuf = GetExistingBuffer();
+  <B>if</B> (exBuf) {
+    HandleExistingBuffer(exBuf);
+    <B>return</B>; <FONT COLOR="AQUA">// if the above failed, we shouldn't continue</FONT>
+  }
+
+  <FONT COLOR="AQUA">//=========================================</FONT>
+  <FONT COLOR="AQUA">// STEP 2. Check if a matching file exists</FONT>
+  <FONT COLOR="AQUA">//=========================================</FONT>
+  <FONT COLOR="AQUA">// iterate through the mapped extensions to check</FONT>
+  <FONT COLOR="AQUA">// if a matching file exists</FONT>
+  <B>declare</B> exFile = GetExistingFile();
+  <B>if</B> (exFile) {
+    HandleExistingFile(exFile);
+    <B>return</B>; <FONT COLOR="AQUA">// if the above failed, we shouldn't continue</FONT>
+  }
+
+  <FONT COLOR="AQUA">//======================================================</FONT>
+  <FONT COLOR="AQUA">// STEP 3. Create a new buffer with the first extension</FONT>
+  <FONT COLOR="AQUA">//         in the same directory as a last resort.</FONT>
+  <FONT COLOR="AQUA">//======================================================</FONT>
+  <FONT COLOR="AQUA">// the file doesn't really exist, but we open it anyway</FONT>
+  HandleExistingFile(drive + path + fname + <FONT COLOR="YELLOW">&quot;.&quot;</FONT> + mapExt[<FONT COLOR="YELLOW">0</FONT>]);
+
+
+  <FONT COLOR="AQUA">// THE END</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// MEMBER FUNCTIONS FOLLOW:</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// Check whether two strings match, ignoring case.</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  StrIMatch(s1, s2)
+  {
+    s1 = (<B>new</B> String(s1)).Upper().Text;
+    s2 = (<B>new</B> String(s2)).Upper().Text;
+    <B>return</B> s1 == s2;
+  }
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// Check whether the specified extension</FONT>
+  <FONT COLOR="AQUA">// exists in the mapping array.</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  GetMappedExtensions(ext)
+  {
+    <B>declare</B> ret = NULL;
+    <B>declare</B> index; <FONT COLOR="AQUA">// cannot declare this inside 'iterate's parentheses</FONT>
+
+    iterate (<B>declare</B> entry; map; index)
+    <B>if</B> (StrIMatch(<FONT COLOR="YELLOW">&quot;.&quot;</FONT> + entry[<FONT COLOR="YELLOW">0</FONT>], ext))
+      <B>return</B> map[index][<FONT COLOR="YELLOW">1</FONT>];
+
+    <FONT COLOR="AQUA">// we didn't find it</FONT>
+    <B>return</B> NULL;
+  }
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// Return the first existing buffer in the IDE that matches</FONT>
+  <FONT COLOR="AQUA">// the mapped extensions, or NULL if non is found.</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  GetExistingBuffer()
+  {
+    <B>declare</B> sentry = <FONT COLOR="YELLOW">0</FONT>;
+
+    <FONT COLOR="AQUA">// apply directory mappings</FONT>
+    <FONT COLOR="AQUA">//</FONT>
+    iterate (<B>declare</B> tokPair; dirMap)
+    {
+      <B>declare</B> xPath = TransformPath(path, tokPair);
+      <B>if</B> (xPath == NULL) <B>continue</B>;    <FONT COLOR="AQUA">// in case the path didn't change</FONT>
+
+      <FONT COLOR="AQUA">// walk the buffer list.</FONT>
+      <FONT COLOR="AQUA">//</FONT>
+      <FONT COLOR="AQUA">// explaining the 'for' loop params:</FONT>
+      <FONT COLOR="AQUA">// init: we start checking the next buffer from the top</FONT>
+      <FONT COLOR="AQUA">// cond: a valid buf and not the top buffer (because buffer list is circular)</FONT>
+      <FONT COLOR="AQUA">//   CAUTION: don't use &quot;testBuf &amp;&amp; (testBuf != topBuf)&quot;, it always evals to FALSE  (don't know why...)</FONT>
+      <FONT COLOR="AQUA">// step: the next, non-private buffer</FONT>
+      <FONT COLOR="AQUA">//</FONT>
+      <B>for</B> (<B>declare</B> testBuf = topBuf.NextBuffer(<B>false</B>);
+           (testBuf != NULL) &amp;&amp; (testBuf != topBuf);
+           testBuf = testBuf.NextBuffer(<B>false</B>))
+      {
+        <FONT COLOR="AQUA">// iterate through the mapped extensions to check</FONT>
+        <FONT COLOR="AQUA">// if the buffer matches one of them</FONT>
+        iterate (<B>declare</B> testExt; mapExt)
+        {
+          <B>if</B> (StrIMatch(drive + xPath + fname + <FONT COLOR="YELLOW">&quot;.&quot;</FONT> + testExt,
+                        testBuf.FullName))
+            <B>return</B> testBuf;
+        }
+
+        <FONT COLOR="AQUA">// this sentry will terminate the loop</FONT>
+        <FONT COLOR="AQUA">// in case something goes haywire  :)</FONT>
+        <FONT COLOR="AQUA">// (perhaps it's not needed...)</FONT>
+        <B>if</B> (++sentry &#62;= <FONT COLOR="YELLOW">1000</FONT>) <B>break</B>;
+      }
+    }
+
+    <FONT COLOR="AQUA">// we couldn't find a valid buffer</FONT>
+    <B>return</B> NULL;
+  }
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// If a matching buffer is found, try to open one of its views</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  HandleExistingBuffer(exBuf)
+  {
+    <FONT COLOR="AQUA">// does it have any views?</FONT>
+    <B>if</B> (exBuf.TopView) {
+      <FONT COLOR="AQUA">// (is EditView::Window always non-NULL? docs don't mention returning NULL)</FONT>
+      exBuf.TopView.Window.IsHidden = <B>false</B>;
+      exBuf.TopView.Window.Activate();
+    }
+    <B>else</B> {
+      <FONT COLOR="AQUA">// there are no views attached;</FONT>
+      <FONT COLOR="AQUA">// create a new window; a default view will be created too</FONT>
+      <B>declare</B> newWnd = editor.EditWindowCreate(exBuf);
+      <B>if</B> (newWnd == NULL) {
+        IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: Could create new edit window&quot;</FONT>;
+        <B>return</B>;
+      }
+    }
+
+    IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: OK&quot;</FONT>;
+  }
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// Return the first existing file that matches</FONT>
+  <FONT COLOR="AQUA">// the mapped extensions, or NULL if non is found.</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  GetExistingFile()
+  {
+    <FONT COLOR="AQUA">// apply directory mappings</FONT>
+    <FONT COLOR="AQUA">//</FONT>
+    iterate (<B>declare</B> tokPair; dirMap)
+    {
+      <B>declare</B> xPath = TransformPath(path, tokPair);
+      <B>if</B> (xPath == NULL) <B>continue</B>;    <FONT COLOR="AQUA">// in case the path didn't change</FONT>
+
+      <FONT COLOR="AQUA">// iterate through the mapped extensions to check</FONT>
+      <FONT COLOR="AQUA">// if the file exists</FONT>
+      iterate (<B>declare</B> testExt; mapExt)
+      {
+        <B>if</B> (FileExists(drive + xPath + fname + <FONT COLOR="YELLOW">&quot;.&quot;</FONT> + testExt))
+          <B>return</B> drive + xPath + fname + <FONT COLOR="YELLOW">&quot;.&quot;</FONT> + testExt;
+      }
+    }
+
+    <FONT COLOR="AQUA">// we couldn't find an existing file</FONT>
+    <B>return</B> NULL;
+  }
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// If a matching file is found, try to create a buffer</FONT>
+  <FONT COLOR="AQUA">// and attach a new view to it.</FONT>
+  <FONT COLOR="AQUA">// (NOTE: Assuming a buffer was not found,</FONT>
+  <FONT COLOR="AQUA">// this function will create a new one)</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  HandleExistingFile(fname)
+  {
+    <FONT COLOR="AQUA">// create an EditBuffer</FONT>
+    <B>declare</B> newBuf = editor.EditBufferCreate(fname);
+    <B>if</B> (newBuf == NULL) {
+      IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: Could create new edit buffer&quot;</FONT>;
+      <B>return</B>;
+    }
+
+    <FONT COLOR="AQUA">// create an EditWindow - a default view will be created too</FONT>
+    <B>declare</B> newWnd = editor.EditWindowCreate(newBuf);
+    <B>if</B> (newWnd == NULL) {
+      IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: Could create new edit window&quot;</FONT>;
+      <B>return</B>;
+    }
+
+    IDE.StatusBar = <FONT COLOR="YELLOW">&quot;CppH_Tog: OK&quot;</FONT>;
+  }
+
+
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  <FONT COLOR="AQUA">// Accepts a string path and a 'dirMap' entry,</FONT>
+  <FONT COLOR="AQUA">// and returns a modified string path.</FONT>
+  <FONT COLOR="AQUA">// By convention, if 'tokPair' is NULL, 'path' is returned</FONT>
+  <FONT COLOR="AQUA">// (to allow searching in the same directory).</FONT>
+  <FONT COLOR="AQUA">// If no replacement was possible, NULL is returned.</FONT>
+  <FONT COLOR="AQUA">// ----------------------------------</FONT>
+  TransformPath(path, pair)
+  {
+    <B>if</B> (pair == NULL)
+      <B>return</B> path;
+
+    <B>declare</B> n;
+    <B>declare</B> sPath = (<B>new</B> String(path   )).Upper();
+    <B>declare</B> sTok1 = (<B>new</B> String(pair[<FONT COLOR="YELLOW">0</FONT>])).Upper();
+    <B>declare</B> sTok2 = (<B>new</B> String(pair[<FONT COLOR="YELLOW">1</FONT>])).Upper();
+
+    n = sPath.Index(sTok1.Text);
+    <B>if</B> (n) <B>return</B> StrReplace(path, --n, sTok1.Length, pair[<FONT COLOR="YELLOW">1</FONT>]);
+
+    n = sPath.Index(sTok2.Text);
+    <B>if</B> (n) <B>return</B> StrReplace(path, --n, sTok2.Length, pair[<FONT COLOR="YELLOW">0</FONT>]);
+
+    <B>return</B> NULL;    <FONT COLOR="AQUA">// could not replace anything</FONT>
+  }
+
+
+  <FONT COLOR="AQUA">// Replaces 'len' characters of string 'src',</FONT>
+  <FONT COLOR="AQUA">// starting at 'pos', with string 'part'.</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  StrReplace(src, pos, len, part)
+  {
+    <FONT COLOR="AQUA">// note that .SubString(n,0) acts like .SubString(n)</FONT>
+    <FONT COLOR="AQUA">// (i.e. it doesn't return &quot;&quot;)</FONT>
+    <FONT COLOR="AQUA">//</FONT>
+    <B>declare</B> s = <B>new</B> String(src);
+    <B>return</B> (pos ? s.SubString(<FONT COLOR="YELLOW">0</FONT>, pos).Text : <FONT COLOR="YELLOW">&quot;&quot;</FONT>)
+            + part + s.SubString(pos + len).Text;
+  }
+
+};
+</CODE>
+</PRE>
+
+<A HREF="download/CppH_Tog.zip">Download CppH_Tog.zip</A></P>
+<BR><HR><BR><BR>
+
+</DL>
+
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

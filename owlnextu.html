@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>OWL Next Updates</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>OWL Next Updates</H2>
+<BR><BR><BR>
+<IMG SRC="images/owln-rule2.gif" WIDTH="582" HEIGHT="27" BORDER="0" ALT="">
+<P align=left>This page contains unofficial updates to the latest version of OWLNext.</P>
+The latest official patch is 6.12 and can be downloaded 
+<a href="http://owlnext.sourceforge.net/patches/owl6_412.zip">here</a>.</P>
+
+<b><font color="Red">NEW</font></b> - most of these changes are incorporated in the new version, 6.13. A patch
+which upgrades OWLNext from 6.12 to 6.13 can be downloaded from <a href="http://www.owlnext.org/">OWLNext</a> site.</P>
+
+<hr>
+<b>Fixes</b>:
+
+<dl>
+	<dt><b>Fix in TPrintDC::StartDoc</b> by Steve Ahlgren
+	<dd>Under WindowsXP, when trying to print to a network printer,
+	the error RPC_S_SERVER_UNAVAILABLE may occur. To fix the problem,
+	in dc.h, in the function TPrintDC::StartDoc() add the lines 
+	<pre><code>
+#if (WINVER >= 0x0400)
+	DocInfo.lpszDatatype = NULL;
+#endif
+	</code></pre>
+	before the return statement.
+	
+	<br>
+	<br>
+	<br>
+	
+
+	<dt><b>Fix in TComboBox::SetHorizontalExtent</b> by Marvin Avery
+	<dd>in combobox.h, the function 
+	<pre><code>
+inline void TComboBox::SetHorizontalExtent(int horzExtent) {
+  PRECONDITION(GetHandle());
+#if defined(BI_PLAT_WIN32)
+  SendMessage(CB_SETHORIZONTALEXTENT);
+#else
+  //
+#endif
+}
+	</code></pre>
+	does not use the horzExtent parameter. The call to SendMessage() should be
+	<pre><code>
+  SendMessage(CB_SETHORIZONTALEXTENT,horzExtent);
+	</code></pre>
+
+	<br>
+	<br>
+	<br>
+	
+
+	<dt><b>Fix for MSVC++ OWLNext DLL</b> by Krassimir Bozhkov
+	<dd>In include\owl\private\msc.h the preprocessor conditional
+	<pre><code>
+	#if defined(__DLL__) || defined(_DLL)
+	# define BI_APP_DLL
+	#else
+	# define BI_APP_EXECUTABLE
+	#endif
+	</code></pre>
+	is incorrect. Under MSVC, _WINDLL is defined when building DLL, so 
+	#if defined(__DLL__) || defined(_DLL) should be replaced with #if defined(__DLL__) || defined(_WINDLL)
+	
+	<br>
+	<br>
+	<br>
+
+
+	<dt><b>Fix for Borland C++ 5.5</b> by Jogy
+	<dd>When compiling OWLNext 6.12 with BCC5.5, there is an error in objstrm.h,
+	because STL IO does not have constructor with ( int f, LPSTR b, int len ), but 
+	BI_STDIO_CTRFNUMSI is defined.<br>
+	To fix it, add the lines
+	<pre><code>
+	#if (__BORLANDC__ >= 0x550)
+	# define NO_BI_STDIO_CTRFNUM
+	#endif
+	</code></pre>
+	before the lines
+	<pre><code>
+	#if (__BORLANDC__ >= 0x540)
+	# define BI_HAS_MEMBER_TEMPLATE
+	#endif
+	</code></pre>
+	
+	
+
+	<dt><b>TRegConfigFile bug fix</b> by Jogy
+	<dd>When using TRegConfigFile::ReadString() a potential problem is that the returned
+	buffer will not be null-terminated, if it is written no null-terminated in the registry,
+	which is the default for TRegConfigFile::WriteString(). This can be fixed by adding the line
+
+	<pre><code>
+	buffer[size] = '\0';	
+	</code></pre>
+	
+	at the end of the function TRegConfigFile::ReadString(), before the statement
+	<pre><code>
+	return (int)size;
+	</code></pre>
+	
+	Also, when writing string values to the registry, it is recommended that the null-terminator is included
+	in the buffer length. This can be fixed by changing the line
+	<pre><code>
+	uint32 size = ::_tcslen(value)*sizeof(_TCHAR);
+	</code></pre>
+	with
+	<pre><code>
+	uint32 size = (::_tcslen(value) + 1)*sizeof(_TCHAR);
+	</code></pre>
+	in the function TRegConfigFile::WriteString()
+
+	<br>
+	<br>
+	<br>
+	
+	
+	<dt><b>EV_LVN_ENDLABELEDIT bug fix</b> by Jogy
+	<dd>The definition of the EV_LVN_ENDLABELEDIT notification handler incorrectly uses TLwNotify&amp; insetad
+	of TLwDispInfoNotify&amp; as a parameter.
+	To fix it, replace the line
+	
+	<pre><code>
+	#define EV_LVN_ENDLABELEDIT(id, method)     EV_LISTWIND_NOTIFY_BOOL(id, LVN_ENDLABELEDIT, method)
+	</code></pre>
+
+	with
+	
+	<pre><code>
+	#define EV_LVN_ENDLABELEDIT(id, method)     EV_LV_DISPINFO_NOTIFY_BOOL(id, LVN_ENDLABELEDIT, method)
+	</code></pre>
+	
+	in the file owl\commctrl.h
+	
+	
+	
+</dl>
+
+<br>
+<hr>
+
+<b>Enhancements</b>:
+
+<dl>
+	<dt><b>Microsoft Layer for Unicode</b> by Jogy
+	<dd>Read how to use OWLNext with Microsoft Layer for Unicode <a href="unicows.html">here</a></P>
+	
+	<dt><b>TConfigFileSection Erase() enhancement</b> by Staso
+	<dd>In configfl.h, to TConfigFileSection, add the public inline function 
+	<pre><code>
+bool		Erase()   { return File.EraseSection(Section.c_str());  }
+	</code></pre>
+	</P>
+	
+	
+	<dt><b>TFileNameIterator enhancement</b> by Boris
+	<dd>in filename.h to TFileNameIterator, add the public inline functions 
+	<pre><code>
+    bool IsDir() const;
+    bool IsSysDir() const;//true if it is the "." or ".." system directory; 
+	</code></pre>
+	with implementation:
+	<pre><code>
+inline bool TFileNameIterator::IsDir() const
+{ 
+  return Status.attribute &amp; FILE_ATTRIBUTE_DIRECTORY; 
+} 
+
+//Returns true if it is a directory and the directory is "." or ".."; 
+inline bool TFileNameIterator::IsSysDir() const
+{  
+  const char* p = Status.fullName;
+  return IsDir() &amp;&amp; p[0]=='.' &amp;&amp;
+          (p[1]=='\0' || p[1]=='.' &amp;&amp; p[2]=='\0');
+}    
+	</code></pre>
+	</P>
+
+
+	<dt><b>TFileName enhancement</b> by Jogy
+	<dd>Function which adds a subfolder to the current path contained in the TFileName object.</P>
+	In filename.h add the lines
+	<pre><code>
+bool AddSubDir(LPCTSTR subdir);
+bool AddSubDir(const owl_string& subdir);
+	</code></pre>
+	in the declaration of the class TFileName, preferably after the function CreateDir().</P>
+	In filename.cpp add the lines
+<pre>
+<code>
+<b>bool</b>
+TFileName::AddSubDir(LPCTSTR subdir)
+{
+  <b>if</b> (_tcschr(dirSeparator, subdir[<font color="yellow">0</font>]) == <font color="yellow">0</font>) <font color="teal">// The subdir does not begin with the separator</font>
+    PathStr += dirSeparatorStr;
+
+  PathStr += subdir;
+
+  <b>if</b> (_tcschr(dirSeparator, PathStr[PathStr.length() - <font color="yellow">1</font>]) != <font color="yellow">0</font>)  <font color="teal">// The resultring string ends with the separator</font>
+    PathStr = PathStr.substr(<font color="yellow">0</font>, PathStr.length() - <font color="yellow">1</font>);
+
+  <b>return</b> <b>true</b>;
+}
+
+<b>bool</b>
+TFileName::AddSubDir(<b>const</b> owl_string&amp; subdir)
+{
+  <b>return</b> AddSubDir(subdir.c_str());
+}
+</code>
+</pre>
+	preferably after the definition of the function CreateDir().</P>
+</dl>
+
+<br>
+<hr>
+
+<b>Suggestions</b>:
+
+<dl>
+	<dt><b>Rename diagnostic macros </b> by Steve Ahlgren
+	<dd>OWL diagnostic macros TRACE, TRY, CATCH, etc. may interfere with MFC ones 
+	when both frameworks are used together, so Steve suggests to rename them
+	to OWL_TRACE, OWL_TRY, OWL_CATCH, etc.
+	<br>
+	<br>
+	
+	<dt><b>Use #pragma once </b> by Boris Vidolov
+	<dd>This #pragma can be used to speed compilation under Visual C++. Add the code
+	<pre><code>
+	#ifdef _MSC_VER  
+	#   pragma once 
+	#endif 
+	</code></pre>
+	at the start of all OWLNext header files.
+
+</dl>
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+</BODY>
+</HTML>

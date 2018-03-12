@@ -1,0 +1,348 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+
+   <TITLE></TITLE>
+   <META NAME="Author" CONTENT="Kent Reisdorph">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (WinNT; I) [Netscape]">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</HEAD>
+<BODY text="#000000" bgcolor="#FFFFFF" link="#990000" vlink="#336699" alink="#666666" background="bstrbk.gif"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><B><FONT SIZE=+2>ObjectScript (cScript) Tips and Scripts</FONT></B>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><FONT SIZE=+1><B>Topics <BR>
+</B><A HREF="#ReturnVal">How do I return a value from an ObjectScript function?
+<BR>
+</A><A HREF="#DLLCrashesIDE">My script's DLL&nbsp;crashes the IDE&nbsp;when
+the IDE&nbsp;closes. <BR>
+</A><A HREF="#newedsiz">Replacement for EDITSIZE.SPP&nbsp;Script (demonstrates
+calling a DLL&nbsp;from a script)</A> <BR>
+<A HREF="#quickscript">Quickie Method to Attatch a Script to a Keystroke
+<BR>
+</A><A HREF="#sound">BC5 Sound Scheme Script <BR>
+</A><A HREF="#Autosave">Autosave Editor Files Prior to Debugger Running
+<BR>
+</A><A HREF="#String/string">String Functions Appear to be Missing <BR>
+</A><A HREF="#RemoveMsgs">Removing Messages from the Message Window Before
+a Debug Session. <BR>
+</A><A HREF="#Highlite">Syntax Highlighting for Scripts <BR>
+</A><A HREF="#MyScripts">Running Your Own Scripts on IDE&nbsp;Startup <BR>
+</A><A HREF="#WinHelp">Script to Check WINHELP.INI for Errors</A></FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><BR>
+<A NAME="ReturnVal"></A><FONT SIZE=+1><B>How do I return a value from an
+ObjectScript function? <BR>
+</B>If you try the C-style function declaration you will get an error since
+you can't define the return type of a function in cScript. Instead, all
+you have to do is return a value without declaring the return type:</FONT></P>
+
+<P><TT><FONT SIZE=+1>GetValue() <BR>
+{ <BR>
+&nbsp;&nbsp;<B>if</B> (integer)&nbsp;<B>return</B> <FONT COLOR="#0000FF">1</FONT>;
+<BR>
+&nbsp;&nbsp;<B>if</B> (string) <B>return</B> <FONT COLOR="#0000FF">&quot;Text&quot;</FONT>;
+<BR>
+}</FONT></TT></P>
+
+<P><FONT SIZE=+1>Note that the function can return any data type.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="DLLCrashesIDE"></A><FONT SIZE=+1><B>My script's DLL&nbsp;crashes
+the IDE&nbsp;when the IDE&nbsp;closes. <BR>
+</B>Be sure to turn on the Multithread option for your DLLs project in
+TargetExpert. DLLs you write to call from scripts must use the same RTL&nbsp;as
+the IDE&nbsp;which uses the mulit-threaded version of the RTL.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="newedsiz"></A><FONT SIZE=+1><B>Replacement for EDITSIZE.SPP&nbsp;Script
+<BR>
+</B>I wrote this script to demonstrate calling a user-written DLL&nbsp;from
+a script. This script calls a function in a DLL which enumerates the child
+editor windows and places the new window down and to the right of the right-most
+existing editor window. Now your new editor windows can be the size you
+desire and they won't all be created on top of one another. Another advantage
+to this script is that you now set the editor window width and height in
+pixels so you know exactly how large the window will be.</FONT></P>
+
+<P><FONT SIZE=+1>The zip file includes the script file, the DLL&nbsp;source
+code, a project file for the DLL, the pre-built DLL, and a README.TXT file.
+<A HREF="newedsiz.zip">Download now (17K)</A>. Note:&nbsp;The DLL&nbsp;in
+the zip file was built with BC++&nbsp;5.01. If you encounter errors then
+rebuild the DLL&nbsp;using the project provided.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="quickscript"></A><FONT SIZE=+1><B>Quickie Method to Attatch
+a Script to a Keystroke <BR>
+</B>Installing keyboard commands is a bit confusing so here is a technique
+to use an existing keyboard command for adding in a temporary script. What
+I did (Ian) was hook into the bookmark code: </FONT></P>
+
+<P><TT><FONT SIZE=+1><B>import </B>editor; <BR>
+<B>on</B>n editor:&gt;GotoBookMark(num) <BR>
+{ <BR>
+&nbsp;&nbsp;<B>if</B> (num == 1) DoCustomFunction(); <BR>
+&nbsp;&nbsp;<B>else</B> pass(num); <BR>
+} <BR>
+<BR>
+DoCustomFunction() <BR>
+{ <BR>
+<I><FONT COLOR="#000080">&nbsp;&nbsp;// get reference to current position</FONT></I>
+&nbsp; <BR>
+&nbsp; <B>declare</B> ep = editor.TopView.Position; <BR>
+&nbsp;&nbsp;<I><FONT COLOR="#000080">// ref. a block to use for editing</FONT></I>
+<BR>
+&nbsp;&nbsp;<B>declare</B> eb = editor.TopView.Block; <BR>
+&nbsp;&nbsp;<I><FONT COLOR="#000080">// do some processing based on the
+above useful objects</FONT></I> <BR>
+}</FONT></TT><FONT SIZE=+1> </FONT></P>
+
+<P><FONT SIZE=+1>This subclasses the editor and DoCustomFunction() will
+then be called any time the bookmark 1 is used (in standard keyboard Ctrl-1).
+You can simply then run the script file from the IDE to quickly set up
+a new command.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="sound"></A><FONT SIZE=+1><B>BC5 Sound Scheme Script <BR>
+</B>Associate wave files with IDE&nbsp;events. Comes with sample wave files.
+Fully configurable to add your own wave files via an easy-to-use dialog
+box. Give it a try! <A HREF="bc5snds.zip">Download now (317K)</A>. (This
+was put together rather hastily so let me know (Kent)&nbsp;if you encounter
+any problems.)</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="hdrgen"></A><FONT SIZE=+1><B>Script to Create a Shell Header
+File <BR>
+</B>This script will create a ready-to-go header file for you with the
+sentry (#ifndef __HEADER_H, etc.)&nbsp;and the &quot;#ifdef __cplusplus
+&quot; defines already added. Add the script to your startup scripts. Then
+use Ctrl-KZ to generate a header. <A HREF="hdrgen.zip">Click here to download
+(2K)</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Autosave"></A><FONT SIZE=+1><B>Autosave Editor Files Prior
+to Debugger Running <BR>
+</B>The Autosave feature is not functional for editor files. If you want
+your editor files to be saved just before you run the debugger then use
+the following script:</FONT></P>
+
+<P><TT><FONT SIZE=+1><B>import</B> IDE; <BR>
+<B>import</B> debugger; </FONT></TT></P>
+
+<P><TT><FONT SIZE=+1><B>on</B> debugger:&gt;DebugeeAboutToRun() { <BR>
+&nbsp;&nbsp;IDE.FileSaveAll(); <BR>
+&nbsp;&nbsp;pass(); <BR>
+}</FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="String/string"></A><FONT SIZE=+1><B>String functions appear
+to be missing. <BR>
+</B>If you have been trying to work out why you can't call String functions
+on a string variable, it is because there are two sorts of text, string
+is the built-in type, roughly equivalent to a char array, whereas String
+is a class object--note the initial capitalization. To perform operations
+such as String::Index you need to make a String variable: </FONT></P>
+
+<P><TT><FONT SIZE=+1>strVar = <FONT COLOR="#0000FF">&quot;I've Got A Little
+Black Book With My Poems In&quot;</FONT>; <BR>
+index = strVar.Index(<FONT COLOR="#0000FF">&quot;Book&quot;</FONT>); <I><FONT COLOR="#000080">//
+Runtime failure undefined method</FONT></I> <BR>
+StrVar = <B>new</B> String(strVar); <BR>
+index = strVar.Index(<FONT COLOR="#0000FF">&quot;Book&quot;</FONT>); <I><FONT COLOR="#000080">//
+returns 25 (give or take)</FONT></I></FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="RemoveMsgs"></A><FONT SIZE=+1><B>Removing messages from the
+message window before a debug session. <BR>
+</B>If you are like me you may not like the volume of messages that build
+up in the Runtime and Buildtime tabs of the Message window. You can use
+the following script to automatically delete the messages prior to the
+debugger running. Place this script in a new text file and save it with
+the name &quot;clearmsgs.spp&quot;. Then choose &quot;Run File&quot;&nbsp;from
+the speed menu to run the script.</FONT></P>
+
+<P><TT><FONT SIZE=+1><B>print</B> (<FONT COLOR="#0000FF">&quot;clearmsgs.spp&quot;</FONT>);
+<BR>
+<B>import</B> IDE; <BR>
+<B>import</B> debugger; <BR>
+<BR>
+<B>on</B> debugger:&gt;DebugeeCreated() { <BR>
+&nbsp;&nbsp;IDE.ViewMessage(<FONT COLOR="#0000FF">&quot;Runtime&quot;</FONT>);
+<I><FONT COLOR="#000080">// switch to the Runtime tab <BR>
+</FONT></I>&nbsp;&nbsp;IDE.KeyboardManager.SendKeys(<FONT COLOR="#0000FF">&quot;^a&quot;</FONT>);
+<I><FONT COLOR="#000080">// send Ctrl-A <BR>
+</FONT></I>&nbsp;&nbsp;pass(); <BR>
+} </FONT></TT></P>
+
+<P><TT><FONT SIZE=+1><B>on</B> debugger:&gt;DebugeeAboutToRun() { <BR>
+&nbsp; <I><FONT COLOR="#000080">// optional</FONT></I> <BR>
+&nbsp;&nbsp;IDE.ViewMessage(<FONT COLOR="#0000FF">&quot;Buildtime&quot;</FONT>);
+<I><FONT COLOR="#000080">// switch to the Buildtime tab <BR>
+</FONT></I>&nbsp;&nbsp;IDE.KeyboardManager.SendKeys(<FONT COLOR="#0000FF">&quot;^a&quot;</FONT>);
+<I><FONT COLOR="#000080">// Ctrl-A again <BR>
+</FONT></I>&nbsp;&nbsp;pass(); <BR>
+} </FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Highlite"></A><FONT SIZE=+1><B>Syntax Highlighting for Scripts
+<BR>
+</B>This script was written by Klaus Krull at Borland. It will provide
+syntax highlighting for ObjectScript (.spp)&nbsp;files. It includes a token
+file and a script as well as a HIGHLITE.TXT file to explain where to place
+the files. <A HREF="Highlite.zip">Download now</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="MyScripts"></A><FONT SIZE=+1><B>Running your own scripts on
+IDE&nbsp;startup. <BR>
+</B>As time goes on you will probably have several of your own scripts
+(or scripts borrowed from others) that you want to run when the IDE&nbsp;loads.
+A convenient approach is to have a script file called &quot;myscripts.spp&quot;
+that loads all of your scripts. Place this file in a directory called &quot;scripts&quot;
+or any other location, but not in the \bc5\scripts directory (you don't
+want to lose your scripts when you upgrade compiler versions). You can
+then add the name of this file to your startup scripts (Options | Environment
+|&nbsp;Scripting) and then append the script path to point to your &quot;scripts&quot;&nbsp;directory.
+The &quot;myscripts.spp&quot;&nbsp;file might look something like this:</FONT></P>
+
+<P><TT><FONT SIZE=+1><B>print</B>(<FONT COLOR="#0000FF">&quot;myscript.spp&quot;</FONT>);
+<BR>
+<B>print</B>(<FONT COLOR="#0000FF">&quot;Loading My Scripts&quot;</FONT>);
+<BR>
+<B>import</B> scriptEngine; <BR>
+<B>if</B> (!scriptEngine.IsLoaded(<FONT COLOR="#0000FF">&quot;msgnotop.spp&quot;</FONT>))
+<BR>
+&nbsp;&nbsp;scriptEngine.Load(<FONT COLOR="#0000FF">&quot;msgnotop.spp&quot;</FONT>);
+<BR>
+<B>if</B> (!scriptEngine.IsLoaded(<FONT COLOR="#0000FF">&quot;evaltips.spp&quot;</FONT>))
+<BR>
+&nbsp;&nbsp;scriptEngine.Load(<FONT COLOR="#0000FF">&quot;evaltips.spp&quot;</FONT>);
+</FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="WinHelp"></A><FONT SIZE=+1><B>Script to check WINHELP.INI for
+errors. <BR>
+</B>If you get a blank message box when requesting help, run this script.
+(Paste it into a new file, save as checkhelp.spp and then Script | Run
+File from the edit window). The results are shown in the script window.
+Edit your WinHelp.ini by hand, commenting out any line in error. </FONT></P>
+
+<P><TT><FONT SIZE=+1><B>import</B> IDE; </FONT></TT></P>
+
+<P><TT><FONT SIZE=+1>DoHelpCheck() <BR>
+{ <BR>
+&nbsp;&nbsp;<B>print</B> <FONT COLOR="#0000FF">&quot;Checking help...&quot;</FONT>;
+<BR>
+&nbsp;&nbsp;<B>declare</B> errors = <FONT COLOR="#0000FF">0</FONT>; <BR>
+&nbsp;&nbsp;<B>declare</B> winHelpIni = <FONT COLOR="#0000FF">&quot;c:\\windows&quot;</FONT>;
+<BR>
+&nbsp;&nbsp;winHelpIni = IDE.DirectoryDialog <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;(<FONT COLOR="#0000FF">&quot;Select Windows directory&quot;</FONT>,winHelpIni,winHelpIni);
+<BR>
+&nbsp;&nbsp;winHelpIni += <FONT COLOR="#0000FF">&quot;\\winhelp.ini&quot;</FONT>;
+<BR>
+&nbsp;&nbsp;<B>if</B> (!FindFirstFile(winHelpIni)) { <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<B>print</B> <FONT COLOR="#0000FF">&quot;Help ini
+file&quot;</FONT>, winHelpIni, <FONT COLOR="#0000FF">&quot;is missing&quot;</FONT>;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<B>return</B>; <BR>
+&nbsp;&nbsp;} <BR>
+&nbsp;&nbsp;<B>declare</B> ed = new EditBuffer(winHelpIni, <B>true</B>,
+<B>true</B>); <BR>
+&nbsp;&nbsp;<B>declare</B> pos = ed.Position; <BR>
+&nbsp;&nbsp;<B>declare</B> block = ed.Block; <BR>
+&nbsp;&nbsp;<B>for</B> (<B>declare</B> i = 1; i &lt;= pos.LastRow; i++)
+{ <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;pos.Move(i,<FONT COLOR="#0000FF">1</FONT>); <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;block.Begin(); <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;pos.MoveEOL(); <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;block.End(); <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;declare iniLine = <B>new</B> String(block.Text);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<B>if</B> (iniLine.SubString(<FONT COLOR="#0000FF">0</FONT>,<FONT COLOR="#0000FF">1</FONT>).Text
+!= <FONT COLOR="#0000FF">&quot;;&quot;</FONT>) { <I><FONT COLOR="#000080">//
+Check comment</FONT></I> <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>declare</B> eq = iniLine.Index(<FONT COLOR="#0000FF">&quot;=&quot;</FONT>);
+<I><FONT COLOR="#000080">// Ignore header line</FONT></I> <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>if</B> (eq) { <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>declare</B> path = iniLine.SubString(eq);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>declare</B> fileName
+= <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.Text +
+<FONT COLOR="#0000FF">&quot;\\&quot;</FONT> + iniLine.SubString(<FONT COLOR="#0000FF">0</FONT>,eq
+- <FONT COLOR="#0000FF">1</FONT>).Text; <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>if</B> (!FindFirstFile(fileName))
+{ <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>print</B>
+<FONT COLOR="#0000FF">&quot;Help file&quot;</FONT>, fileName, <FONT COLOR="#0000FF">&quot;is
+missing&quot;</FONT>; <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors ++;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;} <BR>
+&nbsp;&nbsp;} <BR>
+&nbsp;&nbsp;ed.Destroy(); <BR>
+&nbsp;&nbsp;<B>print</B> pos.LastRow, <FONT COLOR="#0000FF">&quot;lines
+checked,&quot;</FONT>, errors, <FONT COLOR="#0000FF">&quot;errors found.&quot;</FONT>;
+<BR>
+} </FONT></TT></P>
+
+<P><TT><FONT SIZE=+1><I><FONT COLOR="#000080">// Run directly when script
+loaded</FONT></I> <BR>
+DoHelpCheck(); </FONT></TT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><FONT SIZE=+1><A HREF="default.htm">BC++&nbsp;5.0 FAQ Page</A> |&nbsp;<A HREF="bc50tips.htm">BC++&nbsp;5.0
+Tips Page</A></FONT></P>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2000, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></BODY>
+
+</HTML>

@@ -1,0 +1,411 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0 Scripts</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0 Scripts</H2>
+<BR><BR><BR>
+<P align=left>
+<UL>Editor enhancement scripts:</P>
+
+	<LI><A HREF="scripts1.html#AutoClosing">Auto closing brackets</A><BR>
+    Author: Jogy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Corrections by Matt Arnold</P>
+
+	<LI><A HREF="scripts1.html#CutCopyPaste">Cut, Copy and Paste in the editor context menu</A><BR>
+	Author: Matt Arnold</P>
+
+	<LI><A HREF="scripts1.html#FontResize">Quick change editor font size</A><BR>
+	Author: Matt Arnold</P>
+	
+	<LI><A HREF="scripts1.html#Sentry">Header file sentry</A><BR>
+	Author: Jogy</P>
+	
+	<LI><A HREF="scripts1.html#MakeStr">Convert text to C/C++ string statements</A><BR>
+	Author: Jogy</P>
+	
+</UL>
+
+
+
+
+
+<HR>
+
+<DL>
+<DT><A NAME = "AutoClosing"></A><B>Auto closing brackets</B>
+<DD>
+<BR>
+When opening bracket or brace is inserted in the source, <BR>
+automaticaly place the corresponding closing bracket or brace next to it.<BR><BR>
+
+<PRE>
+<CODE>
+
+<B>import</B> IDE;
+<B>import</B> editor;
+
+<B>declare</B> kbd = IDE.KeyboardManager.GetKeyboard(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>);
+
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;(&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;parens();&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;[&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;brackets();&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;{&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;braces();&quot;</FONT>);
+
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;\&quot;&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;quotes1();&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;\'&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;quotes2();&quot;</FONT>);
+
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Ctrl-(&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;editor.TopView.Position.InsertText(\&quot;(\&quot;);&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Ctrl-[&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;editor.TopView.Position.InsertText(\&quot;[\&quot;);&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Ctrl-{&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;editor.TopView.Position.InsertText(\&quot;{\&quot;);&quot;</FONT>);
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Ctrl-\&quot;&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;editor.TopView.Position.InsertText(\&quot;\\\&quot;\&quot;);&quot;</FONT>);
+
+<FONT COLOR="AQUA">// For some strange reason, this does not work like the others ???</FONT>
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;Ctrl-\'&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;editor.TopView.Position.InsertText(\&quot;\\\'\&quot;);&quot;</FONT>);
+
+parens()
+{
+  <B>declare</B> pos = editor.TopView.Position;
+  pos.InsertText(<FONT COLOR="YELLOW">&quot;()&quot;</FONT>);
+  pos.MoveRelative(<FONT COLOR="YELLOW">0</FONT>,-<FONT COLOR="YELLOW">1</FONT>,<B>true</B>);
+}
+
+brackets()
+{
+  <B>declare</B> pos = editor.TopView.Position;
+  pos.InsertText(<FONT COLOR="YELLOW">&quot;[]&quot;</FONT>);
+  pos.MoveRelative(<FONT COLOR="YELLOW">0</FONT>,-<FONT COLOR="YELLOW">1</FONT>,<B>true</B>);
+}
+
+braces()
+{
+  <B>declare</B> pos = editor.TopView.Position;
+  <B>if</B> (pos.Column == <FONT COLOR="YELLOW">1</FONT>) {
+    pos.InsertText(<FONT COLOR="YELLOW">&quot;{\r\n\t\r\n}&quot;</FONT>);
+    pos.MoveRelative(-<FONT COLOR="YELLOW">1</FONT>,<FONT COLOR="YELLOW">1</FONT>,<B>true</B>);
+  }
+  <B>else</B> {
+    pos.InsertText(<FONT COLOR="YELLOW">&quot;{\r\n\r\n&quot;</FONT>);
+    pos.Align(<FONT COLOR="YELLOW">1</FONT>);
+    pos.InsertText(<FONT COLOR="YELLOW">&quot;}&quot;</FONT>);
+    pos.MoveRelative(-<FONT COLOR="YELLOW">1</FONT>,<FONT COLOR="YELLOW">1</FONT>,<B>true</B>);
+  }
+}
+
+quotes1()
+{
+  <B>declare</B> pos = editor.TopView.Position;
+  pos.InsertText(<FONT COLOR="YELLOW">&quot;\&quot;\&quot;&quot;</FONT>);
+  pos.MoveRelative(<FONT COLOR="YELLOW">0</FONT>,-<FONT COLOR="YELLOW">1</FONT>,<B>true</B>);
+}
+
+quotes2()
+{
+  <B>declare</B> pos = editor.TopView.Position;
+  pos.InsertText(<FONT COLOR="YELLOW">&quot;\'\'&quot;</FONT>);
+  pos.MoveRelative(<FONT COLOR="YELLOW">0</FONT>,-<FONT COLOR="YELLOW">1</FONT>,<B>true</B>);
+}
+</CODE>
+</PRE>
+<A HREF="download/AutoBraces.zip">Download AutoBraces.zip</A>
+<BR><HR><BR><BR>
+
+
+
+<DT><A NAME = "CutCopyPaste"></A><B>Cut, Copy and Paste in the editor context menu</B>
+<DD>
+<BR>
+Put Cut, Copy and Paste commands on the editor's context menu.<BR>
+<PRE>
+<CODE>
+<FONT COLOR="AQUA">//////////////////////////////////////////////////////////////////////////////////////////////////</FONT>
+
+<FONT COLOR="SILVER"><B>#define SEPARATOR1   &quot;-BetterEditorMenu1&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define UNDO      &quot;Undo\tCtrl+Z&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define UNDO_TIP    &quot;Undo the previous editor action&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define REDO      &quot;Redo\tShift+Ctrl+Z&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define REDO_TIP    &quot;Redo the previously undone editor action&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define SEPARATOR2  &quot;-BetterEditorMenu2&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define CUT        &quot;Cut&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define CUT_TIP    &quot;Remove the selected text and put it in the Clipboard&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define COPY      &quot;Copy&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define COPY_TIP    &quot;Place a copy of the selected text in the Clipboard&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define PASTE      &quot;Paste\tCtrl+V&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define PASTE_TIP    &quot;Insert text from the Clipboard at the cursor position&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define SELECT      &quot;Select all&quot;</B></FONT>
+<FONT COLOR="SILVER"><B>#define SELECT_TIP  &quot;Select the contents of this window&quot;</B></FONT>
+
+
+<FONT COLOR="AQUA">//////////////////////////////////////////////////////////////////////////////////////////////////</FONT>
+
+<B>import</B> IDE;
+<B>import</B> scriptEngine;
+
+<B>if</B> (!scriptEngine.IsLoaded(<FONT COLOR="YELLOW">&quot;menuhook&quot;</FONT>)) scriptEngine.Load(<FONT COLOR="YELLOW">&quot;menuhook&quot;</FONT>);
+
+
+<FONT COLOR="AQUA">//////////////////////////////////////////////////////////////////////////////////////////////////</FONT>
+
+CutCopyPaste()
+  {
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, SEPARATOR1);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, UNDO, <FONT COLOR="YELLOW">&quot;IDE.EditUndo()&quot;</FONT>, UNDO_TIP);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, REDO, <FONT COLOR="YELLOW">&quot;IDE.EditRedo()&quot;</FONT>, REDO_TIP);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, SEPARATOR2);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, CUT, <FONT COLOR="YELLOW">&quot;IDE.EditCut()&quot;</FONT>, CUT_TIP);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, COPY, <FONT COLOR="YELLOW">&quot;IDE.EditCopy();&quot;</FONT>, COPY_TIP);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, PASTE, <FONT COLOR="YELLOW">&quot;IDE.EditPaste()&quot;</FONT>, PASTE_TIP);
+  assign_to_view_menu(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, SELECT, <FONT COLOR="YELLOW">&quot;IDE.EditSelectAll()&quot;</FONT>, SELECT_TIP);
+
+  print <FONT COLOR="YELLOW">&quot;CutCopyPaste loaded, (C) Copyright 1998-99 Matt Arnold&quot;</FONT>;
+  }
+
+~()
+  {
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, SEPARATOR1);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, UNDO);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, REDO);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, SEPARATOR2);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, CUT);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, COPY);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, PASTE);
+  remove_view_menu_item(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>, SELECT);
+  }
+</CODE>
+</PRE>
+
+<A HREF="download/CutCopyPaste.zip">Download CutCopyPaste.zip</A>
+<BR><HR><BR><BR>
+
+
+
+<DT><A NAME = "FontResize"></A><B>Quick change editor font size</B>
+<DD>
+<BR>
+Quickly change the edit view font size 
+using the F11 (make font smaller) and F12 (make font bigger) keys.<BR><BR>
+<I>Note: The line </I><CODE>import &quot;User32&quot; ...</CODE><BR><I>
+and the whole block starting with </I><CODE>class DialogHider</CODE><I>
+and ending with </I><CODE>declare DialogHider x;</CODE><I><BR>
+is used to hide the options dialog, so the script works nicer.</I>
+
+<PRE>
+<CODE>
+   <B>import</B> IDE;
+   <B>import</B> <FONT COLOR="YELLOW">&quot;User32&quot;</FONT> { <B>void</B> MoveWindow(<B>int</B>, <B>int</B>, <B>int</B>, <B>int</B>, <B>int</B>, <B>int</B>); }
+
+   <B>declare</B> keyboard = IDE.KeyboardManager.GetKeyboard(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>);
+   keyboard.Assign(<FONT COLOR="YELLOW">&quot;&#60;F11&#62;&quot;</FONT>, <FONT COLOR="YELLOW">&quot;ResizeFont(\&quot;{VK_UP}\&quot;);&quot;</FONT>);
+   keyboard.Assign(<FONT COLOR="YELLOW">&quot;&#60;F12&#62;&quot;</FONT>, <FONT COLOR="YELLOW">&quot;ResizeFont(\&quot;{VK_DOWN}\&quot;);&quot;</FONT>);
+
+   ResizeFont(direction)
+      {
+      <B>class</B> DialogHider
+         {
+         DialogCreated(name, hDlg)
+            {
+            MoveWindow(hDlg, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, FALSE);
+            pass(name, hDlg);
+            }
+
+         attach <B>this</B>:&#62;DialogCreated to IDE:&#62;DialogCreated;
+         };
+      IDE.RaiseDialogCreatedEvent  = TRUE;
+      <B>declare</B> DialogHider x;
+      IDE.KeyboardManager.SendKeys(<FONT COLOR="YELLOW">&quot;%OE*{VK_HOME}{VK_DOWN}{VK_DOWN}&quot;</FONT> +
+         <FONT COLOR="YELLOW">&quot;{VK_DOWN}{VK_DOWN}%s&quot;</FONT> + direction + <FONT COLOR="YELLOW">&quot;{VK_RETURN}&quot;</FONT>);
+      }
+</CODE>
+</PRE>
+
+<A HREF="download/FontResize.zip">Download FontResize.zip</A>
+<BR><HR><BR><BR>
+
+
+<DT><A NAME = "Sentry"></A><B>Header file sentry</B>
+<DD>
+<BR>
+This script puts a description at the beginnig of the current file, and if it is header, puts a sentry to prevent 
+multiple inclusions. 
+<PRE>
+<CODE>
+
+<B>import</B> IDE;
+<B>import</B> editor;
+
+<B>declare</B> kbd = IDE.KeyboardManager.GetKeyboard(<FONT COLOR="YELLOW">&quot;Editor&quot;</FONT>);
+
+<FONT COLOR="AQUA">// Choose a key combination</FONT>
+kbd.Assign(<FONT COLOR="YELLOW">&quot;&#60;F10&#62;&quot;</FONT>,<FONT COLOR="YELLOW">&quot;add_sentry(\&quot;Jogy\&quot;);&quot;</FONT>);
+
+add_sentry(user)
+{
+  <FONT COLOR="AQUA">// Validate current buffer.</FONT>
+  <FONT COLOR="AQUA">//</FONT>
+  <B>if</B> (!initialized(editor.TopView))
+    <B>return</B>;
+
+  <B>declare</B> curView = editor.TopView;
+
+  <B>declare</B> sTmp = <B>new</B> String();
+
+  sTmp.Text = curView.Buffer.FileName;
+  sTmp.Lower();
+  <B>declare</B> fileName = sTmp.Text;
+
+  sTmp.Text = curView.Buffer.Extension;
+  sTmp.Lower();
+  <B>declare</B> fileExt = sTmp.SubString(<FONT COLOR="YELLOW">1</FONT>).Text;
+
+  <B>declare</B> curTime = <B>new</B> TimeStamp();
+
+  with (editor.TopView.Position) {
+    <B>declare</B> curRow = .Row;
+    <B>declare</B> curCol = .Column;
+
+    .Move(<FONT COLOR="YELLOW">1</FONT>,<FONT COLOR="YELLOW">1</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;/*------------------------------------------------------------------------------\n&quot;</FONT>);
+    <B>if</B> (fileExt == <FONT COLOR="YELLOW">&quot;cpp&quot;</FONT> &#124;&#124; fileExt == <FONT COLOR="YELLOW">&quot;c&quot;</FONT>)
+      .InsertText(<FONT COLOR="YELLOW">&quot;Module: &quot;</FONT>);
+    <B>else</B> <B>if</B> (fileExt == <FONT COLOR="YELLOW">&quot;hpp&quot;</FONT> &#124;&#124; fileExt == <FONT COLOR="YELLOW">&quot;h&quot;</FONT> &#124;&#124; fileExt == <FONT COLOR="YELLOW">&quot;rh&quot;</FONT>)
+      .InsertText(<FONT COLOR="YELLOW">&quot;Header: &quot;</FONT>);
+    <B>else</B>
+      .InsertText(<FONT COLOR="YELLOW">&quot;File: &quot;</FONT>);
+
+    .InsertText(fileName); .InsertText(<FONT COLOR="YELLOW">&quot;.&quot;</FONT>);
+    .InsertText(fileExt); .InsertText(<FONT COLOR="YELLOW">&quot;\n&quot;</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;Description: \n&quot;</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;Note: \n&quot;</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;Author: &quot;</FONT>); .InsertText(user); .InsertText(<FONT COLOR="YELLOW">&quot;\n&quot;</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;Date created: &quot;</FONT>); .InsertText(curTime.Day);
+    .InsertText(<FONT COLOR="YELLOW">&quot; &quot;</FONT>); .InsertText(curTime.MonthName());
+    .InsertText(<FONT COLOR="YELLOW">&quot; &quot;</FONT>); .InsertText(curTime.Year);
+    .InsertText(<FONT COLOR="YELLOW">&quot;\n&quot;</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;Date last modified: &quot;</FONT>); .InsertText(curTime.Day);
+    .InsertText(<FONT COLOR="YELLOW">&quot; &quot;</FONT>); .InsertText(curTime.MonthName());
+    .InsertText(<FONT COLOR="YELLOW">&quot; &quot;</FONT>); .InsertText(curTime.Year);
+    .InsertText(<FONT COLOR="YELLOW">&quot;\n&quot;</FONT>);
+    .InsertText(<FONT COLOR="YELLOW">&quot;------------------------------------------------------------------------------*/\n\n&quot;</FONT>);
+
+    <B>if</B> (fileExt == <FONT COLOR="YELLOW">&quot;hpp&quot;</FONT> &#124;&#124; fileExt == <FONT COLOR="YELLOW">&quot;h&quot;</FONT> &#124;&#124; fileExt == <FONT COLOR="YELLOW">&quot;rh&quot;</FONT>) {
+      .InsertText(<FONT COLOR="YELLOW">&quot;#ifndef __&quot;</FONT>); .InsertText(fileName);
+      .InsertText(<FONT COLOR="YELLOW">&quot;_&quot;</FONT>); .InsertText(fileExt); .InsertText(<FONT COLOR="YELLOW">&quot;__&quot;</FONT>);
+      .InsertText(<FONT COLOR="YELLOW">&quot;  \t// Sentry\n&quot;</FONT>);
+
+      .InsertText(<FONT COLOR="YELLOW">&quot;#define __&quot;</FONT>); .InsertText(fileName);
+      .InsertText(<FONT COLOR="YELLOW">&quot;_&quot;</FONT>); .InsertText(fileExt); .InsertText(<FONT COLOR="YELLOW">&quot;__&quot;</FONT>);
+      .InsertText(<FONT COLOR="YELLOW">&quot;\n\n&quot;</FONT>);
+
+      .Move(.LastRow, <FONT COLOR="YELLOW">1</FONT>);
+      .InsertText(<FONT COLOR="YELLOW">&quot;#endif  \t// Sentry\n&quot;</FONT>);
+    }
+
+    .Move(curRow, curCol);
+  }
+}
+</CODE>
+</PRE>
+
+<A HREF="download/Sentry.zip">Download Sentry.zip</A></P>
+<BR><HR><BR><BR>
+
+
+<DT><A NAME = "MakeStr"></A><B>Convert text to C/C++ string statements</B>
+<DD>
+<BR>
+This script converts the selected plain text to a C/C++ string statement, and prefixes special symbols
+with '\' character. Example:<BR>
+<pre>
+<code>
+This is a text.
+And this is a "text" with quotes.
+</code>
+</pre>
+will become
+<pre>
+<code>
+"This is a text.\n"
+"And this is a \"text\" with quotes.\n"
+</code>
+</pre>
+
+<pre>
+<code>
+<font color="teal">//--------------------------------------------------------------------------</font>
+<font color="teal">// Object Scripting</font>
+<font color="teal">// Copyright (c) 2002 by Jogy</font>
+<font color="teal">//</font>
+<font color="teal">// MAKESTR.SPP: Make C/C++ string from the selected block.</font>
+<font color="teal">//</font>
+<font color="teal">// USE: Select a block and run script.</font>
+<font color="teal">//--------------------------------------------------------------------------</font>
+print <b>typeid</b>(module());
+
+<font color="teal">//</font>
+<font color="teal">// IDE imports.</font>
+<font color="teal">//</font>
+<b>import</b> IDE;
+<b>import</b> editor;
+
+<b>declare</b> kbd = IDE.KeyboardManager.GetKeyboard(<font color="yellow">&quot;Editor&quot;</font>);
+
+<font color="teal">// Choose a key combination</font>
+kbd.Assign(<font color="yellow">&quot;&#60;Alt-3&#62;&#60;'&#62;&quot;</font>,<font color="yellow">&quot;make_str();&quot;</font>);
+
+make_str()
+{
+  <font color="teal">// Bail if no block.</font>
+  <font color="teal">//</font>
+  <b>if</b> (!editor.TopView.IsValid) <b>return</b>;
+
+  <b>declare</b> curView = editor.TopView;
+  <b>declare</b> curBlk = curView.Block;
+  <b>declare</b> curPos = curView.Position;
+
+  curPos.Save();
+
+  <b>declare</b> lastRow = curBlk.EndingRow;
+
+  <b>for</b> (<b>declare</b> i = curBlk.StartingRow; i &#60; lastRow; i++) {
+    curPos.Move(i, <font color="yellow">1</font>);
+    curPos.MoveEOL();
+    <b>while</b> (curPos.Column &#62; <font color="yellow">1</font>)
+    {
+      <b>if</b> (curPos.Character == <font color="yellow">'\&quot;'</font> &#124;&#124; curPos.Character == <font color="yellow">'\''</font>)
+      {
+        curPos.InsertText(<font color="yellow">&quot;\\&quot;</font>);
+      }
+
+      curPos.MoveRelative(<font color="yellow">0</font>, -<font color="yellow">1</font>);
+    }
+
+
+    curPos.Move(i, <font color="yellow">1</font>);
+    curPos.InsertText(<font color="yellow">&quot;\&quot;&quot;</font>);
+
+    curPos.MoveEOL(i, <font color="yellow">1</font>);
+    curPos.InsertText(<font color="yellow">&quot;\\n\&quot;&quot;</font>);
+  }
+
+  curPos.Restore();
+}
+
+</code>
+</pre>
+
+<A HREF="download/MakeStr.zip">Download MakeStr.zip</A></P>
+<BR><HR><BR><BR>
+
+
+</DL>
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

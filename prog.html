@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Programs</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Programs</H2>
+<BR><BR><BR>
+<P align=left>I have created some small tools for solving particular problems.</P>
+
+<TABLE BORDER="1" CELLSPACING="2" CELLPADDING="2" FRAME="box" RULES="all">
+<TR ALIGN="center">
+    <TD><B>Name</B></TD>
+    <TD><B>Download Program</B></TD>
+    <TD><B>Download Source</B></TD>
+    <TD><B>Platform</B></TD>
+    <TD><B>Created with</B></TD>
+    <TD><B>Description</B></TD>
+</TR>
+
+<TR>
+    <TD><B>VRML PixelTexture</B></TD>
+    <TD><A HREF="download/pixeltex.zip">pixeltex.zip</A></TD>
+    <TD><A HREF="download/ptexsrc.zip">ptexsrc.zip</A></TD>
+    <TD>Win32 GUI</TD>
+    <TD>C++&nbsp;Builder<BR>VCL</TD>
+    <TD>VRML PixelTexture Converter is a program for converting Windows bitmap file to a VRML PixelTexture node.<BR>
+	    Another bitmap file may be specified as a transparency mask to be used in the texture.<BR>
+		The texture can be converted to grayscale.<BR>
+		The output format can be: 
+		<UL>
+			<LI>Plain Text - to use directly in a VRML file.</LI>
+			<LI>C++ Source - to use as a string constant in a C/C++ program.</LI>
+			<LI>VRML Box - to generate a simple VRML box using the resulting texture.</LI>
+		</UL>
+        </P>
+</TD>
+</TR>
+
+<TR>
+    <TD><B>SetFolderIcon</B></TD>
+    <TD><A HREF="download/foldicon.zip">foldicon.zip</A></TD>
+    <TD><A HREF="download/ficonsrc.zip">ficonsrc.zip</A></TD>
+    <TD>Win32 GUI</TD>
+    <TD>C++&nbsp;Builder<BR>VCL</TD>
+    <TD>SetFolderIcon is Windows GUI application for changing the icon of any folder.<BR>
+		To set an icon for a folder:
+		<OL>
+			<LI>Click on the "Select Folder" button to select the folder which icon is to be changed.</LI>
+			<LI>Click on the "Select File" button to select a file, containing icons. When the file is opened, the list of available icons will appear in the right-hand box.</LI>
+			<LI>If you want a tooltip to be shown for the folder, enter the text in the "InfoTip" edit field.</LI>
+			<LI>Select the desired icon and click the "Set Icon" button.</LI>
+		</OL>
+		To restore the default folder icon:
+		<OL>
+			<LI>Click on the "Select Folder" button to select the folder which icon is to be restored.</LI>
+			<LI>Click on the "Clear Icon" button.</LI>
+		</OL>
+		This program is inspired by a post from Yoto Yotov in borland.public.cppbuilder.winapi, describing how to change the folder icons.<BR>
+		Basicaly, the program writes a desktop.ini file, which contains the path to the icon file, and sets the system attribute of the folder.</P>
+</TD>
+</TR>
+
+<TR>
+    <TD><B>ReplacePlus</B></TD>
+    <TD><A HREF="download/replplus.zip">replplus.zip</A></TD>
+    <TD><A HREF="download/rplussrc.zip">rplussrc.zip</A></TD>
+    <TD>Win32 GUI</TD>
+    <TD><A HREF="bc5.html">BC++&nbsp;5.02</A><BR><A HREF="bcc55.html">BC++&nbsp;5.5</A><BR><A HREF="owlnext.html">OWLNext</A></TD>
+    <TD>ReplacePlus is a program, which can replace a string with another in all files matching the given filter, 
+	in the given folder, and all it's subfolders. Also ReplacePlus can change the file date/time instead of 
+	replacing strings. It demonstrates how to use the following OWLNext classes:
+	<UL>	
+		<LI><B>TMemComboBox</B> and <B>TRegConfigFile</B> to remember previous user entries
+		<LI><B>TDateTimePicker</B> to enter date and time
+		<LI><B>TShell::SHBrowseForFolder</B> to select staring folder
+		<LI><B>TFileNameIterator</B> to iterate files and folders
+		<LI><B>TFileName</B> for creating temporary files, copying files and changing file date and time
+		<LI><B>TGlyphButton</B> and <B>TTooltip</B> to add more colorful view to the dialog
+	</UL></TD>
+</TR>
+
+<TR>
+    <TD><B>C/C++ to HTML convertor</B></TD>
+    <TD><A HREF="download/c2html.zip">c2html.zip</A></TD>
+    <TD><A HREF="download/c2htmsrc.zip">c2htmsrc.zip</A></TD>
+    <TD>Win32 GUI</TD>
+    <TD>C++&nbsp;Builder<BR>VCL</TD>
+    <TD>This program takes C or C++ code and converts is to HTML, so it can be published on a Web page.
+	It is based on a program written by Christopher Kohlhoff and published at 
+	<A HREF="http://codecentral.borland.com/codecentral/ccweb.exe/listing?id=578" TARGET="_blank">Borland Code Central</A>.
+	I have written graphical interface with C++ Builder, which allows selection of input/output file
+	and changing the colors of the C/C++ syntactic elements.</P></TD>
+</TR>
+
+<TR>
+    <TD><B>AutoRun</B></TD>
+    <TD><A HREF="download/autorun.zip">AutoRun.zip</A></TD>
+    <TD><A HREF="download/arunsrc.zip">ARunSrc.zip</A></TD>
+    <TD>Win32 Console</TD>
+    <TD><A HREF="bc5.html">BC++&nbsp;5.02</A></TD>
+    <TD>In Windows 95 and later, when a CD is inserted in the CD-ROM, Windows checks
+	for a file named <B>Autorun.inf</B> and if there is one, executes the application 
+	specified in the entry <B>open</B> in the section <B>[AutoRun]</B>. With Internet 
+	Explorer 5 was introduced the option to specify not only application, but any file,
+	which extension is registered, to be started from <B>Autorun.inf</B>, when specified
+	in the entry <B>ShellExecute</B>. To achieve the same functionality under previous
+	versions of Internet Explorer, I have created a simple AutoRun application, which 
+	opens the document specified in <B>Autorun.inf</B>.<BR>
+	<I><FONT COLOR="Lime">Thanks to Ani for the idea.</FONT></I></P></TD>
+</TR>
+
+<TR>
+    <TD><B>Windows Help colors</B></TD>
+    <TD><A HREF="download/whlpc.zip">whlpc.zip</A></TD>
+    <TD><A HREF="download/whlpcsrc.zip">whlpcsrc.zip</A></TD>
+    <TD>Win32 GUI</TD>
+    <TD><A HREF="bc5.html">BC++&nbsp;5.02</A><BR><A HREF="bcc55.html">BC++&nbsp;5.5</A><BR><A HREF="owlnext.html">OWLNext</A></TD>
+    <TD>The default jump and popup colors in Windows Help are green. In my opinion green on white is not very 
+	good combination. And there is no user interface for changing these colors.</P>
+	I have created a small program to allow the user to easily change the help colors. 
+	Under Windows 95/98 and NT/2000 the settings for help color are found in different places. 
+	Under Windows 95/98 they are located in <B>WIN.INI</B>, in the section <B>[Windows Help]</B>, 
+	entries <B>JumpColor</B> and <B>PopupColor</B>.
+	They can be set for example to: JumpColor=0 0 255 and PopupColor=255 0 0.<BR>
+	Under Windows NT and 2K the settings are in the registry, key 
+	<B>HKEY_CURRENT_USER\Software\Microsoft\Windows Help</B>. The names and format of the entries are same as in 95/98.</P>
+	</P></TD>
+</TR>
+
+<TR>
+    <TD><B>CONV tool</B></TD>
+    <TD><A HREF="download/conv.zip">conv.zip</A></TD>
+    <TD><A HREF="download/convsrc.zip">convsrc.zip</A></TD>
+    <TD>DOS</TD>
+    <TD><A HREF="bc5.html">BC++&nbsp;5.02</A></TD>
+    <TD>This is a simple tool for converting text files between different cyrillic code pages.</P>
+    The supported code pages are:
+    <UL>
+		<LI><B>D</B> - DOS, the cyrillic is located between ASCII 0x80 and ASCII 0xBF. It was used in most Bulgarian programs under MS-DOS.
+	    <LI><B>R</B> - DOS russian, the cyrillic is located between ASCII 0x80 and ASCII 0xAF and another set between 0xE0 and 0xFF. 
+	    It is rarely used, mostly in text files coming from Russia.
+	    <LI><B>W</B> - Windows, the cyrillic is located between ASCII 0xC0 and ASCII 0xFF. It's the cyrillic code page used in MS-Windows applications.
+	    <LI><B>L</B> - Latin, phonetic transcription of all cyrillic letters to corresponding letters from the latin aplhabet.
+	    <LI><B>U</B> - Unicode (input only) -  double-byte character set, cyrillic is located at code page 0x0400.
+    </UL></P>
+	There is a simpler JavaScript <A HREF="conv.html">variant</A> which converts only Windows cyrillic to Latin.</P></TD>
+</TR>
+
+<TR>
+    <TD><B>Thursday fix</B></TD>
+    <TD><A HREF="download/thfix.zip">thfix.zip</A></TD>
+    <TD><A HREF="download/thfixsrc.zip">thfixsrc.zip</A></TD>
+    <TD>Win32 GUI</TD>
+    <TD>C++&nbsp;Builder<BR>VCL</TD>
+    <TD>In Windows 95, NT 4.0 and older releases of 98 and 2000 the name for the day of the week for Thursday 
+	in Bulgarian is misspelled. This mistake is not widely known, because by default, in Bulgarian regional settings, 
+	the day of week is not shown in the date. To show it, start the Control Panel, open the Regional Options, 
+	and in the Date page for Long date format enter the string <B>dddd,&nbsp;dd&nbsp;MMMM&nbsp;yyyy</B>.</P>
+    I have created a small program in C++ Builder 5, which opens the file, corrects the name, 
+	and then restarts Windows for the changes to take effect.</P>
+	When the program is started, it shows a dialog. At the top appears the location of <B>locale.nls</B> 
+	where the mistaken string is located. Below are the positions at which the misspelled text for Thursday 
+	are found. If the file does not contain misspelled text, there will be written <I>(none found)</I> and the 
+	button &quot;<B>Fix Now</B>&quot; will be disabled. The checkbox &quot;<B>Create backup file</B>&quot; is used to tell the program 
+	to create a backup of <B>locale.nls</B> when fixing it. When a previously created backup file exists, 
+	the button &quot;<B>Restore</B>&quot; is enabled, and allows you to restore the original <B>locale.nls</B>.
+    When the file <B>locale.nls</B> is changed, the program asks if the system should be restarted now.</P>
+    The strings in <B>locale.nls</B> are written in <I>UNICODE</I>. More information about <I>UNICODE</I> can be 
+	found at <A HREF="www.unicode.org">www.unicode.org</A>. The misspelled string for Thursday in Bulgarian in 
+	<I>UNICODE</I> is <B>0x47, 0x04, 0x35, 0x04, 0x42, 0x04, 0x32, 0x04, 0x4A, 0x04, 0x32, 0x04, 0x42, 0x04, 0x4A, 0x04, 0x3A, 0x04</B>
+    and usualy is found at two places in the file. The second <B>0x32</B> must be changed to <B>0x40</B>.</P>
+	The program copies <B>locale.nls</B> to <B>locale.tmp</B>, and changes the byte. After that it tells the 
+	system to copy <B>locale.tmp</B> to <B>locale.nls</B> on next startup. Under Windows 95/98 and Windows NT/2000 
+	this is done differently - under Windows 95/98 by writing to the <B>[rename]</B> section of <B>WININIT.INI</B>, 
+	and under Windows NT/2000 by using the API function <B>MoveFileEx()</B>.</P></TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+
+<B>AfterCIH</B><BR>
+I have written a simple program, which can recover files from a hard disk destroyed by the 
+CIH.1003 (Chernobyl) virus. More information can be found 
+<A HREF="http://www.art.bg/webdezign/virus.htm" TARGET="_blank">here</A>.</P>
+<B>TrapSCR</B><BR>
+This an old DOS TSR utility written in Assembler for saving the text screen to a file. It's source can be found 
+<A HREF="trapscr.html">here</A>.</P>
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

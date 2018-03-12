@@ -1,0 +1,434 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+
+   <TITLE></TITLE>
+   <META NAME="Author" CONTENT="Kent Reisdorph">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (WinNT; I) [Netscape]">
+<meta name="Microsoft Theme" content="boldstri 001, default">
+<meta name="Microsoft Border" content="lb, default">
+</HEAD>
+<BODY text="#000000" bgcolor="#FFFFFF" link="#990000" vlink="#336699" alink="#666666" background="bstrbk.gif"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+
+
+<!--mstheme--></font></td><td valign="top" width="24"></td><!--msnavigation--><td valign="top"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<CENTER><P><B><FONT SIZE=+2>Help System</FONT></B></P></CENTER>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="OpenHelp"></A><FONT SIZE=+1><B>Use OpenHelp in 5.01 to Configure
+Your Help System <BR>
+</B>OpenHelp (OPENHELP.EXE)&nbsp;is back in 5.01. You can use it to configure
+your help system the way you want. Do this:</FONT></P>
+
+<OL>
+<LI><FONT SIZE=+1>Run OpenHelp.exe. You'll have to run it from Explorer
+or Program Manager since there is no icon for it in your BC++&nbsp;5.01
+group.</FONT></LI>
+
+<LI><FONT SIZE=+1>Click on the &quot;Create&quot;&nbsp;button to create
+a new Search Range.</FONT></LI>
+
+<LI><FONT SIZE=+1>Type in the name of your new Search Range (&quot;My Default
+Setup&quot; or whatever).</FONT></LI>
+
+<LI><FONT SIZE=+1>Click OK.</FONT></LI>
+
+<LI><FONT SIZE=+1>In the listbox marked &quot;Available Help Files&quot;&nbsp;choose
+any help files that you want to be searched when you hit the F1 key. Remember
+that the Win95 help system has a limit to the amount of info the index
+can handle so don't choose more help files than you really need.</FONT></LI>
+
+<LI><FONT SIZE=+1>Click the right arrow button (&quot;&gt;&quot;) to add
+the help files to the list for this Search Range.</FONT></LI>
+
+<LI><FONT SIZE=+1>If you want to add help files not listed in the listbox
+then click the &quot;Add&quot;&nbsp;button. </FONT></LI>
+
+<!--mstheme--></font><!--msthemelist--><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu2.gif" width="12" height="12" hspace="15"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Choose the help files you want to add from the File Open
+dialog.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu2.gif" width="12" height="12" hspace="15"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Find the new help files in the list (they'll be at the
+bottom since the list isn't sorted).</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+
+<!--msthemelist--><tr><td valign="baseline" width="42"><img src="bstrbu2.gif" width="12" height="12" hspace="15"></td><td valign="top" width="100%"><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica"><FONT SIZE=+1>Add them with the &quot;&gt;&quot; button.</FONT><!--mstheme--></font><!--msthemelist--></td></tr>
+<!--msthemelist--></table><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+
+<LI><FONT SIZE=+1>When you are done you must highlight your new Search
+Range and press the &quot;Select&quot;&nbsp;button to make certain that
+your range is set as the current Search Range.</FONT></LI>
+
+<LI><FONT SIZE=+1>Click OK twice and that's it!</FONT></LI>
+</OL>
+
+<P><FONT SIZE=+1>You can choose one of the pre-defined Search Ranges but
+to really customize the BC5 help system you will likely want to create
+your own Search Range.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Empty Help Box"></A><FONT SIZE=+1><B>Empty Help Message Box
+<BR>
+</B>Sometimes you will get an empty help message box. The message box has
+a red circle with an X in it and a Cancel button, but no text. In order
+to get rid of the blank message box you can either place a dummy file called
+owl.hlp in your \bc5\help directory or by editing WINHELP.INI and commenting
+out (with a semi-colon) any lines that refer to help files no longer on
+your hard drive (particularly those that refer to \bc45 if you have removed
+4.5x from your system). </FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Bad help topics"></A><FONT SIZE=+1><B>Incorrect Help Topics
+for Buildtime Messages <BR>
+</B>Download the <A HREF="faq3.htm#Patches">help file patch</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Openhelp"></A><FONT SIZE=+1><B>How do I&nbsp;modify OpenHelp
+to include other help files? <BR>
+</B>You can add your own help files (or 3rd party library help files) by
+editing \BC5\HELP\OPENHELP.CNT. In Win95 if you double click this file
+in Explorer you will get the Help Contents Editor which is not as easy
+to use as just editing the file using Notepad. Open the file in any text
+editor and add the name of any help files you want included.</FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<CENTER><P><A NAME="Resource Workshop"></A><B><FONT SIZE=+2>Resource Workshop</FONT></B></P></CENTER>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="RW&TASM"></A><FONT SIZE=+1><B>5.01 RW Crashes With TASM&nbsp;5.0
+Installed <BR>
+</B>If you have installed TASM 5.0 to the \BC5 directory you may find that
+RW will not run. The is because TASM 5 will overwrite the Resource Workshop
+files that ship with 5.01. This is detailed in the README.TXT accompanying
+TASM 5. Copy any RW files (RW32CORE.DLL&nbsp;in particular)&nbsp;from the
+CD to your \BC5\BIN directory and RW will again function. To download a
+text file containing the complete list of files affected by installing
+TASM&nbsp;5 in the BC5\BIN&nbsp;directory <A HREF="tasm50.txt">click here</A>.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="TabsOnDlgs"></A><FONT SIZE=+1><B>Adding OWL&nbsp;Tab Controls
+(TTabControl/TNoteTab) to Dialogs in RW</B> <BR>
+Adding a tab control to a dialog in Resource Workshop is easy if you are
+doing 32-bit programs using TTabControl. Just choose the tab control from
+the control palette and drop it on the dialog. When doing 16-bit programs,
+though, it's not as easy. </FONT></P>
+
+<P><FONT SIZE=+1>First, edit the dialog you want the tab control to go
+on. Then from the menu choose Dialog |&nbsp;Insert New Control. When the
+New Control dialog comes up type in the name of the class you are adding.
+The following values can be used.</FONT></P>
+
+<P><FONT SIZE=+1>TTabControl (16-bit only), <B><TT><FONT COLOR="#0000FF">&quot;SysTabControl&quot;
+<BR>
+</FONT></TT></B>TNoteTab, <B><TT><FONT COLOR="#0000FF">&quot;OWL_Notetab&quot;</FONT></TT></B></FONT></P>
+
+<P><FONT COLOR="#000000"><FONT SIZE=+1>Note that the dialog editor will
+place the control names in the resource definition exactly as they appear
+above--with the quotes around them. If you use the exact class name then
+that will work. A more portable method, however, would be to use the OWL&nbsp;#defines
+for these two classes:</FONT></FONT></P>
+
+<P><FONT SIZE=+1>TTabControl (16-bit only), <B><TT><FONT COLOR="#0000FF">WC_TABCONTROL</FONT></TT></B>
+<BR>
+TNoteTab, <B><TT><FONT COLOR="#0000FF">OWL_NOTETAB</FONT></TT></B></FONT></P>
+
+<P><FONT COLOR="#000000"><FONT SIZE=+1>Then you could use the same .rc
+file for both 16 and 32-bit builds. In the case of TNoteTab OWL_NOTETAB
+is defined as &quot;OWL_Notetab&quot;&nbsp;in either a 16-bit or a 32-bit
+build. With TTabControl WC_TABCONTROL&nbsp;is #defined as &quot;SysTabControl&quot;&nbsp;in
+16-bits and &quot;SysTabControl32&quot; in 32-bits. </FONT></FONT></P>
+
+<P><FONT COLOR="#000000"><FONT SIZE=+1>If you use the #defined constants
+rather than the actual class name then you will have to perform two additional
+steps in order to make it work. </FONT></FONT></P>
+
+<P><FONT SIZE=+1><FONT COLOR="#000000">0. Edit the .rc file as text. <BR>
+</FONT>1. #include &lt;commctrl.h&gt;&nbsp;for TTabControl and &lt;owl\notetab.h&gt;&nbsp;for
+TNoteTab. <BR>
+<FONT COLOR="#000000">2. Remove the quotes from the tab control's class
+name in the resource definition for the dialog.</FONT></FONT></P>
+
+<P><FONT COLOR="#000000"><FONT SIZE=+1>After you get the .rc file set up
+the way you want it you can then subclass the controls just as you would
+any other OWL&nbsp;control on a dialog.</FONT></FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="SetCreateOrder"></A><FONT SIZE=+1><B>&quot;Set Creation Order&quot;
+Doesn't Seem To Work in the Dialog Editor <BR>
+</B>If you have tried to set the creation order of controls on a dialog
+you may have found that it doesn't work. There's a trick: After you have
+set the creation order you need to choose &quot;End Mode&quot;&nbsp;from
+the speed menu to put the changes into effect.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="BadRepaint"></A><FONT SIZE=+1><B>Controls on Dialogs not Painting
+Properly in RW <BR>
+</B>While editing dialogs you may see controls containing bleed-through
+from items behind the control. This is only apparent with BWCC controls
+or BWCC dialogs and usually involving group boxes. The workaround is to
+change the creation order so that your groupboxes are created first. Choose
+&quot;Set Creation Order&quot;&nbsp;from the speed menu. Set the creation
+order by clicking on your controls in the order that you want them to be
+created. Finally, from the speed menu choose &quot;End Mode.&quot; The
+dialog should paint properly now. This problem is being addressed and should
+be fixed in BC++&nbsp;5.01.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="DLLs in RW"></A><FONT SIZE=+1><B>Why can't I use custom controll
+DLL's in RW? <BR>
+</B>This support should be added shortly. The RW team had other pressing
+issues that needed to be resolved first. Hopefully we will see DLL custom
+control support added soon.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="RC not RH"></A><FONT SIZE=+1><B>My resource identifiers go
+into my project's .rc file. Why? <BR>
+</B>For some reason the default is to add the identifiers to the .rc file.
+We have complained about this and hopefully it will be changed so that
+the default is the .rh file. In the mean time you will have to tell RW
+to put the identifiers in the .rh file. If this is a new project then first
+create an empty .rh file in your project's directory. When you create a
+new resource notice the combo box that says, &quot;New identifiers to be
+placed in:&quot; By default the .rc file is listed. Choose your .rh file
+from the list and the ID will go in the .rh file. For existing resources
+you can right click on the resource in the resource window and choose &quot;Resource
+Attributes&quot;&nbsp;from the speed menu. You will see two combo boxes
+at the top of the page. The first (on the left) is for the resource itself
+and the second (the one on the right)&nbsp;is for the resource identifier.
+Change that one to point to your .rh file.</FONT></P>
+
+<P><FONT SIZE=+1>More Info:&nbsp;You can also do one of the following:</FONT></P>
+
+<P><FONT SIZE=+1>1. Enter the include statement into the resulting .rc
+file, right click to bring up the speed menu, select Open source (it will
+open a new file), then cut and paste the defines from the .rc to the .rh
+file.</FONT></P>
+
+<P><FONT SIZE=+1>2. Select File | New | Resource Project..., then select
+Options. This will bring up the Add Header File dialog; simply type in
+a name for your .rh file. The definitions will be placed in that file when
+you save your .rc file.</FONT></P>
+
+<P><FONT SIZE=+1>3. If you've already created the .rc file then open your
+.rc file as text and add an #include to your .rh file before adding any
+resources. The identifiers will now go directly to the .rh file.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="String table editor"></A><FONT SIZE=+1><B>Where is the string
+table editor? <BR>
+</B>Look for this feature to return in later versions of BC++&nbsp;5.0.
+This feature was pushed to the back burner because more pressing problems
+were being addressed in the RW.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="No ICON in RW"></A><FONT SIZE=+1><B>I can't place an icon or
+bitmap on my dialog in RW (Picture Control). <BR>
+</B>Two things are at work here. First, the 'Test Dialog' feature is not
+complete at this time and won't show any icons or bitmap controls put on
+the dialog. You will have to actually run the program in order to see the
+graphic on the dialog. The second thing is that you will need to edit your
+.rc file as text and remove the quotes from the resource name for the control
+line that represents the bitmap or icon. For example the line for an icon
+might read...</FONT></P>
+
+<P><TT><FONT SIZE=+1>CONTROL &quot;ID_PICTURE&quot;, -1, &quot;static&quot;,
+SS_ICON <I><FONT COLOR="#000080">// etc.</FONT></I></FONT></TT></P>
+
+<P><FONT SIZE=+1>Change it to:</FONT></P>
+
+<P><TT><FONT SIZE=+1>CONTROL ID_PICTURE, -1, &quot;static&quot;, SS_ICON
+<I><FONT COLOR="#000080">// etc.</FONT></I></FONT></TT></P>
+
+<P><FONT SIZE=+1>Now compile and run the program and the icon should show
+up on the dialog. Finally, the bitmap control (SS_BITMAP) is not supported
+under 16 bit - only the SS_ICON style is Win16 compatible.</FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><B><FONT SIZE=+2>Java</FONT></B> 
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="NoJavaDebug"></A><FONT SIZE=+1><B>Java Debugger Gone in 5.01<BR>
+</B>Due to some compatibility problems the Java Debugger was removed from
+the 5.01 version of BC++. In my opinion Java development with BC++&nbsp;is
+a novel thing and not something anyone would attempt to make a living doing.
+<A HREF="http://www.borland.com/jbuilder/">Open JBuilder</A> (code named
+Latte) is due out early next year (just guessing)&nbsp;so that would be
+the tool of choice for serious Java development.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="NoJDK"></A><FONT SIZE=+1><B>I've got other Java products installed.
+I get errors trying to use the Java addon in BC5. <BR>
+</B>Sounds like other JDK's are being found before the JDK that shipped
+with BC5 .Apply<A HREF="faq3.htm#Patches"> Patch 2</A>. This patch permits
+the Java add on to work with the JDK shipped with it. It will not get interference
+from other JDKs.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="javacomp"></A><FONT SIZE=+1><B>Error:&nbsp;Unable to Find JAVACOMP.DLL
+<BR>
+</B>You've got a standard release of BC5 that doesn't have the Java Just
+In Time Compiler included. The error message is informational, and isn't
+harmful. </FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="NoClass"></A><FONT SIZE=+1><B>When I start the debugger, I
+get a message that it can't find the .class file. I know it's there. <BR>
+</B>Chances are that you don't have a TCP/IP stack. Sun's debug kernal
+that the Java debugger relies on utilizes TCP/IP to communicate with the
+Java virtual machine. If you open the message window, you'll probably see
+a reference to java.net.UnknownHostException. <A HREF="javadebg.htm">Click
+here</A> for the full text on setting up a TCP/IP stack.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="bcwjava.dll error"></A><FONT SIZE=+1><B>Problem with bcwjava.dll
+when loading the IDE after applying Patch 2. <BR>
+</B>Be sure you apply the patch from the \bc5 directory only. That way
+all the proper subdirectories get the patches applied.</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="Sun License"></A><FONT SIZE=+1><B>I&nbsp;keep getting Sun's
+license agreement when I&nbsp;attempt to run an applet (Win95). <BR>
+</B>There are two buttons at the bottom of the license agreement window.
+The buttons are labeled 'Accept' and 'Reject'. The problem is that the
+buttons are obscured by the Win95 task bar. Move the license window and
+click on the 'Accept' button and the applet viewer will run.</FONT></P>
+
+<CENTER><P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p><B><FONT SIZE=+2>Standard Template Library (STL)</FONT></B>
+
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P></CENTER>
+
+<P><A NAME="STL&BC++"></A><FONT SIZE=+1><B>Using STL&nbsp;With BC++ 5.0
+<BR>
+</B>To use STL in a Borland C++ application, it is very important, when
+including the STL header files, to use the preferred form of the STL header
+file names - that is, names WITHOUT the extension explicitly specified.
+For example, you should use: </FONT></P>
+
+<P><B><TT><FONT COLOR="#008040"><FONT SIZE=+1>#include &lt;algorithm&gt;
+<BR>
+#include &lt;vector&gt; <BR>
+#include &lt;string&gt; </FONT></FONT></TT></B></P>
+
+<P><FONT SIZE=+1>instead of </FONT></P>
+
+<P><B><TT><FONT COLOR="#008040"><FONT SIZE=+1>#include &lt;algorith.h&gt;
+<BR>
+#include &lt;vector.h&gt; <BR>
+#include &lt;string.h&gt; </FONT></FONT></TT></B></P>
+
+<P><FONT SIZE=+1>When these files are included in the preferred way (without
+the extension,) the Borland compiler automatically defines the internal
+macro __USING_STD_NAMES__. This macro is used in the header files string.h,
+memory.h, limits.h, and complex.h to include either the STL version of
+these classes, or code relating to the non-STL implementation of these
+classes. </FONT></P>
+
+<P><FONT SIZE=+1>If the STL files are not included in the preferred manner,
+this macro is not defined by the compiler, and the STL class and function
+definitions contained in these four files will not be available. (This
+includes classes such as string, wstring, auto_ptr, allocator, as well
+as many helper functions used by STL.) </FONT></P>
+
+<P><FONT SIZE=+1>In case you were wondering, the compiler will not let
+you define this macro by using a #define statement. (Courtesy of Jim Sugg)</FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><A NAME="STL&OWL"></A><FONT SIZE=+1><B>Getting OWL&nbsp;and STL&nbsp;to
+Work Together <BR>
+</B>OWL&nbsp;uses the cstring class (string) and STL&nbsp;also has a string
+class. Thus, there is a namespace conflict. Attempting to use STL&nbsp;in
+an OWL&nbsp;app results in compiler errors that are elusive and don't point
+to the real problem. You can use STL&nbsp;and OWL&nbsp;together in a project,
+though. </FONT></P>
+
+<P><FONT SIZE=+1>One method is to not use STL&nbsp;and OWL&nbsp;together
+in the same module. Although this will work, it is not very practical in
+a real-world situation. A more practical solution requires renaming the
+std::string class to std::_string. The following code fragment illustrates:</FONT></P>
+
+<P><B><TT><FONT COLOR="#008000"><FONT SIZE=+1>#include &lt;owl\applicat.h&gt;
+<BR>
+#include &lt;owl\framewin.h&gt; <BR>
+#pragma hdrstop <BR>
+#define string _string <BR>
+#include &lt;vector&gt; <BR>
+#undef string <BR>
+#define string _string <BR>
+#include &lt;string&gt; <BR>
+#undef string</FONT></FONT></TT></B></P>
+
+<P><TT><FONT SIZE=+1><B>using namespace</B> std; <BR>
+<B>typedef</B> vector&lt;_string&gt; array;</FONT></TT></P>
+
+<P><FONT COLOR="#000000"><FONT SIZE=+1>Now all references to std::string
+must be '_string' rather than plain 'string.' Notice in the above code
+the #pragma hdrstop is placed before the STL&nbsp;#includes. If you try
+to include the STL&nbsp;headers in the pre-compiled header you will get
+a warning, &quot;Cannot create pre-compiled header - code in header.&quot;
+Stopping compilation of the .csm prior to including the STL&nbsp;headers
+eliminates the warning and allows use of pre-compiled headers. (With help
+from John Maddock)</FONT></FONT></P>
+
+<P>
+<!--msthemeseparator--><p align="center"><img src="bstrrul.gif" width="600" height="10"></p></P>
+
+<P><FONT SIZE=+1><A HREF="default.htm">BC++&nbsp;5.0 FAQ Page</A> |&nbsp;<A HREF="bc50tips.htm">BC++&nbsp;5.0
+Tips Page</A></FONT></P>
+
+<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td><!--mstheme--><font face="Trebuchet MS, Arial, Helvetica">
+<font size="1" color="#808080"><br>
+</font>
+
+<p>
+<font size="1" color="#808080">Copyright © 2000, Reisdorph Publishing. All
+rights reserved. Reproduction in whole or in part in any form or medium without
+express written permission of Reisdorph Publishing is prohibited. All other
+product names and logos are trademarks or registered trademarks of their
+respective owners.<br>
+</font>
+
+</p>
+<p>&nbsp;</p>
+<!--mstheme--></font></td></tr><!--msnavigation--></table></BODY>
+
+</HTML>

@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>OWL Next and Microsoft Layer for Unicode</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>OWL Next and Microsoft Layer for Unicode</H2>
+<BR><BR><BR>
+<IMG SRC="images/owln-rule2.gif" WIDTH="582" HEIGHT="27" BORDER="0" ALT="">
+<P align=left>Under Windows&nbsp;NT/2000/XP there is native support for 
+<a href="http://www.unicode.org/" target="_blank">Unicode</a> applications. 
+For Windows&nbsp;95/98/ME there is an emulation layer called 
+<a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/mslu/winprog/about_the_microsoft_layer_for_unicode.asp" target="_blank">Microsoft Layer for Unicode</a>
+or UNICOWS for short.</P>
+The layer consists of one .dll file, and one .lib file, which is linked to the program. The library contains
+loader code which checks the operating system and loads UNICOWS only if needed.</P>
+Unfortunately the library is in COFF format and cannot directly be used in Borland C++ program. A partial
+solution is to create Borland-compatible import library from the .dll by using the IMPLIB utility. The drawback is 
+that it will not contain the loader, so the UNICOWS layer will always be used, even when not needed.</P>
+To use OWLNext with UNICOWS, some modification need to be done to the source, and the OWLNext must be build
+with UNICODE and USE_UNICOWS settings. Two different versions of the applications must be created, one 
+using UNICODE OWLNext, to be executed under Windows&nbsp;NT/2000/XP, and another with UNICODE and UNICOWS,
+to be executed under Windows&nbsp;95/98/ME.</P>
+
+<b>Modifications</b>:
+<ul>
+<li>In owl.cpp, replace the lines
+<pre>
+<code>
+    creationWindow-&#62;DefaultProc = (WNDPROC)GetProcAddress(
+        (HINSTANCE)GetModuleHandle(_T(<font color="yellow">&quot;USER32&quot;</font>)), <font color="yellow">&quot;DefWindowProcW&quot;</font>);
+</code>
+</pre>
+with
+<pre>
+<code>
+<font color="green"><b>#  if defined(USE_UNICOWS)</b></font>
+    creationWindow-&#62;DefaultProc = (WNDPROC)GetProcAddress(
+        (HINSTANCE)GetModuleHandle(_T(<font color="yellow">&quot;UNICOWS&quot;</font>)), <font color="yellow">&quot;DefWindowProcW&quot;</font>);
+<font color="green"><b>#  else</b></font>
+    creationWindow-&#62;DefaultProc = (WNDPROC)GetProcAddress(
+        (HINSTANCE)GetModuleHandle(_T(<font color="yellow">&quot;USER32&quot;</font>)), <font color="yellow">&quot;DefWindowProcW&quot;</font>);
+<font color="green"><b># endif</b></font>
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, before the lines 
+<pre>
+<code>
+<font color="green"><b>#if defined(BI_PLAT_WIN32)</b></font>
+  <b>static</b> <b>const</b> _TCHAR userStr[] = _T(<font color="yellow">&quot;USER32&quot;</font>);
+<font color="green"><b># if defined(UNICODE)</b></font>
+</code>
+</pre>
+add the lines
+<pre>
+<code>
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+<b>static</b> <b>const</b> _TCHAR MSLUStr[] = _T(<font color="yellow">&quot;UNICOWS&quot;</font>);
+
+TModule&amp;
+GetModuleMSLU()
+{
+  <b>static</b> TModule MSLUModule(MSLUStr, ::GetModuleHandle(MSLUStr),<b>false</b>);
+  <b>return</b> MSLUModule;
+}
+<font color="green"><b>#endif</b></font>
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TUser::LoadIcon() as follows
+<pre>
+<code>
+HICON
+TUser::LoadIcon(HINSTANCE p1, LPCTSTR p2)
+{
+  <b>static</b> TModuleProc2&#60;HICON, HINSTANCE, LPCTSTR&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         loadIcon(GetModuleMSLU(), LoadIconStr);
+<font color="green"><b>#else</b></font>
+         loadIcon(GetModule(), LoadIconStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> loadIcon(p1, p2);
+}
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TUser::GetClassInfo() as follows
+<pre>
+<code>
+BOOL
+TUser::GetClassInfo(HINSTANCE p1, LPCTSTR p2, LPWNDCLASS p3)
+{
+  <b>static</b> TModuleProc3&#60;BOOL, HINSTANCE, LPCTSTR, LPWNDCLASS&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         getClassInfo(GetModuleMSLU(), GetClassInfoStr);
+<font color="green"><b>#else</b></font>
+         getClassInfo(GetModule(), GetClassInfoStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> getClassInfo(p1, p2, p3);
+}
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TUser::GetMenuString() as follows
+<pre>
+<code>
+<b>int</b>
+TUser::GetMenuString(HMENU p1, UINT p2, LPTSTR p3, <b>int</b> p4, UINT p5)
+{
+  <b>static</b> TModuleProc5&#60;<b>int</b>, HMENU, uint, LPTSTR, <b>int</b>, <b>int</b>&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         getMenuString(GetModuleMSLU(), GetMenuStringStr);
+<font color="green"><b>#else</b></font>
+         getMenuString(GetModule(), GetMenuStringStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> getMenuString(p1, p2, p3, p4, p5);
+}
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TVersion::GetFileVersionInfo() as follows
+<pre>
+<code>
+BOOL
+TVersion::GetFileVersionInfo(LPTSTR p1, DWORD p2, DWORD p3, LPVOID p4)
+{
+  <b>static</b> TModuleProc4&#60;BOOL,LPTSTR,DWORD,DWORD,LPVOID&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         getFileVersionInfo(GetModuleMSLU(), GetFileVersionInfoStr);
+<font color="green"><b>#else</b></font>
+         getFileVersionInfo(GetModule(), GetFileVersionInfoStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> getFileVersionInfo(p1, p2, p3, p4);
+}
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TVersion::GetFileVersionInfoSize() as follows
+<pre>
+<code>
+DWORD      
+TVersion::GetFileVersionInfoSize(LPTSTR p1, LPDWORD p2)
+{
+  <b>static</b> TModuleProc2&#60;DWORD,LPTSTR,LPDWORD&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         getFileVersionInfoSize(GetModuleMSLU(), GetFileVersionInfoSizeStr);
+<font color="green"><b>#else</b></font>
+         getFileVersionInfoSize(GetModule(), GetFileVersionInfoSizeStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> getFileVersionInfoSize(p1, p2);
+}
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TVersion::VerQueryValue() as follows
+<pre>
+<code>
+BOOL      
+TVersion::VerQueryValue(<b>const</b> LPVOID p1,LPTSTR p2,LPVOID p3, uint <b>far</b>* p4)
+{
+  <b>static</b> TModuleProc4&#60;BOOL,<b>const</b> LPVOID,LPTSTR,LPVOID,uint <b>far</b>*&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         verQueryValue(GetModuleMSLU(), VerQueryValueStr);
+<font color="green"><b>#else</b></font>
+         verQueryValue(GetModule(), VerQueryValueStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> verQueryValue(p1, p2, p3, p4);
+}
+</code>
+</pre>
+<br>
+
+<li>In module.cpp, rewrite the function TVersion::VerLanguageName() as follows
+<pre>
+<code>
+DWORD 
+TVersion::VerLanguageName(DWORD p1, LPTSTR p2, DWORD p3)
+{
+  <b>static</b> TModuleProc3&#60;DWORD,DWORD,LPTSTR,DWORD&#62;
+<font color="green"><b>#if defined(BI_PLAT_WIN32) &amp;&amp; defined(UNICODE) &amp;&amp; defined(USE_UNICOWS)</b></font>
+         verLanguageName(GetModuleMSLU(), VerLanguageNameStr);
+<font color="green"><b>#else</b></font>
+         verLanguageName(GetModule(), VerLanguageNameStr);
+<font color="green"><b>#endif</b></font>
+  <b>return</b> verLanguageName(p1, p2, p3);
+}
+</code>
+</pre>
+<br>
+
+
+</ul> 
+
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,77 @@
+TI2080C.txt   Using the DOS Power Pack with Borland C++ 5.0
+Category   :General
+Platform   :All
+Product    :C/C++  All
+
+Description: BC5 and the Dos Power Pack
+
+Let me start by saying, officially, The PowerPack for DOS was
+designed for Borland C++ 4.02 and 4.5x.  It WILL NOT work with
+Borland C++ 5.0. Again, it WILL NOT work with Borland C++ 5.0
+Everything in this document is COMPLETELY UNSUPPORTED.  Do NOT
+call technical support regarding these issues, as they are
+obligated to tell you they don't work.
+
+That said, here are some steps to guide you in your attempt to
+use the PowerPack with BC5.
+
+1.  Installation
+
+Installation of the PowerPack under BC++ 5.0 has not changed.
+
+Here is a list of the modified (added) files:
+
+C:\WINDOWS
+  BCW     .INI
+  BORHELP .INI
+  WINHELP .INI
+
+D:\BC50
+  PFILELST.TXT
+  PINSTALL.TXT
+  README
+  README  .TXT
+  UNPAK   .EXE
+
+D:\BC50\BIN
+  32RTM   .EXE
+  SVGA32  .DLL
+
+The following directories and their contents have been added by
+the PowerPack installation:
+
+\BC50\EXAMPLES\DPMI
+\BC50\EXAMPLES\DPMI16
+\BC50\EXAMPLES\DPMI32
+\BC50\EXAMPLES\TVISION
+\BC50\INCLUDE\TVISION
+\BC50\LIB\TVISION
+\BC50\SOURCE\TVISION
+
+2.  Use of the PowerPack and BC5
+
+The PowerPack targets (DPMI16 & DPMI32) can no longer be used
+from the IDE.  In order to create protected mode DOS
+applications, you must use the command-line tools.  You will
+probably want to create makefiles from 4.02/4.5x project files
+and use those with BC5.
+
+The usage of the command-line tools to create DPMI apps has
+not changed.  For DPMI16, you use: bcc -WX -ml, and for DPMI32
+use bcc32 -WX.
+
+5.  CodeGuard and DPMI
+
+Let me start, again, by saying CodeGuard 16 is a Windows-16 only
+debugging tool.  Officially, it WILL NOT work with 16 bit DPMI
+apps. However, in most cases it does seem to work.
+
+To use CodeGuard16, on the command-line, just add CG16.LIB to
+your TLINK or BCC line:
+
+   bcc -WX -ml myapp.cpp mystuff.cpp mylib.lib cg16.lib
+
+Reference:
+
+7/2/98 10:40:28 AM
+Trademarks & Copyright - 1999 INPRISE Corporation.

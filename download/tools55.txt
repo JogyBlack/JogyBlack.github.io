@@ -1,0 +1,247 @@
+Tools55: Free Compiler and Linker Tools IDE Integration AddOn
+================================================================================
+
+By Karst Drenth, Apeldoorn The Netherlands
+e-mail: karst@roccare.nl
+
+This toolset is based on the exaddon.ide project from:
+$env(BCROOT)\EXAMPLES\IDE\ADDON\TESTBED (BCROOT is C:\BORLAND\BC5 on my machine)
+
+The objective to write this AddOn was a mail from Jogy, complaining about the
+hard way to find a normal tool commandline string to let the Free 5.5 tools
+work. Also his, Kalin's and my problem is, that the way described give poor
+integration in the IDE 5.02.
+
+With creating this AddOn I think I can accomplish total and tight integration,
+as well as complete MPD settings (Option Pages) transfer for every project
+node's settings.
+
+To use this AddOn read....(please)
+
+Getting Started
+---------------
+Note: the Copy and Register steps are automatically performed by the instalation.
+
+- Copy -
+Copy Tools55.dll to your $env(BCROOT)\bin directory
+
+- Registering your dll at install time -
+Add your addon dll key in the registry under the following key:
+
+HKEY_LOCAL_MACHINE
+ SOFTWARE
+  Borland
+    Borland C++
+     5.0
+      IDE
+	AddOns
+	 Tools55
+
+Key: "Tools55"
+  Value: "Path"     Data: "c:\bc5\bin\tools55.dll"
+  Value: "Enabled"  Data: "Yes"
+
+
+- During development -,
+you can use addonreg.exe to quickly add, delete, enable and disable addon
+registry entries (or to see exactly what the entry should look like).
+
+- After setup -
+Create an evironment variable BC55ROOT to point to the location of
+the 5.5 executables. This variable will be used by Tools 5.5 by default.
+
+Look at the tools menu, there are 6 Brand-New 5.5 Tools appearing
+Then check them out by selecting Options|Project, Options|Environment or
+right-click a node and select Edit Local Options
+
+
+History:
+================================================================================
+Version 1.0.0	03/03/2000
+	Initial AddOn test version, does nothing but registering the
+	tools and shows some messages during execution.
+
+Version 1.0.1	03/06/2000
+	Added Option Pages for: Environment; General settings.
+	Added Option Pages for: Project; Compiler settings.
+	ALL WITH FULL LocalOverride capabilities AND SAVED in .ide !
+
+Version 1.0.2	03/07/2000
+	Preliminary test of running the compiler without options, except
+	-I from Project|Directories|Include,
+	-D from Project|Compiler|Defines and
+	BCC32.EXE from Environment|Tools 5.5|BCC32
+	Note ! NO $env() expansions yet, still to be done
+
+Version 1.0.3   03/08/2000
+	Added (by Jogy) the Optimization Chapter
+
+Version 1.0.4   03/10/2000
+	Compiler is operational ! Only warnings not done yet
+	Added "Bulletin" banners to Summary pages
+
+Version 1.0.5   03/12/2000
+	Improved the compiler, should work correctly now (including
+	correct -o option)
+	Added Preferences page to Environment|Tools 5.5, now includes default
+	usage of 5.5. tools, including swapping of all the nodes in the project
+	Added preliminary linker version, no options yet, other than
+	-L -Tp? -I. Does include all dependencies (.obj, .lib, .def, .res).
+
+Version 1.0.6   03/13/2000
+	Added CPP Option pages
+	Added Linker pages
+	Completed running the linker with all applicable options
+
+Version 1.0.7   03/13/2000
+	Added Message pages
+	Completed running the compiler with message (-wxxx) options
+	Linker also recognizes AppExpert as an .exe
+
+Version 1.0.8   03/14/2000
+	Added Library pages
+	Added Resource pages (not functional)
+	Implemented Librarian
+
+Version 1.0.9   03/15/2000
+	Added Device Driver option to Linker page
+	Added __msfastcall to compiler calling conventions
+	Added Microsoft Visual C++ compatibility
+	Added old-style Borland C++ structure layout
+	Re-enabled Template generation options
+	Added "dirty-editor" checker to RC and C/C++ compiler
+	Added preliminary autodependency generator
+
+Version 1.0.10  03/16/2000
+	Added autodepchecker which reads from the .obj files just
+	compiled
+	Added "Abort" capability by pressing "Cancel"
+	Basically completed the project for first release.
+
+Version 1.0.11  03/18/2000
+	Added About page including credits.
+	Re-engineered the toolswitching algorithm between standard and 5.5 tools
+	Modified the link and lib dependency checker, to also include nested
+	targets, runtime-nodes without extension and sourcepools.
+	Added "5.5 LinkLibrary" tool to support the above. (sets -Gi option on
+	linker always automatically, and converts OutputLocation to .dll/.exe
+	instead of .lib)
+	Cleaned-up sources, headers to make full use of pch's
+
+Version 1.0.12  03/19/2000
+	Added preliminary and experimental TargetExpert page (does nothing)
+
+Version 1.0.13  03/20/2000
+	Fixed problem with "textlimit" in BRC32.exe field
+	Completed classes for Target Expert pages, settings are save,
+	node addition and deletion still has to be done.
+
+Version 1.0.14  04/02/2000
+	Changed autodependency checker for .rc's
+	Changed Auto tool conversion to 5.5 to work only on Win32 targets,
+	except when explicitly a 5.5 target has been created.
+	Changed startup tool registering, now without tool conversion. This only
+	happens now when modified in Preferences page after user presses OK
+	Finally got Target Expert to work a bit, still needs property settings
+	back in the project's nodes (like Image model, debugging etc.)
+
+Version 1.0.15  04/02/2000
+	Added -tW,-tWD, -tWC, -tWM to the compiler options to control the
+	built-in predefined macro's: __DLL__ __MT__ and __CONSOLE__
+	Options are taken from either the TargetServer or TX_xxx55_MODEL and
+	TX_xxx55_MT properties of one of the Tools 55 targets (xxx is either APP
+	or DLL). Todo: have to respect TX's settings about the model
+	(GUI/Console) when linking, now still has to be set at the
+	Linker's option page.
+
+Version 1.0.16  04/04/2000
+	Fixed some problems with "original" Target Expert targets, keeping
+	history after being converted to 5.5 targets
+	Added code to prefix Options|project|directories|Source during
+	compilation
+
+Version 1.1.0  04/11/2000
+	Second Release version. This version has some known caveats:
+	1) Although the "Source Directory" from Options|Project|Directories is
+	obeyed by the compiler's and the linker, It may occur that the IDE it
+	self cannot find the source by double clicking in the project tree.
+	2) The compiler hase some problems finding-out to whether or not create
+	a multitrhreaded .obj. Due to this fact I advise to change the
+	"Original" target to a 5.5 counterpart.
+	3) There are no provisions yet to create .lib's with an appropriate
+	5.5 Target.
+	4) After adding a node to a target, one still has to change manually to
+	a 5.5 translator. This also happens when changing from original to 5.5
+	targets. Prefered way of working:
+	- Open original project,
+	- Check Options|Environment|Preferences|Use as Default,
+	- press OK (All translators will be changed)
+	- Change the target to a 5.5 target
+	- Optionally UN-check the option mentioned above, the automatic transfer
+	  will not have effects anymore on 5.5 targets
+	5) When changing .dll targets to 5.5 .dll target, it's translator is
+	changed to <5.5 LinkTarget> UNCONDITIONALLY. If you had <LinkLibrary>
+	before, please change it by hand to <5.5 LinkLibrary>, otherwise no
+	importlib will be created.
+
+	Althoug the above may be enough reason to not use this version of
+	Tools 5.5, I think it's a major improvement on the original release.
+
+Version 1.1.1  05/20/2000
+	On request of "bullock@mrcmry.com" (Greg) made error messages split
+	across more than one line to prevent :
+	!! Internal IDE Error: <Message formatting has failed for this message>
+
+Version 1.1.2  07/03/2000
+	Modified by Greg Bullock to partly emulate the IDE's internal compiler's
+	treatment of white space in the Options:Compiler:Defines.
+	With previous versions of the command line compiler, and I'm assuming
+	this is true for 5.5 as well, the defines for the C++Compiler and the
+	ResourceCompiler couldn't have white space.  But the
+	Options:Compiler:Defines dialog allows the user to enter white space.
+	Moreover, with the IDE compiler, carriage return/line feed combinations
+	are legal and interpreted to be semicolons. This partly emulates that
+	behavior by replacing initial white space characters with ';' and removing
+	any adjacent white space.
+
+Version 1.1.3  07/07/2000
+	Modified by Greg Bullock to emulate the IDE's internal compiler's
+	treatment of the source path.  Tools55 now permits the source path to
+	be a "search" path, with multiple directories delimited by ';'.
+
+Version 1.1.4  07/08/2000
+	Re-combined Greg's changes into this version, changed About's
+	Credits-Box to scrollable edit control.
+
+Version 1.1.5  03/13/2001
+        Incorporated Leo Sutic's fix of an exception which occurs when 
+        creating New Project and selecting 5.5 exe or dll target.
+	Changed the default paths to "$env(BC55ROOT)\bin\*"
+	Fixed by Jogy a problem that targets with staticaly linked libraries
+	are compiled always with multithreading regardless of the target settings.
+
+Version 1.1.6  03/13/2001
+	Added CodeGuard support in the options pages. It requires CG32.DLL and CG32.LIB
+	from C++ Builder 5. The library and DLL from Borland C++ 5.x won't work!
+	To turn on CodeGuard for a target it must be checked in the Target Expert options
+	(either 5.5 or the standard), and also in the Compiler Options in the page for 
+	CodeGuard all options must be checked. To remove CodeGuard, all of these must
+	be manualy unchecked. This will be automated in the next version. 
+
+Version 1.1.7  01/17/2002
+	Fixed a bit the Compiler Options CodeGuard page - now when CG is turned off, 
+	the three other options are grayed, and don't have to be turned off manually,
+	like in the first version.
+
+Version 1.1.8  05/29/2002
+        In Options/Environment/Tools 5.5 added new field, which allows to specify additional 
+        options to bcc32.exe
+
+Version 1.1.9  06/24/2002
+        Fixed a minor bug in Tools 5.5 Environment Options - they used the environment 
+        variable BC55ROOT, but the instalation sets the variable BCC55ROOT.
+
+
+Have fun,
+
+Karst.

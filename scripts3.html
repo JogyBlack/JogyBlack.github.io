@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0 Scripts</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0 Scripts</H2>
+<BR><BR><BR>
+<P align=left>
+<UL>Miscelaneous scripts:</P>
+
+<LI><A HREF="scripts3.html#GNUGrep">GNU Grep</A><BR>
+Author: Greg Chicares<BR><BR>
+
+<LI><A HREF="scripts3.html#TASM32">TASM32 bug fix</A><BR>
+Author: Paul Ranum<BR><BR>
+
+<LI><A HREF="scripts3.html#NodeAttr">Shortcut to project node attributes</A><BR>
+Author: Jogy<BR><BR>
+
+<LI><A HREF="scripts3.html#AutoBuildNumber">Autoincrement build version</A><BR>
+Author: Matthias Seemann<BR><BR>
+
+</UL>
+
+<HR>
+
+<DL>
+
+<DT><A NAME = "GNUGrep"></A><B>GNU Grep</B>
+<DD>
+<BR>
+A script for using GNU grep from the BC 5.x ide.<BR>
+Create new tool and set<BR>
+Name: GNU Grep<BR>
+Path: location of downloaded GNU grep.exe<BR>
+Command line: -n $NOSWAP $CAP MSG(GG2MSG) $PROMPT *.?pp *.h *.rh *.rc<BR>
+Menu text: &GNU grep<BR>
+Help hint: GNU grep<BR>
+Add the follwing code at the end of bc5\script\filters.spp</P>
+<PRE>
+<CODE>
+
+<FONT COLOR="AQUA">// Begin GWC mods</FONT>
+<FONT COLOR="AQUA">//</FONT>
+<FONT COLOR="AQUA">// Filter for GNU grep version 2.1</FONT>
+<FONT COLOR="AQUA">//   based on ParseBorlandMessages() in this file</FONT>
+<FONT COLOR="AQUA">//   key difference is that a colon follows the line number</FONT>
+<FONT COLOR="AQUA">// Handle messages of the form:</FONT>
+<FONT COLOR="AQUA">//    Filename:####: MessageText</FONT>
+<FONT COLOR="AQUA">//      (Type: INFORMATION)</FONT>
+<FONT COLOR="AQUA">// and also:</FONT>
+<FONT COLOR="AQUA">//    grep: MessageText</FONT>
+<FONT COLOR="AQUA">//      (Type: ERROR)</FONT>
+<FONT COLOR="AQUA">// where:</FONT>
+<FONT COLOR="AQUA">//    Filename is the name of the source module</FONT>
+<FONT COLOR="AQUA">//    #### is a number representing the line in the source module</FONT>
+<FONT COLOR="AQUA">//</FONT>
+ParseGNUGrepMessages(output){
+  <B>declare</B> input;      <FONT COLOR="AQUA">// The raw text output.</FONT>
+  <B>declare</B> line;      <FONT COLOR="AQUA">// The input string that is processed.</FONT>
+  <B>declare</B> p;        <FONT COLOR="AQUA">// A &quot;pointer&quot; into line.</FONT>
+  <B>declare</B> fileName;    <FONT COLOR="AQUA">// The message filename.</FONT>
+  <B>declare</B> fileRow;    <FONT COLOR="AQUA">// The message line number.</FONT>
+  <B>declare</B> msgType;    <FONT COLOR="AQUA">// The message type.</FONT>
+  <B>declare</B> message;    <FONT COLOR="AQUA">// The message.</FONT>
+
+  <FONT COLOR="AQUA">// Notify user that messages are being processed.</FONT>
+  IDE.StatusBar = <FONT COLOR="YELLOW">&quot;grep...&quot;</FONT>;
+
+  <FONT COLOR="AQUA">// Read output text until there is no more.</FONT>
+  <B>while</B>((input = output.ReadLine()) != NULL)
+    {
+    <FONT COLOR="AQUA">// Convert the raw text into a String object.</FONT>
+    line = <B>new</B> String(input);
+
+    <FONT COLOR="AQUA">// Remove leading whitespace and skip empty lines</FONT>
+    <B>if</B>(line == <FONT COLOR="YELLOW">&quot;&quot;</FONT> &#124;&#124; line.Trim(<FONT COLOR="YELLOW">1</FONT>).Length &#60;= <FONT COLOR="YELLOW">1</FONT>)
+      {
+      <B>continue</B>;
+      }
+
+    <FONT COLOR="AQUA">// Check for lines that begin with &quot;grep:&quot;</FONT>
+    <B>if</B>(line.SubString(<FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">5</FONT>).Text == <FONT COLOR="YELLOW">&quot;grep:&quot;</FONT>)
+      {
+      msgType = ERROR;
+      }
+    <B>else</B>
+      {
+      msgType = INFORMATION;
+      }
+
+    p = <FONT COLOR="YELLOW">0</FONT>;
+
+    <FONT COLOR="AQUA">// Extract a filename and line number.</FONT>
+    <FONT COLOR="AQUA">// Move to the filename.</FONT>
+    line = line.SubString(p);
+
+    <FONT COLOR="AQUA">// Extract the filename.</FONT>
+    <B>if</B>((p = line.Index(<FONT COLOR="YELLOW">&quot;:&quot;</FONT>)) != <FONT COLOR="YELLOW">0</FONT>)
+      {
+      fileName = line.SubString(<FONT COLOR="YELLOW">0</FONT>, p - <FONT COLOR="YELLOW">1</FONT>).Text;
+
+      <FONT COLOR="AQUA">// Move to the line number.</FONT>
+      line = line.SubString(p);
+
+      <FONT COLOR="AQUA">// Extract the line number.</FONT>
+      <B>if</B>((p = line.Index(<FONT COLOR="YELLOW">&quot;:&quot;</FONT>)) != <FONT COLOR="YELLOW">0</FONT>)
+        {
+        fileRow = line.SubString(<FONT COLOR="YELLOW">0</FONT>, p - <FONT COLOR="YELLOW">1</FONT>).Integer;
+        }
+      <B>else</B>
+        {
+        fileRow = <FONT COLOR="YELLOW">1</FONT>;
+        }
+      }
+    <B>else</B>
+      {
+      fileName = <FONT COLOR="YELLOW">&quot;&quot;</FONT>;
+      fileRow  = <FONT COLOR="YELLOW">1</FONT>;
+      }
+
+    <FONT COLOR="AQUA">// Post the message to the IDE message database.</FONT>
+    IDE.MessageCreate
+      (<FONT COLOR="YELLOW">&quot;GNU Grep&quot;</FONT>
+      ,<FONT COLOR="YELLOW">&quot;transfer&quot;</FONT>
+      ,msgType
+      ,<FONT COLOR="YELLOW">0</FONT>
+      ,fileName
+      ,fileRow
+      ,<FONT COLOR="YELLOW">1</FONT>
+      ,line.SubString(p).Text
+      ,<FONT COLOR="YELLOW">0</FONT>
+      ,<FONT COLOR="YELLOW">0</FONT>
+      );
+    IDE.ViewMessage(<FONT COLOR="YELLOW">&quot;&amp;GNU grep&quot;</FONT>);
+    }
+
+  <B>return</B> <FONT COLOR="YELLOW">0</FONT>;
+}
+<FONT COLOR="AQUA">// End GWC mods</FONT>
+
+</CODE>
+</PRE>
+
+Add the follwing code in bc5\script\filtstub.spp, in the switch (Tool.Text) statement
+
+<PRE>
+<CODE>
+<FONT COLOR="AQUA">// Begin GWC mods</FONT>
+    <B>case</B> <FONT COLOR="YELLOW">&quot;GG2MSG&quot;</FONT>:
+    <B>case</B> <FONT COLOR="YELLOW">&quot;GG2MSG.DLL&quot;</FONT>:
+     {
+     <B>return</B> ParseGNUGrepMessages(output);
+     }
+<FONT COLOR="AQUA">// End GWC mods</FONT>
+</CODE>
+</PRE>
+
+<I><FONT COLOR="Red">Note:</FONT> If you have modified filters.spp and filtstub.spp, 
+do not download them from the site. Instead, make the changes from above.</I></P>
+<A HREF="download/FiltStub.zip">Download FiltStub.zip</A></P>
+<A HREF="download/Filters.zip">Download Filters.zip</A></P>
+<A HREF="http://agnes.dida.physik.uni-essen.de/~janjaap/mingw32/download.html">Download GNU grep</A></P>
+<BR><HR><BR><BR>
+
+
+<DT><A NAME = "TASM32"></A><B>TASM32 bug fix</B>
+<DD>
+<BR>
+If you rebuild/make a file containing inline asm (possibly .asm files as 
+well), the IDE creates a bogus .000 file, but doesn't replace the old .obj 
+file.  The .000 file actually appears to be the new .obj file, but it of 
+course is never used by the linker.  If you don't know about this problem, 
+it can be very confusing at link-time!</P>
+This snippet tries to remedy this situation by replacing the old .obj file with 
+the .000 file after TASM32 returns. </P>
+
+<PRE>
+<CODE>
+<B>import</B> IDE;
+
+<B>import</B> <FONT COLOR="YELLOW">&quot;KERNEL32.DLL&quot;</FONT>
+{
+   <B>int</B> MoveFileExA(<B>char</B>* from, <B>char</B>* to, <B>unsigned</B> flags);
+   <B>int</B> DeleteFileA(<B>char</B>* file );
+   <B>int</B> CopyFileA(<B>char</B>* from, <B>char</B>* to, <B>bool</B> FailIfExists );
+   <B>int</B> GetFileAttributes( <B>char</B>* from );
+}
+
+<FONT COLOR="SILVER"><B>#define MOVEFILE_REPLACE_EXISTING   0x00000001</B></FONT>
+<FONT COLOR="SILVER"><B>#define MOVEFILE_COPY_ALLOWED       0x00000002</B></FONT>
+
+<B>on</B> IDE:&#62;TranslateComplete(<B>declare</B> status, <B>declare</B> inputPath, <B>declare</B> outputPath){
+   <B>if</B>(status){
+      <B>declare</B> tmpFileName = <B>new</B> String(outputPath);
+      tmpFileName = tmpFileName.Lower();
+      <B>declare</B> idx = tmpFileName.Index(<FONT COLOR="YELLOW">&quot;.obj&quot;</FONT>);
+      <B>if</B>(idx){
+         <FONT COLOR="AQUA">//.MessageCreate(&quot;Buildtime&quot;, &quot;transfer&quot;, INFORMATION, 0, outputPath, 0, 0, &quot;Idx found&quot;);</FONT>
+         tmpFileName = tmpFileName.SubString(<FONT COLOR="YELLOW">0</FONT>, idx);
+         tmpFileName = tmpFileName.Text+<FONT COLOR="YELLOW">&quot;000&quot;</FONT>;
+         <B>if</B>( GetFileAttributes(tmpFileName)==-<FONT COLOR="YELLOW">1</FONT> ){
+           <FONT COLOR="AQUA">//declare msg = &quot;000 File does not exist. Nothing to do&quot;;</FONT>
+           <FONT COLOR="AQUA">//.MessageCreate(&quot;Buildtime&quot;, &quot;transfer&quot;, INFORMATION, 0, outputPath, 0, 0, msg);</FONT>
+         }<B>else</B>
+         <B>if</B>(MoveFileExA(tmpFileName, outputPath, MOVEFILE_REPLACE_EXISTING&#124;MOVEFILE_COPY_ALLOWED )){
+           <FONT COLOR="AQUA">// practically it does not work on substed drives at least</FONT>
+           <B>declare</B> msg = <FONT COLOR="YELLOW">&quot;Renamed &quot;</FONT> + tmpFileName + <FONT COLOR="YELLOW">&quot; to &quot;</FONT> + outputPath;
+           .MessageCreate(<FONT COLOR="YELLOW">&quot;Buildtime&quot;</FONT>, <FONT COLOR="YELLOW">&quot;transfer&quot;</FONT>, INFORMATION, <FONT COLOR="YELLOW">0</FONT>, outputPath, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, msg);
+         }<B>else</B>
+         <B>if</B>(CopyFileA(tmpFileName, outputPath, <B>false</B>)){
+            <B>if</B>(DeleteFileA( tmpFileName )){
+              <FONT COLOR="AQUA">// practically it does work in most cases</FONT>
+              <B>declare</B> msg = <FONT COLOR="YELLOW">&quot;Moved &quot;</FONT> + tmpFileName + <FONT COLOR="YELLOW">&quot; to &quot;</FONT> + outputPath;
+              .MessageCreate(<FONT COLOR="YELLOW">&quot;Buildtime&quot;</FONT>, <FONT COLOR="YELLOW">&quot;transfer&quot;</FONT>, INFORMATION, <FONT COLOR="YELLOW">0</FONT>, outputPath, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, msg);
+            }<B>else</B>{
+              <B>declare</B> msg = <FONT COLOR="YELLOW">&quot;Copyed &quot;</FONT> + tmpFileName + <FONT COLOR="YELLOW">&quot; to &quot;</FONT> + outputPath;
+              .MessageCreate(<FONT COLOR="YELLOW">&quot;Buildtime&quot;</FONT>, <FONT COLOR="YELLOW">&quot;transfer&quot;</FONT>, INFORMATION, <FONT COLOR="YELLOW">0</FONT>, outputPath, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, msg);
+              msg = <FONT COLOR="YELLOW">&quot;Not deleted &quot;</FONT> + tmpFileName;
+              .MessageCreate(<FONT COLOR="YELLOW">&quot;Buildtime&quot;</FONT>, <FONT COLOR="YELLOW">&quot;transfer&quot;</FONT>, ERROR, <FONT COLOR="YELLOW">0</FONT>, tmpFileName, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, msg);
+            }
+         }<B>else</B>{
+           <B>declare</B> msg = <FONT COLOR="YELLOW">&quot;Not renamed &quot;</FONT> + tmpFileName + <FONT COLOR="YELLOW">&quot; to &quot;</FONT> + outputPath;
+           .MessageCreate(<FONT COLOR="YELLOW">&quot;Buildtime&quot;</FONT>, <FONT COLOR="YELLOW">&quot;transfer&quot;</FONT>, FATAL, <FONT COLOR="YELLOW">0</FONT>, outputPath, <FONT COLOR="YELLOW">0</FONT>, <FONT COLOR="YELLOW">0</FONT>, msg);
+         }
+      }
+   }
+   pass(status, inputPath, outputPath);
+}
+
+</CODE>
+</PRE>
+
+<A HREF="download/TasmFix.zip">Download TasmFix.zip</A></P>
+<BR><HR><BR><BR>
+
+
+<DT><A NAME = "NodeAttr"></A><B>Shortcut to project node attributes</B>
+<DD>
+<BR>
+This script is useful for quickly changing the attributes of subsequent nodes.
+It sends to the project window the following key sequense: Down arrow, Alt-F10, n, Alt-s.
+This selectes the next node, opens the page for editing node attributes and selects the 
+Style Sheets combo box.
+
+<PRE>
+<CODE>
+<B>import</B> IDE;
+
+<B>declare</B> keyboard = IDE.KeyboardManager.GetKeyboard(<FONT COLOR="YELLOW">&quot;Project&quot;</FONT>);
+keyboard.Assign(<FONT COLOR="YELLOW">&quot;&#60;F12&#62;&quot;</FONT>, <FONT COLOR="YELLOW">&quot;ShowNodeAttr();&quot;</FONT>);
+
+ShowNodeAttr()
+{
+  IDE.KeyboardManager.SendKeys(<FONT COLOR="YELLOW">&quot;{VK_DOWN}%{VK_F10}n%s&quot;</FONT>);
+}
+
+</CODE>
+</PRE>
+
+<A HREF="download/NodeAttr.zip">Download NodeAttr.zip</A></P>
+<BR><HR><BR><BR>
+
+
+<DT><A NAME = "AutoBuildNumber"></A><B>Autoincrement build version</B>
+<DD>
+<BR>
+This script implements an autoincrementing build number in the VERSIONINFO resource. 
+It just looks for a .rc node in the project, opens it and increments the 4th comma-seperated 
+number in the "VERSIONINFO" "FILEVERSION" entry on each build process.
+
+<pre>
+<code>
+<font color="aqua">/* - increments the build number in the first found resource file
+ *  (extension .rc ) of the project AFTER each build
+ *  Author: Matthias Seemann (2004)
+ */</font>
+import IDE;
+import scriptEngine;
+<font color="aqua">//</font>
+<font color="aqua">// Load support module(s).</font>
+<font color="aqua">//</font>
+if (!scriptEngine.IsLoaded(<font color="yellow">&quot;file&quot;</font>)) scriptEngine.Load(<font color="yellow">&quot;file&quot;</font>);
+
+
+on IDE:&#62;BuildComplete(status, inputPath, outputPath)
+{
+   if (!status)
+   {
+     return;
+   }
+   declare project = new ProjectNode();
+
+   declare exe = new ProjectNode(project.ChildNodes[<font color="yellow">0</font>]);
+   declare current;
+   declare sName;
+   declare tmpNode;
+   iterate (tmpNode; exe.ChildNodes)
+   {
+      current = new ProjectNode(tmpNode);
+      sName = new String(current.Type);
+      if (sName.Index(<font color="yellow">&quot;.rc&quot;</font>) &#62; <font color="yellow">0</font>)
+      {
+       <font color="aqua">//IDE.Message(current.InputName);</font>
+
+         declare rcFile = new TFlatFile(current.InputName);
+
+         <font color="aqua">/* declare aLines = rcFile.GetLines(&quot;FILEVERSION&quot;);
+         declare sLine;
+         iterate(sLine; aLines)
+         {
+           IDE.Message(sLine);
+         }
+         delete sLine;
+         delete aLines;
+         */</font>
+
+         rcFile.EdPos.Move(<font color="yellow">1</font>,<font color="yellow">1</font>);
+         if (!rcFile.EdPos.Search(<font color="yellow">&quot;VERSIONINFO&quot;</font>, TRUE, FALSE))
+           break;
+         if (!rcFile.EdPos.Search(<font color="yellow">&quot;FILEVERSION&quot;</font>, TRUE, FALSE))
+           break;
+         <font color="aqua">//IDE.Message(rcFile.EdPos.Search(&quot;FILEVERSION&quot;, TRUE, FALSE));</font>
+         rcFile.EdPos.Search(<font color="yellow">&quot;,&quot;</font>, TRUE, FALSE);
+         rcFile.EdPos.Search(<font color="yellow">&quot;,&quot;</font>, TRUE, FALSE);
+         rcFile.EdPos.Search(<font color="yellow">&quot;,&quot;</font>, TRUE, FALSE);
+
+         declare sIn = new String(rcFile.EdPos.RipText(<font color="yellow">&quot; 0123456789&quot;</font>,
+           INCLUDE_NUMERIC_CHARS));
+
+         <font color="aqua">//IDE.Message(sIn.Text);</font>
+
+         declare iTextLength = sIn.Length;
+         <font color="aqua">//IDE.Message(iTextLength);</font>
+
+         sIn.Trim(TRUE);
+
+         declare iNumber = sIn.Integer;
+
+         <font color="aqua">//IDE.Message(iNumber);</font>
+
+         iNumber = iNumber + <font color="yellow">1</font>;
+
+         <font color="aqua">//IDE.Message(iNumber);</font>
+
+         <font color="aqua">//IDE.Message(rcFile.EdPos.Row);</font>
+         <font color="aqua">//IDE.Message(rcFile.EdPos.Column);</font>
+
+         sIn.Integer = iNumber;
+
+         rcFile.EdPos.InsertText(<font color="yellow">&quot; &quot;</font>);
+         rcFile.EdPos.InsertText(sIn.Text);
+
+         rcFile.EdPos.Delete(iTextLength);
+
+         delete iTextLength;
+         delete iNumber;
+         delete sIn;
+
+         rcFile.Close(TRUE);
+
+         delete rcFile;
+
+         break;
+      }
+      delete sName;
+      delete current;
+   }
+   delete sName;
+   delete tmpNode;
+   <font color="aqua">/*declare i;
+   for (i = 0; i &#60; 2 ; i++)
+   {
+     IDE.Message(project.ChildNodes[i] + project.ChildNodes[i].Type);
+   }
+   delete i;*/</font>
+   delete current;
+   delete exe;
+   delete project;
+}
+
+
+</code>
+</pre>
+
+<A HREF="download/AutoBuildNumber.zip">Download AutoBuildNumber.zip</A></P>
+<BR><HR><BR><BR>
+
+
+</DL>
+
+
+
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+
+</BODY>
+</HTML>

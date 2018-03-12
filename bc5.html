@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML>
+<HEAD>
+	<TITLE>Borland C++ 5.0</TITLE>
+	<META NAME="Description" CONTENT="Information about Borland C++ 5.02">
+	<META NAME="Keywords" CONTENT="Jogy, Borland C++, Windows 2000, Windows XP, Compatibility">
+</HEAD>
+
+<BODY BGCOLOR="Black" TEXT="White" LINK="#FF8040" VLINK="#BF152F" ALINK="#E14900" BACKGROUND="images/background1.jpg">
+<H2 align=center>Borland C++ 5.0</H2>
+<BR><BR><BR>
+<P align=left><A href="http://www.borland.com/" TARGET="_blank">Borland</A> had released the first integrated 
+development environment (IDE) for C++ in the old DOS times - Turbo C++ 1.0. After that followed Turbo C++ 2.0, 
+Borland C++ 3.x, Borland C++ 4.x, Borland C++ 4.5x and Borland C++ 5.x.</P>
+
+The last in this line is Borland C++ 5.02. It is fairly good IDE, with powerful built-in <A HREF="scripts.html">script</A>
+engine and <A HREF="addons.html">Add-On</A> interface for customizing and enhancing the environment.</P>
+
+<B>Borland C++ Bug information</B>:
+<UL>
+	<LI>RTL memory manager bug: read more information <A HREF="bcrtlfix.html">here</A>.</P>
+
+	<LI>Linker error - (1,1) Bad object file record in module xxx near module offset 0xyyyyy. - 
+read the <A HREF="download/bc5bug.txt">post</A> by <i>Goran Bervar</i>.</P>
+
+	<LI>There is a problem that 16-bit programs running under Windows 2000 causes exception in WOW32.DLL.
+	Read the solutions <A HREF="bcerrwow.html">here</A>.</P>
+
+	<LI>64-bit integer arithmetic: The compiler calls the wrong function when using the <b>/=</b> operator. An example:<BR>
+	<CODE><PRE><b>__int64</b> a = -16, b = -8;
+	<b>__int64</b> c = a / b;  // Correct: c = 2
+	a /= b;             // Wrong: a = 0</PRE></CODE>
+	The solution is to use <b>a = a / b</b> instead of <b>a /= b</b>. This bug is fixed in <a href="bcc55.html">Borland C++ 5.5</a>.<BR>
+	<i>Submitted by Jean Tourloupe</i></P>
+	
+	<LI>Exception handling bug: read more information <A HREF="bc5x.html">here</A>.</P>
+	
+</UL>
+<BR>
+
+<B>Borland C++ 5.02 and Windows 2000 Information</B>. Under Windows 2000 the File Open dialog appears in
+Win3.1 style and do not support mutiple file selection. This problem can be solved by using the 
+<A HREF="http://support.microsoft.com/support/kb/articles/q251/0/62.asp" TARGET="_blank">APCOMPAT.EXE tool</A>.
+After installing the tool, from the console execute the command <BR>
+<B>apcompat -v3 -xc:\bc5\bin\bcw.exe -k</B><BR>
+<UL>The meaning of the switches is:
+	<LI><B>-v3</B> - Windows NT 4 with Service Pack 5
+	<LI><B>-xc:\bc5\bin\bcw.exe</B> - Location of the program. If Borland C++ is not installed in C:\BC5, 
+	modify the command accordingly.
+	<LI><B>-k</B> - Store the information in the registry.
+</UL>
+After executing the command, the compatibility information is stored in the registry. 
+I have exported the key, so those who do not have the tool can download, unzip and import 
+<A HREF="download/bcw.zip">BCW.zip</A>.</P>
+
+<B>Borland C++ 5.02 and Windows XP Information</B>. The same problem with the File Open dialogs is present in 
+Windows XP and can be solved either by using the same registry file, or by using the 
+Compatibility settings: Go to the folder C:\BC5\BIN\ <i>(if BC5 is istalled in folder 
+other than C:\BC5, substitute the location)</i>, locater the file BCW.EXE, right-click 
+and select Properties. In the property dialog there is a Compatibility page, where
+Windows NT 4.0 (Service Pack 5) compatibiliti mode can be specified.</P>
+
+<B><a href="td32.html">TD32 and Windows XP Information</a></B></P>
+
+
+<BR><DL>Here is a list of BC++5.x-related pages:</P>
+	<DT><A HREF="http://www.borland.com/devsupport/borlandcpp/" TARGET="_blank">BC++ Developer Support</A>
+	<DD>Official Borland C++ Developer Support - links to patches, docs and FAQs.
+	<UL>
+		<LI>The patches for Borland C++ 5.02 are:
+		<DL>
+	    	<DT><B>Windows Help patch</B><DD>This patch fixes problems associated with generating a full text search 
+			database using the WinHelp Find tab. Also fixes bitmap display problems in the Win32 reference.</P>
+			<DT><B>Borland C++ patch #1</B><DD>This patch fixes problems with exception handling, internal compiler 
+			errors, .odl file processing, and improper implementation of mutability.</P>
+			<DT><B>Grep 5.0</B><DD>Fixes problem with regular expression searches.</P>
+			<DT><B>Y2K Update</B><DD>Contains updated version of TDUMP.EXE and updated sources for 
+			TDate and TTime classes</P>
+		</DL>
+		<LI>The docs include updates to the help files and tutorials for OWL and the integrated debugger.</P>
+		<LI>The FAQs are moved to the <A HREF="http://community.borland.com/cpp/" TARGET="_blank">community site</A>.</P>
+	</UL>
+
+	<DT><A HREF="ftp://ftp.borland.com/pub/borlandcpp/devsupport/general" TARGET="_blank">BC++ Developer Support FTP</A>
+	<DD>Borland C++ FTP folder. Several of the items contained here are:
+	<UL>
+		<LI>EasyGrep - very nice grep program with user-friendly interface.
+		<LI>Several scripts.
+		<LI>TDUMP documentation.
+		<LI>Article on placing template member functions in their own file.
+	</UL>
+
+	<BR>
+
+	<DT><A HREF="http://www.solidyne1.com/Sebas/" TARGET="_blank">Sebastian Ledesma's tools</A>
+	<DD>Resource Workshop Add-On for Borland C++ 5.0x. Adds support for 
+	<a href="owlnext.html">OWLNext</a> 
+	controls SysDateTimePicker32, MontCalendar, IPAddress, and ComboBoxEx.</P>
+	
+	<BR>
+	
+
+	<DT><A HREF="http://www.sirma.bg/Jogy/Reisdorph/bc50faq.htm" TARGET="_blank">Borland C++ 5.0 FAQ</A>
+	<DD>A page created by Kent Reisdorph and Ian Spencer. Not updated anymore, but contains a lot of tips and tricks
+	for using the IDE, OWL and the scripting engine. Some of the topics on the site are:
+	<UL>
+		<LI>Floating point problems when using common controls.
+		<LI>BrowserCache overflow linker error.
+		<LI>Sound scheme script.
+	</UL><BR>
+	<i>Note: The original site is offline, but archived copy can be found at the</i>
+	<a href="http://web.archive.org/web/20010424125405/www.reisdorph.com/bcpp/" target="_blank">Internet Archive Wayback Machine</a>.</P>
+	
+	<BR>
+
+	<DT><A HREF="http://www.cs.colorado.edu/~main/bgi/" TARGET="_blank">WINBGIM Library</A>
+	<DD>Borland BGI Graphics and Mouse For Windows Applications.</P>
+
+	<BR>
+
+	<DT><A HREF="http://www.ryledesign.com/bgitools.html" TARGET="_blank">RYLE Design</A>
+	<DD>BGI Graphics Tools - support for SuperVGA graphics, TrueType fonts under DOS, etc.</P>
+
+	<BR>
+
+	<DT><A HREF="http://taxonomy.zoology.gla.ac.uk/~rdmp1c/programming/" TARGET="_blank">Rod's programming tips and links</A>
+	<DD>Configuring Borland C++ 5 to use CVS, and several scripts.</P>
+
+	<BR>
+
+	<DT><A HREF="http://www.mulroy.org/borland.htm" TARGET="_blank">Ed Mulroy's Borland page</A>
+	<DD>Collection of Borland C++ related links.</P>
+
+	<BR>
+
+	<DT><A HREF="http://freebooks.by.ru/view/BorlandCPP5Mastering/ewtoc.html" TARGET="_blank">Mastering Borland C++ 5</A>
+	<DD>Tom Swan's Mastering Borland C++ 5, Third Edition.</P>
+
+	<BR>
+
+	<DT><A HREF="ftp://ftp.inprise.com/pub/borlandcpp/devsupport/archive/turbovision/" TARGET="_blank">Turbo Vision</A>
+	<DD>Public domain source of Borland Turbo Vision and examples.</P>
+
+	<BR>
+	<DT><A HREF="http://www.sirma.bg/knowledgebase/" TARGET="_blank">Sirma AI Knowledge Base</A>
+	<DD>A site created by me and my co-worker Kalin Zahariev. It contains:
+	<UL>
+		<LI>A growing collection of useful scripts for BC++ 5.x. (Now moved <A HREF="scripts.html">here</A>).
+		<LI>JIdeTool - a tool for rebuilding BC++ 5.x projects, useful when they become very large. (Now moved <A HREF="addons.html">here</A>).
+		<LI>Tools55 - a tool for integrating the free compiler Borland C++ 5.5 in the 5.02 IDE. (Now moved <A HREF="addons.html">here</A>).
+	</UL></P>
+
+	
+</DL>
+
+<BR><A HREF="index.html">
+<IMG SRC="images/flowchart.gif" WIDTH="48" HEIGHT="48" BORDER="0" ALT="Back to home">
+Back to main</A>
+
+<P ALIGN="right">
+<!--STATS4ALL_START-->
+<script language="javascript"><!--
+sver = 10;screensize="";colors="";navlan="";plug="";
+ref = escape(document.referrer)+"";
+sUrl = escape(document.URL)+"";
+if((ref=="") || (ref=="undefined")){ref="bookmark";};
+nav=navigator.appName;
+if(nav.substring(0,9)=="Microsoft"){nav="MSIE";};
+version=Math.round(parseFloat(navigator.appVersion)*100);
+if((nav=="MSIE") && (parseInt(version)==2)){version=301;};java="";
+if(navigator.appName=="Netscape"){ if(version>400) navlan=navigator.language;
+if(version>300)for(var i=0;i<navigator.plugins.length;i++)plug +=navigator.plugins[i].name+":"}
+//--></script>
+<script language="javascript1.1"><!--
+sver=11;java=(navigator.javaEnabled()==true)?"y":"n";
+//--></script>
+<script language="javascript1.2"><!--
+sver=12;screensize=screen.width+"*"+screen.height;
+colors=(nav=="MSIE")?screen.colorDepth:screen.pixelDepth;
+if(colors=="undefined"){colors="";};
+//--></script>
+<script language="javascript1.3"><!--
+sver=13;
+//--></script>
+<script language="javascript"><!--
+if (window.location.href.substring(0,4) == "http"){
+arguments="&nav="+nav+"&version="+version+"&screensize="+screensize+"&colors="+colors+"&sver="+sver;
+arguments+="&java="+java+"&rf="+ref+"&navlan="+navlan+"&plug="+escape(plug)+"&sUrl="+sUrl;
+document.write ("<A HREF='http://www.stats4all.com/asp/login.asp?sSiteName=Jogy' target=_blank><IMG BORDER=0 SRC='http://www.hit.stats4all.com/asp/hit.asp?sSiteName=Jogy" + arguments + "&sExtra=None'></A>")}
+//--></script>
+<script language="javascript1.2"><!--
+if (window.location.href.substring(0,4) == "http"){
+document.write("<");document.write("!--");}
+//--></script>
+<noscript>
+<a href='http://www.stats4all.com/asp/login.asp?sSiteName=Jogy' target=_blank>
+<img BORDER=0 src='http://www.hit.stats4all.com/asp/hit.asp?sSiteName=Jogy'></a>
+</noscript>
+<script language="javascript1.2"><!--
+if (window.location.href.substring(0,4) == "http"){
+document.write("--");document.write(">");}
+//--></script>
+<!--STATS4ALL_END-->
+</P>
+
+</BODY>
+</HTML>

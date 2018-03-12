@@ -1,0 +1,192 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+<BASE HREF="http://www.sirma.bg/Jogy/Pharo/">
+
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Helmut Pharo">
+   <meta name="Classification" content="software, programming languages, c, c++, Borland, commandline tool, setup">
+   <meta name="Description" content="Setting up the free commandline tools">
+   <meta name="KeyWords" content="commandline, tool, Borland, C, C++, free, setup">
+   <title>Setting up the free commandline tools</title>
+   <link rel=stylesheet type="text/css" href="bcc55.css">
+</head>
+<body>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbarnolink" #href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+</p>
+<h2>Setting up the free commandline tools</h2>
+<table class="box">
+<tr><td>
+<h3>HOWTO</h3>
+The download will leave you with a big executable file. Double click it
+in the Explorer window. When asked where you want the free tools
+to be installed make sure you select a <i>valid</i> path (e.g. do
+not use <tt>e:\c++</tt>). Eventually lots of files are extracted to your
+hard disk. Afterwards <b>read the README.TXT</b> file contained in the
+folder you have specified during setup. Follow the instructions
+in the README e.g. create the files <b><tt>bcc32.cfg</tt></b> and<b> <tt>ilink32.cfg</tt></b>.
+<p>
+</td></tr>
+<tr><td>
+<h3>Hints</h3>
+<ul>
+<li>
+<a NAME="configfiles"></a>Place <b><tt>bcc32.cfg</tt></b> and <b><tt>ilink32.cfg</tt></b>
+in the
+<tt><b>BIN</b></tt> subdirectory of your installation. For example: If
+your installation is in <tt>C:\Borland\Bcc55</tt> then these files must
+be placed in <tt>C:\Borland\Bcc55\BIN</tt>. File <tt>bcc32.cfg</tt> will 
+set the compiler options for the Include and Lib paths (compiler options
+-I and -L). Add these lines:
+
+<br>&nbsp;
+<div ALIGN=right><table COLS=1 class="source" ><tr><td>
+<pre><tt>-I"C:\Borland\Bcc55\include"
+-L"C:\Borland\Bcc55\lib;C:\Borland\Bcc55\lib\PSDK"</tt></pre>
+</td></tr></table></div>
+<br>
+File <tt>ilink32.cfg</tt> will set the linker option for the Lib path
+(linker option -L). Add this line:
+
+<br>&nbsp;
+<div align=right>
+<table COLS=1 class="source">
+<tr><td>
+<pre><tt>-L"C:\Borland\Bcc55\lib;C:\Borland\Bcc55\lib\PSDK"</tt></pre>
+</td></tr></table></div>
+<br>
+<b>Note:</b> If your installation is not in <tt>C:\Borland\Bcc55</tt> then 
+you have to adapt the content of <tt>bcc32.cfg</tt> and <tt>ilink32.cfg</tt>
+to contain the path strings of your installation.
+<p>
+</li>
+<li>
+If you use Notepad for the task of creating <tt>bcc32.cfg </tt>
+and <tt>ilink32.cfg</tt>
+make sure to put double-qoutes around the filenames in the save-as
+dialog. Otherwise you will be creating <tt>bcc32.cfg.txt</tt>
+and <tt>ilink32.cfg.txt</tt>
+which will be ignored by the tools.
+<p>
+</li>
+<li>
+<a NAME="path"></a>Bcc32 should be on your <tt>PATH</tt> somewhere. For
+example: If your installation is in <tt>C:\Borland\Bcc55</tt> then you
+should add <tt>C:\Borland\Bcc55\Bin</tt> to the <tt>PATH</tt> environment
+variable of your system. On Win9x this can be done by editing the file
+<tt>Autoexec.bat</tt> (in the root directory of the systems boot drive)
+and appending this line:
+
+<br>&nbsp;
+<div align=right><table COLS=1 class="source"><tr><td>
+<pre><tt>SET PATH=%PATH%;C:\Borland\Bcc55\Bin</tt></pre>
+</td></tr></table></div>
+<br>
+The new <tt>PATH</tt> setting will not have effect until you reboot your system.
+<br><B>Note:</b> If the <tt>PATH</tt> already contains a directory with some Borland
+tools in it - originating from an older installation - then those tools
+will be used! You can force the system to use the newly installed tools by 
+setting the <tt>PATH</tt> with <tt>SET PATH=C:\Borland\Bcc55\Bin;%PATH%</tt>
+but this might affect the older installation in a bad way. One solution is to
+modify the <tt>PATH</tt> for each command prompt only instead of modifying the 
+systems settings:
+<br>&nbsp;
+<div align=right><table COLS=1 WIDTH=95% class="advanced"><tr><td>
+<B>Got another BORLAND product installed?/Can't change system's
+<tt>PATH</tt>?</B>
+<br>If for some reason the system's <tt>PATH</tt> can/should not be changed 
+you might follow these instructions: Create a batch file named
+<tt>SETBCC55ENV.BAT</tt> with content:
+<br>&nbsp;
+<div align=right><table COLS=1 class="source"><tr><td>
+<pre><tt>SET PATH=C:\Borland\Bcc55\Bin;%PATH%</tt></pre>
+</td></tr></table></div>
+<br>
+If possible place <tt>SETBCC55ENV.BAT</tt> in a folder which is already on the <tt>PATH</tt>.
+For each command prompt invoke <tt>SETBCC55ENV</tt> before invoking any
+of the free commandline tools.
+</td></tr></table></div>
+<br>
+<p>
+</li>
+<li>
+There is no graphical environment in the free commandline tools installation.
+To use the tools open a command prompt (Start|Programs|Command Prompt)
+and issue commands there.
+For source code editing and makefile generation consider using
+<img src="extern.gif"></img><a href="http://www.objectcentral.com/vide.htm">VIDE</a>.
+<p>
+</li>
+<li>
+For a survey on the commandline syntax: 
+<ol><li>Open a command prompt</li><li>Type <tt>bcc32 | more</tt> followed 
+by a return. See an explanation of the compiler syntax and
+options - at least if <tt>bcc32.exe</tt> can be found on the PATH.</li>
+<li>Type <tt>ilink32 | more</tt> followed by a return. This will show the
+linker syntax and an explanation of some linker options.</li>
+</ol>
+<br>For more information on the commandline usage/options refer to 
+<tt>BCB5TOOL.HLP</tt> which can be found in your installations
+<tt>HELP</tt> subfolder. Place a shortcut to this help
+file in some convenient place, e.g. in the Start menu or on the desktop.
+Additionally some documentation on the C/C++ language and it's library can be
+downloaded from
+<img src="extern.gif"></img><a href="http://www.borland.com/devsupport/bcppbuilder/">Borland's
+developper support</a>
+or
+<img src="extern.gif"></img><a href="http://www.borland.com/techpubs/bcppbuilder">Borland's
+techpubs site</a>
+</li>
+<p>
+</li>
+<li>
+<a NAME="compatibilityPre2000"></a>Compatibility with pre Win2000 systems:
+If you intend to deploy your programs on systems running NT4, Win95 or
+Win98 you should append these lines at the end of your bcc32.cfg file:
+<br>&nbsp;
+<div align=right><table COLS="1" class="source"><tr><td>
+<pre>-DWINVER=0x0400
+-D_WIN32_WINNT=0x0400</pre>
+</td></tr></table></div>
+<br>
+</li>
+</ul>
+</td></tr>
+<tr><td>
+<h3>Special Topics</h3>
+<h4>If you are running the original Win95 release or Win95a ...</h4>
+Make sure you have installed
+<img src="extern.gif"></img><a href="http://www.borland.com/devsupport/bcppbuilder/patches/bcc55/bcc55sp2.exe">Service Pack 2</a>
+<p>
+</td></tr>
+</table>
+<br>&nbsp;
+
+<table COLS="2" class="linktable" width="98%">
+<tr><td width="80%"> </td>
+<td>
+<div align=right><img src="next.gif"></img><a href="bugfixes.html">Next</a></div>
+</td></tr>
+</table>
+<p>
+<p class="navbarnolink">
+<a class="navbar" href="Bcc55.html">Content</a> |
+<a class="navbar" href="Expectations.html">Introduction</a> |
+<a class="navbar" href="Downloads.html">Links</a> |
+<a class="navbarnolink" #href="Setup.html">Setting up the tools</a> |
+<a class="navbar" href="bugfixes.html">Bugfixes</a> |
+<a class="navbar" href="Practice.html">Learning how to use</a>
+</p>
+<p><i>(c) 2000 <img src="letter.gif"></img>&nbsp;<a href="mailto:pharo@onlinehome.de">Helmut Pharo</a></i>
+<br>&nbsp
+
+</body>
+
+
+</html>
